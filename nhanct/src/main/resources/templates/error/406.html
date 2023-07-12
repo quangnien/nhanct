@@ -1,0 +1,19 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+<head>
+<meta charset="UTF-8">
+<title>406</title>
+</head>
+<body>
+	<div class="container" layout:fragment="content">	
+		<div class="display-1 bg-danger text-dark">	406!</div>
+		<div class="mt-2">
+			<span class="h4	align-middle" th:text="${message}"></span>
+			<a th:href="${link}" class="btn btn-info mt-0" >Thực hiện</a>
+		</div>
+		
+	</div>
+</body>
+</html>

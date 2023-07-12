@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/web/layout/default">
+
+<head>
+<title>Contact</title>
+</head>
+
+<body>
+	<section id="form" class="main-body" layout:fragment="content"
+		style="margin-top: 0; margin-bottom: 100px;">
+		<!-- Breadcrumb Start -->
+		<div class="container-fluid-lienhe">
+			<div class="row-lienhe padding-row-lienhe">
+				<div class="col-12-lienhe">
+					<nav class="breadcrumb-lienhe background-light margin-bottom-30">
+						<a class="text-dark-lienhe" href="#">Home / </a> <span
+							class="active-lienhe">Contact</span>
+					</nav>
+				</div>
+			</div>
+		</div>
+		<!-- Breadcrumb End -->
+
+		<!-- Contact Start -->
+		<div class="container-fluid-lienhe">
+			<h2
+				class="parent-tag-lienhe section-title-lienhe position-relative-lienhe text-uppercase-lienhe mx-xl-5-lienhe margin-bottom-4">
+				<span class="bg-secondary-lienhe padding-right-3">Contact Us</span>
+			</h2>
+			<div class="row-lienhe padding-row-lienhe">
+				<div class="col-lg-7-lienhe margin-bottom-5">
+					<div class="lienhe-form-lienhe background-light padding-30">
+						<div id="success"></div>
+						<!-- name="sentMessage" id="lienheForm" novalidate="novalidate"  -->
+						<form th:action="@{/contact}"
+						th:object="${contact}" action="#" method="post" >
+							<div class="control-group-lienhe">
+								<input th:field="*{yourName}"
+								type="text" class="form-control-lienhe" id="name"
+									placeholder="Your Name" required="required"
+									data-validation-required-message="Please enter your name" />
+								<p class="help-block-lienhe text-danger-lienhe"></p>
+							</div>
+							<div class="control-group-lienhe">
+								<input th:field="*{yourEmail}"
+								type="email" class="form-control-lienhe" id="email"
+									placeholder="Your Email" required="required"
+									data-validation-required-message="Please enter your email" />
+								<!-- <p class="help-block-lienhe text-danger-lienhe"></p> -->
+								<span class="text-danger"
+												th:if="${#fields.hasErrors('yourEmail')}" th:errors="*{yourEmail}"></span>
+								<p class="help-block-lienhe text-danger-lienhe"></p>
+							</div>
+							<div class="control-group-lienhe">
+								<input th:field="*{subject}"
+								type="text" class="form-control-lienhe" id="subject"
+									placeholder="Subject" required="required"
+									data-validation-required-message="Please enter a subject" />
+								<p class="help-block-lienhe text-danger-lienhe"></p>
+							</div>
+							<div class="control-group-lienhe">
+								<textarea th:field="*{message}"
+								class="form-control-lienhe" rows="8" id="message"
+									placeholder="Message" required="required"
+									data-validation-required-message="Please enter your message"></textarea>
+								<p class="help-block-lienhe text-danger-lienhe"></p>
+							</div>
+							<div>
+								<button class="btn-lienhe btn-primary-lienhe py-2-lienhe px-4-lienhe"
+									type="submit" id="sendMessageButton">Send Message</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-lg-5-lienhe margin-bottom-5">
+					<div class="background-light padding-30 margin-bottom-30">
+						<iframe
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.520141449606!2d106.78447601744384!3d10.847987000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752772b245dff1%3A0xb838977f3d419d!2zSOG7jWMgdmnhu4duIEPDtG5nIG5naOG7hyBCxrB1IGNow61uaCBWaeG7hW4gdGjDtG5nIEPGoSBT4bufIFThuqFpIFRQLiBI4buTIENow60gTWluaMK3!5e0!3m2!1svi!2s!4v1648288420419!5m2!1svi!2s"
+							width=100% height=250px style="border:0;"
+							allowfullscreen
+							frameborder="0"
+							aria-hidden="false"
+							tabindex="0"
+							
+							></iframe>
+					</div>
+					<div class="background-light padding-30 margin-bottom-3">
+						<p class="margin-bottom-2">
+							<i
+								class="fa fa-map-marker-alt text-primary-lienhe margin-right-3"></i>123
+							Street, New York, USA
+						</p>
+						<p class="margin-bottom-2">
+							<i class="fa fa-envelope text-primary-lienhe margin-right-3"></i>info@example.com
+						</p>
+						<p class="margin-bottom-2">
+							<i class="fa fa-phone-alt text-primary-lienhe margin-right-3"></i>+012
+							345 67890
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Contact End -->
+	</section>
+</body>
+
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>Shop | E-Shopper</title>
+<link th:href="@{/assets/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/assets/css/font-awesome.min.css}" rel="stylesheet">
+<link th:href="@{/assets/css/prettyPhoto.css}" rel="stylesheet">
+<link th:href="@{/assets/css/price-range.css}" rel="stylesheet">
+<link th:href="@{/assets/css/animate.css}" rel="stylesheet">
+<link th:href="@{/assets/css/main.css}" rel="stylesheet">
+<link th:href="@{/assets/css/responsive.css}" rel="stylesheet">
+
+<!-- by QuangNien -->
+<link th:href="@{/assets/css/styles.css}" rel="stylesheet">
+
+<!-- copy by QuangNien -->
+<link th:href="@{/assets/css/styles-bootstrapt.css}" rel="stylesheet">
+
+<!-- ___________ begin liên hệ ___________-->
+<link th:href="@{/assets/css/styles-lienhe.css}" rel="stylesheet">
+<!-- ___________ end liên hệ ___________-->
+
+<!-- ___________ begin responsive for header __________-->
+<link th:href="@{/assets/css/responsive_header.css}" rel="stylesheet">
+<!-- ___________ end responsive for header ____________-->
+
+<!-- ___________ begin search __________-->
+<link th:href="@{/fonts/themify-icons-font/themify-icons/themify-icons.css}" rel="stylesheet">
+<!-- ___________ end search ____________-->
+
+
+
+<!-- Bootstrap -->
+<!-- <link rel="stylesheet" th:href="css/bootstrap.min.css}"> -->
+
+<link rel="shortcut icon" th:href="@{/images/ico/favicon.ico}">
+<link rel="apple-touch-icon-precomposed" sizes="144x144"y
+	th:href="@{/images/ico/apple-touch-icon-144-precomposed.png}">
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+	th:href="@{/images/ico/apple-touch-icon-114-precomposed.png}">
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+	th:href="@{/images/ico/apple-touch-icon-72-precomposed.png}">
+<link rel="apple-touch-icon-precomposed"
+	th:href="@{/images/ico/apple-touch-icon-57-precomposed.png}">
+</head>
+<!--/head-->
+
+
+<body>
+<body>
+	<!-- NAV BAR  -->
+	<div th:replace="/web/fragments/navbar"></div>
+
+	<section id="advertisement">
+		<div class="container">
+			<img src="../../../static/assets/images/shop/advertisement.jpg" alt="" />
+		</div>
+	</section>
+
+	<!-- Main-body start -->
+	<section class="main-body" style="margin-top: 56px;">
+		<div class="page-body" layout:fragment="content"></div>
+	</section>
+
+
+	<!-- begin search image AI -->
+	<div class="modal js-modal">
+		<form th:action="@{/shop/api/search-by-image}"
+			  method="post" th:object="${hinhanhsearch}"
+			  enctype="multipart/form-data"
+			  id="search-form">
+		<!--<form method="post" action="http://127.0.0.1:8080/predict/image" enctype="multipart/form-data">-->
+		<!--<form class="form-horizontal" id="search-form">-->
+
+			<div class="modal-container js-modal-container">
+
+				<div class="modal-close js-modal-close">
+					<i class="ti-close"></i>
+				</div>
+
+				<header class="modal-header">
+					Search Product bằng hình ảnh
+				</header>
+
+				<div class="modal-body" id="modal-body-id">
+					<label>Chọn hình ảnh</label> <br>
+					<img style=" max-width: 25%; " src="" id="imgdp" height="150" class="mt-2" />
+					<input type="file" name="fileUpload" class="form-group" accept="image/*" id="fileUploadId"
+						   onchange="document.getElementById('imgdp').src = window.URL.createObjectURL(this.files[0])" />
+
+					<!--<span class="text-danger"
+						  th:if="${#fields.hasErrors('image')}"
+						  th:errors="*{image}"></span>-->
+<!--					<input type="file" id="file-uploader">-->
+
+					<!--<span class="text-danger"
+						  th:if="${#fields.hasErrors('image')}"
+						  th:errors="*{image}"></span>-->
+
+<!--					<a class="place-buy-btn" target="_blank" id="findImageSubmit" >Search</a>-->
+					<button type="submit" class="btn btn-primary m-b-0">Search</button>
+				</div>
+
+				<!--<div class="form_row">
+					<label for="myfile">Choose your image:</label>
+					<input type="file" id="myfile" name="file">
+				</div>
+				<div>
+					<input type="submit" name="submit" class="form_submit" id="submit" value="Send"/>
+				</div>-->
+
+
+			</div>
+		</form>
+	</div>
+	<!-- end search image AI -->
+
+
+	<!-- FOOTER  -->
+	<div th:replace="/web/fragments/footer"></div>
+
+
+
+	<script th:src="@{/assets/js/jquery.js}"></script>
+	<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.scrollUp.min.js}"></script>
+	<script th:src="@{/assets/js/price-range.js}"></script>
+	<script th:src="@{/assets/js/jquery.prettyPhoto.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>4
+
+	<!-- run clock -->
+	<script>
+		function startTime() {
+			var today = new Date();
+			var h = today.getHours();
+			var m = today.getMinutes();
+			var s = today.getSeconds();
+			var day = today.getDate();
+			var month = today.getMonth() + 1;
+			var year = today.getFullYear();
+
+			m = checkTime(m);
+			s = checkTime(s);
+			h = checkTime(h);
+			day = checkTime(day);
+			month = checkTime(month);
+			document.getElementById('txt-time').innerHTML = h + ":" + m + ":"
+					+ s;
+			document.getElementById('txt-date').innerHTML = day + ":" + month
+					+ ":" + year;
+			var t = setTimeout(startTime, 1000);
+		}
+		function checkTime(i) {
+			if (i < 10) {
+				i = "0" + i
+			}
+			; // add zero in front of numbers < 10
+			return i;
+		}
+	</script>
+
+	<!-- copy by QuangNien -->
+
+	<!-- Slider -->
+	<script type="text/javascript" th:src="@{/assets/js/bxslider.min.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/script.slider.js}"></script>
+
+	<!-- product card -->
+	<script>
+		$(document).ready(function() {
+			// Lift card and show stats on Mouseover
+			$(".product-card").hover(function() {
+				$(this).addClass("animate");
+				// $('div.carouselNext, div.carouselPrev').addClass('visible');
+			}, function() {
+				$(this).removeClass("animate");
+				// $('div.carouselNext, div.carouselPrev').removeClass('visible');
+			});
+		});
+	</script>
+	
+	<!-- For Slideshow -->
+	<script>
+		var slideIndex = 1;
+		showSlides(slideIndex);
+
+		function plusSlides(n) {
+			showSlides(slideIndex += n);
+		}
+
+		function currentSlide(n) {
+			showSlides(slideIndex = n);
+		}
+
+		function showSlides(n) {
+			var i;
+			var slides = document.getElementsByClassName("mySlides");
+			var dots = document.getElementsByClassName("demo-lh");
+			var captionText = document.getElementById("caption");
+			if (n > slides.length) {
+				slideIndex = 1
+			}
+			if (n < 1) {
+				slideIndex = slides.length
+			}
+			for (i = 0; i < slides.length; i++) {
+				slides[i].style.display = "none";
+			}
+			for (i = 0; i < dots.length; i++) {
+				dots[i].className = dots[i].className.replace(" active-lh", "");
+			}
+			slides[slideIndex - 1].style.display = "block";
+			dots[slideIndex - 1].className += " active-lh";
+			captionText.innerHTML = dots[slideIndex - 1].alt;
+		}
+	</script>
+	
+	<!-- LOGIN / SIGIN -->
+	<script type="text/javascript" th:src="@{/assets/js/custom.js}"></script>
+
+	<!-- SEARCH IMAGE AI	-->
+	<script>
+		const buyBtns = document.querySelectorAll('.js-buy-ticket')
+		const modal = document.querySelector('.js-modal')
+
+		function showBuyTickets(){
+		modal.classList.add('open')
+		}
+
+		for(const buyBtn of buyBtns){
+		buyBtn.addEventListener('click', showBuyTickets )
+		}
+
+		const modalClose = document.querySelector('.js-modal-close')
+
+		function hideBuyTickets(){
+		modal.classList.remove('open')
+		}
+
+		modalClose.addEventListener('click',hideBuyTickets)
+
+		modal.addEventListener('click',hideBuyTickets)
+
+		const modalContainer = document.querySelector('.js-modal-container')
+
+		modalContainer.addEventListener('click', function(event){
+			event.stopPropagation() //ngừng quá trình nổi bọt
+		})
+	</script>
+
+	<!-- NỐI API -> AJAX -->
+<!--	<script>
+		$(document).ready(function () {
+			// $("#search-form").submit(function (event) {
+			//
+			// //stop submit the form, we will post it manually.
+			// event.preventDefault();
+			//
+			// fire_ajax_submit();
+			//
+			// });
+		});
+
+		function fire_ajax_submit() {
+
+			alert("AJAX 1 -> call api save image");
+			// var pathImage = $.ajax({
+			// 	type: 'GET',
+			// 	dataType: 'json',
+			// 	data: jsonKQ,
+			// 	url: '/shop/api/search-by-image'
+			// });
+			var fd = new FormData();
+			var files = $('#search-form')[0].files;
+			alert(files)
+			var request = $.ajax({
+				// url: 'http://127.0.0.1:8080/predict/image'
+				url: "/api/search-by-image",
+				type: 'POST',
+				data: files,
+				// dataType: 'json',
+				// url: 'http://127.0.0.1:8090/submit?path=C:\\Users\\UNIT\\Downloads\\Capture.PNG'
+				success: function(value){
+					alert(value);
+				}
+			});
+			request.done(function(resp) {
+				alert("ok");
+				/*var jsonKQ = request.responseText;
+				console.log(jsonKQ);
+				$.ajax({
+					type: 'GET',
+					dataType: 'json',
+					data: jsonKQ,
+					url: '/shop/api/search-by-image'
+				});*/
+			});
+
+
+
+		}
+
+		/*var formData = new FormData();
+			var files = $('input[type=file]');
+			for (var i = 0; i < files.length; i++) {
+				if (files[i].value == "" || files[i].value == null) {
+					return false;
+				}
+				else {
+					formData.append(files[i].name, files[i].files[0]);
+				}
+			}
+			var formSerializeArray = $("#search-form").serializeArray();
+			for (var i = 0; i < formSerializeArray.length; i++) {
+				formData.append(formSerializeArray[i].name, formSerializeArray[i].value)
+				alert(formData.get(formSerializeArray[i].name))
+				alert("loop")
+			}
+
+			alert(formData)
+			alert(files[0].value)
+
+			// var formData2 = new FormData($(this)[0]);
+			alert("formData2")
+
+			const formData3 = new FormData(document.querySelector("#search-form"))
+			alert("formData3");
+			alert(formData3);*/
+		/*var formData = new FormData();
+        var files = $('input[type=file]');
+        for (var i = 0; i < files.length; i++) {
+            if (files[i].value == "" || files[i].value == null) {
+                return false;
+            }
+            else {
+                formData.append(files[i].name, files[i].files[0]);
+            }
+        }
+        var formSerializeArray = $("#search-form").serializeArray();
+        for (var i = 0; i < formSerializeArray.length; i++) {
+            formData.append(formSerializeArray[i].name, formSerializeArray[i].value)
+            alert(formData.get(formSerializeArray[i].name))
+            alert("loop")
+        }*/
+		/*var fd = new FormData();
+        var files = $('#search-form')[0].files;
+        // var files = $('input[type=file]').files;
+        alert(files);
+
+        // Check file selected or not
+        // if(files.length > 0 ){
+        // 	fd.append('file',files[0]);
+
+        var fileSelect = document.getElementById('search-form');
+        alert(fileSelect)
+
+        // Get the files from the input
+        var files = fileSelect.files;
+        alert(files)
+
+        // Create a FormData object.
+        var formData = new FormData();
+
+        //Grab only one file since this script disallows multiple file uploads.
+        var file = files[0];
+
+        //Check the file type.
+        if (!file.type.match('image.*')) {
+            alert('You cannot upload this file because it’s not an image.');
+            return;
+        }
+
+        if (file.size >= 2000000 ) {
+            alert('You cannot upload this file because its size exceeds the maximum limit of 2 MB.');
+            return;
+        }*/
+		/*
+        var files=document.getElementById('search-form').files[0];
+        var fd = new FormData();
+        fd.append('file',files);
+
+        var form = $('search-form')[0]; // You need to use standard javascript object here
+        var formData = new FormData(form);
+
+
+        let formData = new FormData();
+        formData.append("file", fileUpload.files[0]);
+
+
+        const formData3 = new FormData(document.querySelector("#search-form"))
+        alert(formData3)*/
+		/*var fileUpload = $("#fileUploadId");
+        alert("url : " + "http://127.0.0.1:8080/predict/image : " + fileUpload)
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            // contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            url: "http://127.0.0.1:8080/predict/image",
+            // data: JSON.stringify(search),
+            data: jQuery.param({ file: fileUpload}) ,
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            // success: function (data) {
+            success: function (search) {
+
+                alert("zô success");
+                alert(search)
+            // var json = "<h4>Ajax Response</h4>&lt;pre&gt;"
+            // + JSON.stringify(data, null, 4) + "&lt;/pre&gt;";
+            // $('#feedback').html(json);
+            //
+            // console.log("SUCCESS : ", data);
+            // $("#btn-search").prop("disabled", false);
+
+            },
+            error: function (e) {
+                alert(search)
+            // var json = "<h4>Ajax Response</h4>&lt;pre&gt;"
+            // + e.responseText + "&lt;/pre&gt;";
+            // $('#feedback').html(json);
+            //
+            // console.log("ERROR : ", e);
+            // $("#btn-search").prop("disabled", false);
+            //
+                alert("zô false");
+            }
+        });*/
+	</script>
+
+
+	<script>
+		$(document).ready(function (){
+			const fileUploader = document.getElementById('file-uploader');
+			const files = null;
+			fileUploader.addEventListener('change', (event) => {
+				files = event.target.files;
+				console.log('files', files);
+
+
+
+				// const feedback = document.getElementById('feedback');
+				// const msg = `File ${files[0].name} uploaded successfully!`;
+				// feedback.innerHTML = msg;
+			});
+
+			$.ajax({
+				url: "/shop/api/search-by-image",
+				type: 'POST',
+				data: files,
+				// dataType: 'json',
+				// url: 'http://127.0.0.1:8090/submit?path=C:\\Users\\UNIT\\Downloads\\Capture.PNG'
+				success: function(value){
+					alert(value);
+				}
+			});
+		});
+
+
+		// $(document).ready(function () {
+		//
+		//
+		// 	// $("#findImageSubmit").click(function () {
+		// 	//
+		// 	// 	// var fd = new FormData($('input[type=file]'));
+		// 	// 	// var files = $('#fileUploadId').getAsFile();
+		// 	// 	var files = document.getElementById('#fileUploadId');
+		// 	// 	alert(files)
+		// 	// 	// var files = $('input[type=file]');
+		// 	// 	var request = $.ajax({
+		// 	// 		// url: 'http://127.0.0.1:8080/predict/image'
+		// 	// 		url: "/shop/api/search-by-image",
+		// 	// 		type: 'POST',
+		// 	// 		data: files,
+		// 	// 		// dataType: 'json',
+		// 	// 		// url: 'http://127.0.0.1:8090/submit?path=C:\\Users\\UNIT\\Downloads\\Capture.PNG'
+		// 	// 		success: function(value){
+		// 	// 			alert(value);
+		// 	// 		}
+		// 	// 	});
+		// 	//
+		// 	// });
+		// });
+	</script>-->
+</body>
+</html>

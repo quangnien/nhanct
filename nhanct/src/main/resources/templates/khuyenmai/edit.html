@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Edit Brand</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="/admin/category">Khuyến
+									mãi </a></li>
+							<li class="breadcrumb-item"><a href="#!">Update khuyến
+									mãi</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center">Update khuyến mãi</h2>
+						</div>
+
+						<div th:if="${message == 'T'}" class="alert alert-success"
+							role="alert">
+							<strong>Success!</strong> <span> Update sự kiện khuyến mãi
+								thành công!</span>
+						</div>
+
+						<div th:if="${message == 'F'}" class="alert alert-warning"
+							role="alert" style="margin-left: 0%;width: 100%;">
+							<strong>Warning!</strong> <span> Giá trị khoảng thời gian
+								không hợp lệ!</span>
+						</div>
+
+						<div class="card-block">
+							<form th:object="${sale}"
+								th:action="@{/admin/sale/edit}" action="#" method="post">
+								<div class="row">
+									<div class="col-md-6 m-auto">
+										<input type="hidden" th:field="*{id}" />
+
+										<div class="form-group">
+											<label>Tên sự kiện khuyến mãi</label> <input type="text"
+												th:field="*{eventName}" class="form-control" /> <span
+												class="text-danger"
+												th:if="${#fields.hasErrors('eventName')}"
+												th:errors="*{eventName}"></span>
+										</div>
+										<div class="form-group">
+											<label>Giá giảm (%)</label> <input type="number" min="0"
+												value="0" max="100" th:field="*{giamGia}"
+												class="form-control input_inline" />
+										</div>
+										<div class="form-group">
+											<label>Ngày bắt đầu</label> <input type="date"
+												th:field="*{startDate}" class="form-control" /> <span
+												class="text-danger"
+												th:if="${#fields.hasErrors('startDate')}"
+												th:errors="*{startDate}"></span>
+										</div>
+										<div class="form-group">
+											<label>Ngày kết thúc</label> <input type="date"
+												th:field="*{endDate}" class="form-control" /> <span
+												class="text-danger" th:if="${#fields.hasErrors('endDate')}"
+												th:errors="*{endDate}"></span>
+										</div>
+
+										<div class="form-group mt-3">
+											<button type="submit" class="btn btn-primary m-b-0">Save</button>
+											<a th:href="@{/admin/sale}"
+												class="btn btn-secondary text-white">Back</a>
+										</div>
+
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+
+</html>

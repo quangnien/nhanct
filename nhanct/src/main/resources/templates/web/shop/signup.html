@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/web/layout/default">
+
+<head>
+<title>Đăng ký</title>
+</head>
+
+<body>
+	<section id="form" class="main-body" layout:fragment="content"
+		style="margin-top: 0; margin-bottom: 100px;">
+		<!-- <div class="page-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="signup-form">
+							<h2
+								style="text-align: center; color: red; font-size: 24px; font-weight: bold;">New
+								User Signup!</h2>
+							<form th:object="${khachhang}" th:action="@{/signup}" action="#"
+								method="post">
+								<label class="col-sm-3">Nhập tên : </label>
+								<div class="col-sm-9">
+									<input style="width: 80%;" type="text" class="form-control"
+										th:field="*{customerName}" placeholder="Nhập tên" /> <span
+										th:if="${#fields.hasErrors('customerName')}"
+										th:errors="*{customerName}" style="color: red"></span>
+								</div>
+
+								<label class="col-sm-3">Nhập tên đăng nhập : </label>
+								<div class="col-sm-9">
+									<input style="width: 80%;" type="text" class="form-control"
+										th:field="*{userName}" placeholder="Nhập tên đăng nhập" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('userName')}"
+										th:errors="*{userName}" style="color: red"></span>
+								</div>
+
+								<label class="col-sm-3">Nhập email : </label>
+								<div class="col-sm-9">
+									<input style="width: 80%;" type="email" th:field="*{email}"
+										placeholder="Nhập email" /> <span class="text-danger"
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+										style="color: red"></span>
+								</div>
+
+								<label class="col-sm-3">Nhập địa chỉ : </label>
+								<div class="col-sm-9">
+									<input style="width: 80%;" type="text" th:field="*{address}"
+										placeholder="Nhập địa chỉ" /> <span class="text-danger"
+										th:if="${#fields.hasErrors('address')}"
+										th:errors="*{address}" style="color: red"></span>
+								</div>
+
+								<label class="col-sm-3">Nhập Phone : </label>
+								<div class="col-sm-9">
+									<input style="width: 80%;" type="text"
+										th:field="*{phone}" placeholder="Nhập Phone" />
+									<span class="text-danger"
+										th:if="${#fields.hasErrors('phone')}"
+										th:errors="*{phone}" style="color: red"></span>
+								</div>
+
+								<label class="col-sm-3">Nhập mật khẩu : </label>
+								<div class="col-sm-9">
+									<input style="width: 80%;" type="password"
+										th:field="*{password}" placeholder="Nhập mật khẩu" /> <span
+										class="text-danger" th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}" style="color: red"></span>
+								</div>
+
+								<button style="margin-left: 50%;" type="submit" class="btn btn-default">Signup</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		
+		<div id="body-flex-login">
+			<div id="container-login">
+				<div id="container-login-left">
+					<div id="header-top-left" class="header-login" style=" color: #000; ">
+						<span id="text-logo">Welcome</span> <br /> <span
+							id="hint-text-logo">Create your own style with TelShop</span>
+					</div>
+					<div id="header-bottom-left">
+						<p>
+							<img alt="icon_oval" src='/assets/images/login/icon_oval.png'>
+							<span>Always up to date with the latest fashion trends.</span>
+						</p>
+						<p>
+							<img alt="icon_oval" src='/assets/images/login/icon_oval.png'>
+							<span>More than 50% off all items for VIP customers.</span>
+						</p>
+						<p>
+							<img alt="icon_oval" src='/assets/images/login/icon_oval.png'>
+							<span>Enthusiastic advice to create your style.</span>
+						</p>
+					</div>
+
+				</div>
+				<div id="container-login-right">
+					<div id="header-top-right" class="header-login">
+						<!-- Tách, đưa vào span vì sau này sẽ xử lý jquery -->
+						<a id="dangnhap" th:href="${'/login'}">Login</a> /
+						<span class="actived" id="signup">Đăng ký</span>
+					</div>
+
+					<div id="container-center-login-right">
+
+						<!-- Lưu ý : 1 tag chỉ được duy nhất 1 id -->
+						<!-- <div class="container-login-form"
+							id="container-center-login-right">
+							<form action="">
+							search : icon in input text
+							<form th:action="@{/login}" th:object="${Customer}"
+								method="post">
+							<input id="email" name="email" th:field="*{userName}"
+								class="material-textinput input-icon-email" placeholder="Email"
+								type="text" /> <br /> <input id="matkhau" name="matkhau"
+								class="material-textinput input-icon-password"
+								placeholder="Password" type="text" /> <br /> <input th:field="*{password}"
+								id="btnDangNhap" class="material-primary-button" type="submit"
+								value="ĐĂNG NHẬP" /> <br />
+							</form>
+						</div>
+ -->
+						<div class="container-sigup-form"
+							id="container-center-login-right">
+							<form th:object="${khachhang}" th:action="@{/signup}"
+								method="post">
+								<input th:field="*{customerName}" class="material-textinput" placeholder="Họ và tên" type="text" /> <br />
+								<span th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}" style="color: red"></span>
+								
+								<input th:field="*{userName}" class="material-textinput " placeholder="Tên User" type="text" /> <br />
+								<span class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color: red"></span>
+								
+								<input th:field="*{email}" class="material-textinput " placeholder="Email" type="text" /> <br />
+								<span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></span>
+								
+								<input th:field="*{address}" class="material-textinput " placeholder="Address" type="text" /> <br />
+								<span class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red"></span>
+										
+								<!-- <input th:field="*{phone}" class="material-textinput " placeholder="Phone" type="text"/> <br /> -->
+								<span class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red"></span>
+								<input style=" padding-left: 40px; " type="number" min="100000000" value="0" max="10000000000000"
+												th:field="*{phone}" class="form-control input_inline" /> <span
+												class="text-danger col-md-6"
+												th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+								
+								<input th:field="*{password}" class="material-textinput " placeholder="Password" type="password" style="margin-top: 5px;"  /> <br />
+								<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></span>
+								
+								
+								<input id="btnDangNhap" class="material-primary-button" type="submit" value="ĐĂNG KÝ" /> <br />
+							</form>
+						</div>
+
+						<!-- <div th:if="messagelogin !=null">	
+							<p th:text="${messagelogin}">
+						</div> -->
+						<!-- <div th:if="${messagelogin != null}"  class="alert alert-danger" role="alert" style="width: 100%; margin-top: 20px;">
+								<p th:text="${messagelogin}">
+						</div> -->
+
+					</div>
+
+					<div id="container-social-login">
+						<img alt="icon_oval" src='/assets/images/login/icon_facebook.png'>
+						<img alt="icon_oval" src='/assets/images/login/icon_google.png'>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--/form-->
+</body>
+</html>

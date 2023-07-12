@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/web/layout/default">
+
+<head>
+<title>Login</title>
+</head>
+
+<body>
+	<section id="form" class="main-body" layout:fragment="content"
+		style="margin-top: 0; margin-bottom: 200px;">
+		<!-- <div class="page-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3">
+						<img src="/assets/images/dinhle1.png" alt="" style="width: 98%;" />
+					</div>
+					<div class="col-sm-6">
+						<div class="login-form">
+							login form
+							<h2
+								style="text-align: center; color: red; font-size: 24px; font-weight: bold;">Login
+								to your account</h2>
+							<form th:action="@{/login}" th:object="${Khachhang}"
+								method="post">
+								<div th:if="messagelogin !=null">
+									<p th:text="${messagelogin}">
+								</div>
+
+								<label>Nhập tên User : </label> <input type="text"
+									th:field="*{userName}" class="custom-form" /> <br /> <label>Nhập
+									mật khẩu : </label> <input type="password" th:field="*{password}"
+									class="custom-form" /> <br /> <span> <input
+									type="checkbox" class="checkbox"> Nhớ mật khẩu
+								</span>
+								<button type="submit" class="btn btn-default">Login</button>
+								<br />
+
+								<div class="form-group m-t-30 m-b-0">
+									<div class="col-sm-12">
+										<a th:href="@{/fogot}" class="text-muted"><i
+											class="fa fa-lock m-r-5"></i> Forgot Password?</a> <a
+											th:href="${'/signin'}">Đăng ký</a>
+									</div>
+
+								</div>
+							</form>
+						</div>
+						/login form
+					</div>
+					<div class="col-sm-3">
+						<img src="/assets/images/dinhle2.png" alt="" />
+					</div>
+				</div>
+			</div>
+		</div> -->
+		<div id="body-flex-login">
+			<div id="container-login">
+				<div id="container-login-left">
+					<div id="header-top-left" class="header-login" style=" color: #000; ">
+						<span id="text-logo">Welcome</span> <br /> <span
+							id="hint-text-logo">Create your own style with TelShop</span>
+					</div>
+					<div id="header-bottom-left">
+						<p>
+							<img alt="icon_oval" src='/assets/images/login/icon_oval.png'>
+							<span>Always up to date with the latest fashion trends.</span>
+						</p>
+						<p>
+							<img alt="icon_oval" src='/assets/images/login/icon_oval.png'>
+							<span>More than 50% off all items for VIP customers.</span>
+						</p>
+						<p>
+							<img alt="icon_oval" src='/assets/images/login/icon_oval.png'>
+							<span>Enthusiastic advice to create your style.</span>
+						</p>
+					</div>
+
+				</div>
+				<div id="container-login-right">
+					<div id="header-top-right" class="header-login">
+						<!-- Tách, đưa vào span vì sau này sẽ xử lý jquery -->
+						<span class="actived" id="logi">Login</span> /
+							 <a id="signin" th:href="${'/signin'}">Sigin</a>
+					</div>
+
+					<div id="container-center-login-right">
+
+						<!-- Lưu ý : 1 tag chỉ được duy nhất 1 id -->
+						<div class="container-login-form"
+							id="container-center-login-right">
+							<!-- <form action=""> -->
+							<!-- search : icon in input text -->
+							<form th:action="@{/login}" th:object="${customer}"
+								method="post">
+								<input th:field="*{userName}"
+									class="material-textinput input-icon-email" placeholder="UserName"
+									type="text" /> <br />
+								<input id="matkhau" name="matkhau" th:field="*{password}"
+									class="material-textinput input-icon-password"
+									placeholder="Password" type="password" style="margin-top: 5px;" /> <br />
+
+									<input th:field="*{password}"
+									id="btnDangNhap" class="material-primary-button" type="submit"
+									value="LOGIN" /> <br />
+
+							</form>
+						</div>
+
+						<!-- <div class="container-sigup-form"
+							id="container-center-login-right">
+							<form th:action="@{/login}" th:object="${customer}"
+								method="post">
+								search : icon in input text
+								<input th:field="*{customerName}" id="email" name="email" class="material-textinput input-icon-email" placeholder="Họ và tên" type="text" /> <br />
+								<input th:field="*{userName}" id="matkhau" name="matkhau" class="material-textinput input-icon-password" placeholder="UserName" type="text" /> <br />
+								<input th:field="*{email}" id="nhaplaimatkhau" name="nhaplaimatkhau" class="material-textinput input-icon-password" placeholder="Email" type="text" /> <br />
+								<input th:field="*{address}" id="email" name="email" class="material-textinput input-icon-email" placeholder="Address" type="text" /> <br />
+								<input th:field="*{phone}" id="matkhau" name="matkhau" class="material-textinput input-icon-password" placeholder="Phone" type="text" /> <br />
+								<input th:field="*{password}" id="nhaplaimatkhau" name="nhaplaimatkhau" class="material-textinput input-icon-password" placeholder="Password" type="text" /> <br />
+								<input id="btnDangNhap" class="material-primary-button" type="submit" value="ĐĂNG KÝ" /> <br />
+							</form>
+						</div> -->
+
+						<!-- <div th:if="messagelogin !=null">
+							<p th:text="${messagelogin}">
+						</div> -->
+						<div style="width: 100%; margin-top: 20px;">
+								<a id="signin" th:href="${'/fogot'}" style="color: red;">Forgot Password</a>
+						</div>
+						<div th:if="${messagelogin != null}"  class="alert alert-danger" role="alert" style="width: 100%; margin-top: 20px;">
+								<p th:text="${messagelogin}">
+						</div>
+						
+
+					</div>
+
+					<div id="container-social-login">
+						<img alt="icon_oval" src='/assets/images/login/icon_facebook.png'>
+						<img alt="icon_oval" src='/assets/images/login/icon_google.png'>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

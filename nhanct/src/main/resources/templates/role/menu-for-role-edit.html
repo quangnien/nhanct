@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Edit Role</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!"> Update Menu For Role</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Update Menu Of Role</h2>
+						</div>
+
+						<div th:if="${message == 'F'}" class="alert alert-warning"
+							menu="alert" style="margin-left: 0%; width: 100%;">
+							<strong>Warning!</strong> <span> Invalid time!</span>
+						</div>
+
+						<div class="card-block">
+							<!-- <input type="hidden" th:field="*{id}" /> -->
+							<div class="row">
+								<div class="col-md-5" th:object="${role}">
+									<div class="form-group col-md-12"
+										style="display: inline-block;">
+										<label>Role Code</label> <input readonly type="text"
+											th:field="*{roleCode}" class="form-control" />
+									</div>
+									<div class="form-group col-md-12"
+										style="display: inline-block;">
+										<label>Role Name</label> <input readonly type="text"
+											th:field="*{roleName}" class="form-control" />
+									</div>
+								</div>
+								<!-- <div class="col-md-2"></div> -->
+
+								<div class="col-md-5">
+									<form th:action="@{/admin/role/menu-for-role/edit?id=} + ${role.id}" method="post"
+										th:object="${wMenuAll}" enctype="multipart/form-data">
+										
+										<input type="hidden" th:field="${role.id}" />
+										
+										<div class="form-group col-md-12" th:each="currentClient, stat : *{menuForRoleDto}">
+												<input type="checkbox" th:if="${currentClient.menuCode != 'ROLE_ADMIN'}"
+									              th:name="|menuForRoleDto[${stat.index}]|"
+									              th:text=" '     ' + ${currentClient.menuName}"
+									              th:checked="${currentClient.status}"
+									              th:field="*{menuForRoleDto[__${stat.index}__].status}">
+									              
+									              <input type="hidden" th:field="*{menuForRoleDto[__${stat.index}__].id}">
+									              
+									              <input type="hidden" th:field="*{menuForRoleDto[__${stat.index}__].menuCode}">
+									              
+										</div>
+
+										<div class="col-12 mt-3">
+											<div class="form-group">
+												<button type="submit" class="btn btn-primary m-b-0">Lưu
+													lại</button>
+												<a th:href="@{/admin/role}"
+													class="btn btn-secondary text-white">Back</a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

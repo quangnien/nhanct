@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Add New Detail Image</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Add New Detail Image</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Add New Detail Image </h2>
+						</div>
+						<div class="card-block">
+							<form th:action="@{/admin/product/detail-image/add}"
+								th:object="${detailImage}" method="post"
+								enctype="multipart/form-data">
+								<div class="row">
+									<div class="col-md-6">
+										<input type="hidden" th:field="*{productId}"
+											class="form-control" />
+
+										<div class="form-group">
+											<label>Image</label> <br> <img src="" id="imgdp"
+												height="150" class="mt-2" /> <input type="file"
+												name="fileUpload" class="form-group" accept="image/*"
+												onchange="document.getElementById('imgdp').src = window.URL.createObjectURL(this.files[0])" />
+											<span class="text-danger"
+												th:if="${#fields.hasErrors('image')}"
+												th:errors="*{image}"></span>
+										</div>
+
+									</div>
+
+									<div class="col-12 mt-3">
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary m-b-0">Save</button>
+											<a th:href="@{/admin/product/detail-image(id=${idProduct})}"
+												class="btn btn-secondary text-white">Back</a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

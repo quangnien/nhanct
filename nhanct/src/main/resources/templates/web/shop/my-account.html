@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/web/layout/default">
+
+<head>
+<title>Tài khoản</title>
+</head>
+
+<body>
+	<section class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="container">
+				<form th:action="@{myaccount}" th:object="${khachhang}"
+					method="post">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="product-information">
+								<div class="col-md-12" hidden="">
+									<label>ID</label> <input type="text" class="form-control"
+										placeholder="ID" th:field="*{id}" />
+								</div>
+
+								<h2 style="text-align: center;color: red;font-size: 24px;font-weight: bold;margin: 0px;">Tài
+									khoản của bạn</h2>
+								<br />
+
+								<div class="row">
+									<div class="col-md-12 infor-myaccount-input">
+										<label class="col-md-2">Tên :</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" placeholder="Tên"
+												th:field="*{customerName}" />
+										</div>
+									</div>
+
+									<div class="col-md-12 infor-myaccount-input">
+										<label class="col-md-2">Tên User :</label>
+										<div class="col-md-10">
+											<input type="text" class="form-control"
+												placeholder="username" th:field="*{userName}" />
+											<span class="text-danger"
+												th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+										</div>
+									</div>
+								<!-- </div>
+								<br />
+								<div class="row"> -->
+									<div class="col-md-12 infor-myaccount-input">
+										<label class="col-md-2">Address : </label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" placeholder="Address"
+												th:field="*{address}" />
+										</div>
+									</div>
+								<!-- </div>
+								<br />
+								<div class="row"> -->
+									<div class="col-md-12 infor-myaccount-input">
+										<label class="col-md-2">Email : </label>
+										<div class="col-md-10">
+											<input type="email" class="form-control" placeholder="Email"
+												th:field="*{email}" />
+											<span class="text-danger"
+												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+										</div>
+									</div>
+
+									<div class="col-md-12 infor-myaccount-input">
+										<label class="col-md-2">Phone : </label>
+										<div class="col-md-10">
+											<input type="text" class="form-control" placeholder="Phone"
+												name="email" th:field="*{phone}" />
+										</div>
+									</div>
+
+									<div class="col-md-12 infor-myaccount-input">
+<!--										<label class="col-md-2">Password : </label>-->
+										<div class="col-md-10">
+											<input type="hidden" class="form-control"
+												   name="password" th:field="*{password}" />
+										</div>
+									</div>
+								<!-- </div>
+								<br />
+								<div class="row"> -->
+									<!--<div class="col-md-12 infor-myaccount-input">
+										<label class="col-md-2">Mật Khẩu : </label>
+										<div class="col-md-10">
+											<input type="password" class="form-control" placeholder="Password"
+												   name="password" th:field="*{password}" />
+										</div>
+									</div>-->
+								<!-- </div>
+								<br />
+								<div class="row"> -->
+									<div class="col-md-12" style="text-align: center;padding: 10px;">
+										<input 
+											style="background-color: #feb34d; border-color: yellow; font-size: 16px; font-weight: bold; width: 68px;"
+											type="submit" class="custom-submit-2 save" value="Lưu" />
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="panel panel-default">
+					<div class="panel-heading" style="text-align: center; color: red;">
+						<h4 class="panel-title">
+							<span>Đơn Hàng Gần Đây</span>
+						</h4>
+					</div>
+
+					<table class="table table-striped table-text-center">
+						<thead>
+							<tr>
+								<th>Mã hóa đơn</th>
+								<th>Time</th>
+								<th>Status</th>
+								<th>Xem
+							</tr>
+						</thead>
+						<tbody th:each="item : ${hoadonkh}">
+							<tr>
+								<td th:text="${item.id}">
+								<td th:text="${item.timeHoaDon}">
+								<td th:text="${item.statusHoaDon}">
+									<!-- <td><a th:href="@{'detail/hoadon/'+${item.id}}" >Xem chi tiết đơn hàng</a></td> -->
+								<td><a th:href="@{/detail/hoadon/edit(id=${item.id})}"
+									class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Xem
+										chi tiết đơn hàng</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- CHECKOUT-AREA END -->
+			</div>
+		</div>
+	</section>
+</body>
+</html>

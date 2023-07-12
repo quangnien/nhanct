@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Edit User</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!"> Update Role For User</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Update Role Of User</h2>
+						</div>
+
+						<div th:if="${message == 'F'}" class="alert alert-warning"
+							role="alert" style="margin-left: 0%; width: 100%;">
+							<strong>Warning!</strong> <span> Invalid time!</span>
+						</div>
+
+						<div class="card-block">
+							<!-- <input type="hidden" th:field="*{id}" /> -->
+							<div class="row">
+								<div class="col-md-5" th:object="${user}">
+									<div class="form-group col-md-12"
+										style="display: inline-block;">
+										<label>Full Name</label> <input readonly type="text"
+											th:field="*{taiKhoanUser}" class="form-control" />
+									</div>
+									<div class="form-group col-md-12"
+										style="display: inline-block;">
+										<label>Email</label> <input readonly type="text"
+											th:field="*{email}" class="form-control" />
+									</div>
+
+									<div class="form-group col-md-12"
+										style="display: inline-block;">
+										<label>UserName</label> <input readonly type="text"
+											th:field="*{taiKhoanUser}" class="form-control" />
+									</div>
+									
+								</div>
+								<!-- <div class="col-md-2"></div> -->
+
+								<div class="col-md-5">
+									<form th:action="@{/admin/user/role-for-user/edit?id=} + ${user.id}" method="post"
+										th:object="${wRoleAll}" enctype="multipart/form-data">
+										
+										<input type="hidden" th:field="${user.id}" />
+										
+										<div class="form-group col-md-12" th:each="currentClient, stat : *{roleForAccountDto}">
+												<input type="checkbox" th:if="${currentClient.roleCode != 'ROLE_ADMIN'}"
+									              th:name="|roleForAccountDto[${stat.index}]|"
+									              th:text=" '     ' + ${currentClient.roleName}"
+									              th:checked="${currentClient.status}"
+									              th:field="*{roleForAccountDto[__${stat.index}__].status}">
+									              
+									              <input type="hidden" th:field="*{roleForAccountDto[__${stat.index}__].id}">
+									              
+									              <input type="hidden" th:field="*{roleForAccountDto[__${stat.index}__].roleCode}">
+									              
+										</div>
+
+										<div class="col-12 mt-3">
+											<div class="form-group">
+												<button type="submit" class="btn btn-primary m-b-0">Lưu
+													lại</button>
+												<a th:href="@{/admin/user}"
+													class="btn btn-secondary text-white">Back</a>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+<head>
+<title>Profile Admin</title>
+<link th:href="@{/assets/css/style2.css}" rel="stylesheet">
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content" style="color: #c30808; background-color: #ececec;">
+		<div class="page-body">
+			<div class="row bg-title">
+				<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+					<h4 class="page-title">Profile Admin</h4>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 col-xs-12">
+					<div class="white-box">
+						<div class="user-bg">
+							<div class="overlay-box">
+								<div class="user-content">
+									<!-- href="javascript:void(0)" -->
+									<a><img th:src="${mess_hinhanh}"
+										class="thumb-lg img-circle" alt="img"></a>
+									<h4 class="text-white">Avatar</h4>
+								</div>
+							</div>
+						</div>
+						<div class="user-btm-box">
+							<div class=" text-center">
+								<h1 class="text-purple">
+									<a th:href="@{https://www.facebook.com/quangnien0911/}"
+										th:target="_blank"><i class="ti-facebook"></i>ADMIN</a>
+								</h1>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 col-xs-12">
+					<div class="white-box">
+						<form class="form-horizontal form-material">
+							<div class="form-group">
+								<label class="col-md-2">Full Name : </label> <span
+									class="col-md-10" th:text="${mess_tenuser}"></span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2">Email : </label> <span class="col-md-10"
+									th:text="${mess_email}"></span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2">Adress: </label> <span class="col-md-10"
+									th:text="${mess_diachi}"></span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2">Gender: </label> <span class="col-md-10"
+									th:text="${mess_gioitinh}"></span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2">Date of birth : </label> <span
+									class="col-md-10" th:text="${mess_ngaysinh}"></span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2">Phone number : </label> <span
+									class="col-md-10" th:text="'0' + ${mess_sodienthoai}"></span>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2">User name : </label> <span
+									class="col-md-10" th:text="${mess_username}"></span>
+							</div>
+
+						</form>
+					</div>
+					<div class="col-md-12 col-xs-12">
+						<div style=" display: inline-block; background-color: #bfceff; padding: 5px; border-radius: 25px; text-align: center; font-weight: 600; color: #fff; "
+							 class="col-md-3 col-xs-3">
+							<a th:href="@{'/admin/user/edit?id=' + ${mess_id}}">Edit information</a>
+						</div>
+						<div style=" display: inline-block; background-color: #8ef17e; padding: 5px; border-radius: 25px; text-align: center; font-weight: 600; color: #fff; "
+							 class="col-md-3 col-xs-3 ">
+							<a th:href="@{'/admin/user/change-password?id=' + ${mess_id}}">Change password</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/web/layout/default">
+
+<head>
+<title>Sản phẩm</title>
+</head>
+
+<body>
+	<section class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="container">
+				<div class="row" style="margin-bottom: 15px;">
+					<div class="col-sm-5" style=" border: solid; padding: 2px; ">
+						<div class="left-sidebar">
+
+							<header class="modal-header">
+								Search Product bằng hình ảnh
+							</header>
+
+							<form th:action="@{/shop/api/search-by-image}"
+								  method="post" th:object="${hinhanhsearch}"
+								  enctype="multipart/form-data"
+								  id="search-form">
+								<div class="modal-body" id="modal-body-id">
+									<label>Chọn hình ảnh</label> <br>
+									<img th:src="${hinhanhsearch}"
+											style=" max-width: 75%; " src="" id="imgdp" height="300" class="mt-12" />
+									<input type="file" name="fileUpload" class="form-group" accept="image/*" id="fileUploadId"
+										   onchange="document.getElementById('imgdp').src = window.URL.createObjectURL(this.files[0])" />
+									<span th:if="${message == 'uploadFileIsFalse'}"
+											class="text-danger" >You haven't uploaded the file yet!
+										  </span>
+									<button type="submit" class="btn btn-primary m-b-0">Search</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="col-sm-7 padding-right">
+						<div class="col-sm-12" style="padding: 0" th:if="${firstAI != null}">
+							<header class="modal-header" style=" height: 45px; background: #ccc; color: #000; font-size: 18px;">
+								Kết quả chính xác nhất
+							</header>
+							<div class="col-sm-12" style="padding: 0; border: solid; padding: 2px;height: 307px;">
+								<div class="col-sm-8" style="margin-top: 10px;">
+									<img th:src="${firstAI.image}" width="90%" height="auto" />
+									<ul class="nav nav-pills nav-justified">
+										<li><a th:href="@{/shop/detail(id=${firstAI.id})}"
+											   class="btn btn-default add-to-cart">
+											<i class="fa fa-plus"></i>View details</a></li>
+										<li><a th:href="${'/cart/buy/' + firstAI.id}"
+										   class="btn btn-default add-to-cart"><i
+												class="fa fa-shopping-cart"></i>Add to cart</a></li>
+									</ul>
+								</div>
+
+								<div class="col-sm-4" style="margin-top: 20px;">
+									<h3 class="text-danger" th:text="${firstAI.productName}">1</h3>
+									<h5><strike th:text="${firstAI.price} + ' VNĐ'"> </strike></h5>
+									<h5 style="font-weight: 700" th:text="${firstAI.priceActually} + ' VNĐ'"></h5>
+									<h5 style="font-weight: 700" th:text="'Status: ' + ${firstAI.priceActually}" ></h5>
+									<h5 style="font-weight: 700" th:text="'Remaining Quantity: ' + ${firstAI.quantity}" ></h5>
+
+<!--									<p th:text="${firstAI.des}"></p>-->
+								</div>
+							</div>
+
+							<div class="col-sm-12" style="padding: 0">
+								<header class="modal-header" style=" height: 45px; background: #ccc; color: #000; font-size: 18px; margin-top: 10px; ">
+									Các Product có thể bạn muốn mua
+								</header>
+							</div>
+							<div class="col-sm-4" style="padding: 0"
+								th:each="item : ${listProduct}">
+								<div class="make-3D-space">
+									<div class="product-card">
+										<div class="product-front">
+											<img
+												style="width: 210px; height: auto; margin-left: auto; margin-right: auto; height: auto; display: block;"
+												th:src="${item.image}" alt="" />
+											<div class="image_overlay"></div>
+											<div>
+												<a th:href="@{/shop/detail(id=${item.id})}" class="view_details">View details</a>
+											</div>
+											
+											<div><a th:href="${'/cart/buy/' + item.id}" class="view_addCard">Add to cart</a></div>
+											<div class="stats">
+												<div class="stats-container">
+													
+													<div style=" font-size: 18px; text-align: left; font-weight: 700; " th:text="${item.productName}"></div>
+													<div style=" text-decoration: line-through; opacity: 0.5; text-align: left; font-size: 14px; " th:text="${item.price} + ' VNĐ'" ></div>
+													<div style="text-align: left;font-size: 16px;font-weight: 700;color: var(&#45;&#45;orangeCustom); " th:text="${item.priceActually} + ' VNĐ'"></div>
+													<div style=" font-weight: 500; text-align: left; " th:text="'Status : ' + ${item.status}" ></div>
+													<div th:text="${'Remaining Quantity : '+item.quantity}"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

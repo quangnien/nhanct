@@ -1,0 +1,19 @@
+<nav class="pcoded-navbar" xmlns:th="http://www.thymeleaf.org">
+	<div class="pcoded-inner-navbar main-menu">
+		<ul class="pcoded-item pcoded-left-item" th:each="menu : ${menuEntityList}">
+<!--			<li class=""><a th:href="@{/admin}"> <span-->
+<!--					class="pcoded-micon"><i class="feather icon-home"></i></span> <span-->
+<!--					class="pcoded-mtext">Dashboard</span>-->
+<!--			</a></li>-->
+
+				<li >
+					<a th:href="@{/admin/__${menu.menuCode}__}">
+						<span class="pcoded-micon">
+							<i class="feather icon-layers"></i>
+						</span>
+						<span class="pcoded-mtext" th:text="${menu.menuName}"></span>
+					</a>
+				</li>
+		</ul>
+	</div>
+</nav>

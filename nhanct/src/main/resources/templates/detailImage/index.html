@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Product Management</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Detail Image List</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8">
+					<div class="card px-3">
+						<div class="card-header px-0 pb-2">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Detail Image List</h2>
+							<a
+								th:href="@{/admin/product/detail-image/add(id=${idProduct})}"
+								class="btn btn-sm btn-primary">Add New</a>
+						</div>
+
+						<div class="card-block table-border-style">
+							<!-- học grid để chia table đẹp hơn -->
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>STT</th>
+
+											<th>Image</th>
+
+											<th>Product Name</th>
+
+											<th>Action</th>
+
+										</tr>
+									</thead>
+									<tbody id="tbodyRole">
+										<tr th:each="item, state : ${listDetailImage}">
+											<th th:text="${state.index}">1</th>
+											<td><img th:src="${item.image}" height="50"
+												width="100" /></td>
+											<td th:text="${item.product.productName}"></td>
+
+											<td><a
+												th:href="@{/admin/product/detail-image/delete(id=${item.id},idSP=${idProduct})}"
+												class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>
+											</td>
+									</tbody>
+								</table>
+							</div>
+
+							<div>&nbsp;</div>
+
+						</div>
+					</div>
+					<div class="card px-6">
+						<a th:href="@{/admin/product}"
+							class="btn btn-secondary text-white">Back</a>
+					</div>
+				</div>
+				<div class="col-sm-2"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Add New User</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Add New User</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Add New User</h2>
+						</div>
+						
+						<div th:if="${message == 'F'}" class="alert alert-warning"
+								role="alert" style="margin-left: 0%;width: 100%;">
+								<strong>Warning!</strong> <span> Invalid time value!</span>
+						</div>
+						
+						<div class="card-block">
+							<form th:action="@{/admin/user/add}" th:object="${user}"
+								method="post" enctype="multipart/form-data">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Full Name</label> <input type="text"
+												th:field="*{userName}" class="form-control" /> <span
+												class="text-danger"
+												th:if="${#fields.hasErrors('userName')}"
+												th:errors="*{userName}"></span>
+										</div>
+										<div class="form-group">
+											<label>Email</label> <input type="text" th:field="*{email}"
+												class="form-control" /> <span class="text-danger"
+												th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>Day Of Birth</label>
+											<input type="date"
+												th:field="*{dob}" class="form-control" /> <span
+												class="text-danger" th:if="${#fields.hasErrors('dob')}"
+												th:errors="*{dob}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>Sex</label> <!-- <input type="text"
+												th:field="*{sex}" class="form-control" /> <span
+												class="text-danger" th:if="${#fields.hasErrors('sex')}"
+												th:errors="*{sex}"></span> -->
+											<select
+												th:field="*{sex}" class="form-control">
+												<option class="form-control" value="Male">Male</option>
+												<option class="form-control" value="Female">Female</option>
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>Avatar</label> <br> <img src="" id="imgdp"
+												height="150" class="mt-2" /> <input type="file"
+												name="fileUpload" class="form-group" accept="image/*"
+												onchange="document.getElementById('imgdp').src = window.URL.createObjectURL(this.files[0])" />
+											<span class="text-danger"
+												th:if="${#fields.hasErrors('image')}"
+												th:errors="*{image}"></span>
+										</div>
+
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Phone</label>
+												<input type="text"
+													th:field="*{phone}" class="form-control" /> <span
+													class="text-danger"
+													th:if="${#fields.hasErrors('phone')}"
+													th:errors="*{phone}"></span>
+<!--												<input-->
+<!--												type="number" min="100000000" value="0" max="10000000000000"-->
+<!--												th:field="*{phone}" class="form-control input_inline" /> <span-->
+<!--												class="text-danger col-md-6"-->
+<!--												th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>-->
+										</div>
+										<div class="form-group">
+											<label>Address</label> <input type="text"
+												th:field="*{address}" class="form-control" /> <span
+												class="text-danger" th:if="${#fields.hasErrors('address')}"
+												th:errors="*{address}"></span>
+										</div>
+										<div class="form-group">
+											<label>UserName</label> <input type="text"
+												th:field="*{taiKhoanUser}" class="form-control" /> <span
+												class="text-danger"
+												th:if="${#fields.hasErrors('taiKhoanUser')}"
+												th:errors="*{taiKhoanUser}"></span>
+
+										</div>
+										<!-- <div class="form-group">
+											<label>Loại người dùng</label> <select th:field="*{roleId}"
+												class="form-control">
+												<option th:each="item: ${roles}" th:value="${item.id}"
+													th:text="${item.roleCode}">Quản trị</option>
+											</select> <span class="text-danger"
+												th:if="${#fields.hasErrors('roleId')}"
+												th:errors="*{roleId}"></span>
+										</div> -->
+
+										<div class="form-group">
+											<label>Password</label> <input type="password"
+												th:field="*{password}" class="form-control" /> <span
+												class="text-danger" th:if="${#fields.hasErrors('password')}"
+												th:errors="*{password}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>Input Password Again</label> <input type="password"
+												name="confirm" class="form-control" />
+										</div>
+									</div>
+									<div class="col-12 mt-3">
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary m-b-0">Save</button>
+											<a th:href="@{/admin/user}"
+												class="btn btn-secondary text-white">Back</a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

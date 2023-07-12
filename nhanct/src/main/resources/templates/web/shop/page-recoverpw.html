@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Forgot Password</title>
+<!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 10]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="#">
+<meta name="keywords"
+	content="Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
+<meta name="author" content="#">
+<!-- Favicon icon -->
+
+<link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+<link
+	href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800"
+	rel="stylesheet">
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+	<div class="account-pages"></div>
+	<div class="clearfix"></div>
+	<div class="wrapper-page row">
+		<!-- <div class="text-center"></div> -->
+		<div class="col-sm-2"></div>
+		
+		<div class="m-t-40 card-box col-sm-8" >
+			<div class="text-center">
+				<div class="col-sm-12">
+					<h4 class="text-uppercase font-bold m-b-0">QUÊN MẬT KHẨU</h4>
+				</div>
+
+				<div th:if="${message != null}" class="alert alert-warning col-sm-12" style=" margin-left: 28%;"
+					 role="alert">
+					<p th:text="${message}"> </p>
+				</div>
+
+				<div class="col-sm-12">
+					<p class="text-muted m-b-0 font-13 m-t-20">Vui lòng nhập email
+						của bạn</p>
+				</div>
+
+			</div>
+			<div class="panel-body">
+				<form class="form-horizontal m-t-20" th:action="@{/fogot}"
+					method="post" th:object="${kh}">
+
+					<div class="form-group form-primary">
+						<div class="col-xs-6">
+							<input class="form-control" type="email" required="required"
+								placeholder="Enter email" th:field="*{email}">
+							<span class="text-danger"
+								  th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+						</div>
+					</div>
+
+					<div class="form-group text-center m-t-20 m-b-0">
+						<div class="col-xs-12">
+							<button
+								class="btn btn-custom btn-bordred btn-block waves-effect waves-light"
+								type="submit">Gửi Email</button>
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+		
+		<div class="col-sm-2"></div>
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8 " style="text-align: center;">
+			<p class="text-muted">
+				Đã có User?<a th:href="@{/login}" class="text-primary m-l-5"><b>Đăng
+						nhập</b></a>
+			</p>
+		</div>
+		<div class="col-sm-2"></div>
+		<!-- end card-box -->
+
+		<!-- <div class="row">
+			<div class="col-sm-12 text-center">
+				<p class="text-muted">
+					Đã có User?<a th:href="@{/login}" class="text-primary m-l-5"><b>Đăng
+							nhập</b></a>
+				</p>
+			</div>
+		</div> -->
+
+	</div>
+	<!-- end wrapper page -->
+
+
+	<script>
+    	var resizefunc = [];
+    </script>
+	<!-- Required Jquery -->
+	<script type="text/javascript"
+		th:href="@{/plugins/jquery/js/jquery.min.js}"></script>
+	<script type="text/javascript"
+		th:href="@{/plugins/jquery-ui/js/jquery-ui.min.js}"></script>
+	<script type="text/javascript"
+		th:href="@{/plugins/popper.js/js/popper.min.js}"></script>
+	<script type="text/javascript"
+		th:href="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

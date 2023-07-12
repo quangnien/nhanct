@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Confirm To Delete</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Confirm To Delete</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card px-3">
+						<div>
+							<div th:if="${message == 'E'}" class="alert alert-warning"
+								role="alert">
+								<strong>Warning!</strong> <span value="${message"> Unable to delete bound data!</span>
+							</div>
+							<div th:if="${message == 'F'}" class="alert alert-warning"
+								role="alert">
+								<strong>Warning!</strong> <span value="${message">Unable to delete the role who is logged in to the system!</span>
+							</div>
+						</div>
+
+						<div class="card-block table-border-style">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>Role Name</th>
+											<th>Role Description</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td th:text="${role.roleCode}"></td>
+											<td th:text="${role.roleName}"></td>
+
+											<td><a th:href="@{/admin/role}"
+												class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Cancel</a>
+												<a th:href="@{/admin/role/confirm-delete-post(id=${role.id})}"
+												class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Confirm To Delete</a>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
