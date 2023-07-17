@@ -1,64 +1,107 @@
 package com.example.nhanct.entity;
 
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name="invoice")
-@Getter
-@Setter
+@Table(name = "invoice")
 public class InvoiceEntity {
-		
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name = "invoice_time")
-	@DateTimeFormat(pattern =  "yyyy-MM-dd")
-	private Date invoiceTime;
 
-	@NotBlank(message = "Please Input This Field!")
-	@Length(min = 5 , message = "This field length must be more than 5 characters!")
+	@Column(name="number_of_invoice")
+	private int numberOfInvoice;
+
+	@Column(name="issue_date")
+	@UpdateTimestamp
+	private LocalDateTime issueDate;
+
+	@Column(name="release_date")
+	@UpdateTimestamp
+	private LocalDateTime releaseDate;
+
+	@Column(name="issuer_id")
+	private int issuerId;
+
+	@Column(name="releaser_id")
+	private int releaserId;
+
 	@Column(name = "status")
+	@NotBlank(message = "Please Input This Field!")
 	private String status;
-	
-	@Column(name = "flag_cancel", columnDefinition = "int(1) default 0")
-	private int flagCancel;
-	
-	/*______begin______*/
-	@Column(name="customer_id")
-	private int customerId;
-	
-	@ManyToOne
-	@JoinColumn(name = "customer_id"  , insertable = false, updatable = false)
-	private CustomerEntity customer;
-	/*______end______*/
-	
+
+	@Column(name = "reason_for_cancellation")
+	@NotBlank(message = "Please Input This Field!")
+	private String reasonForCancellation;
+
+	@Column(name = "sum_price", columnDefinition = "0")
+	private int sumPrice;
+
+	/*------------------------*/
 	@OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY)
-	private List<DetailInvoiceEntity> detailInvoice;
+	private List<InvoiceDetailEntity> invoiceDetail;
 
-	/*______begin______*/
-	@Column(name = "user_id")
-	private int userId;
-	
+	/*------------ begin ------------*/
+	@Column(name = "business_id")
+	private int businessId;
+
 	@ManyToOne
-	@JoinColumn(name = "user_id", insertable = false, updatable = false)
-	private UserEntity user;
-	/*______end______*/
+	@JoinColumn(name = "business_id", insertable = false, updatable = false)
+	private BusinessEntity business;
+	/*------------ end ------------*/
 
-	@Override
-	public String toString() {
-		return "InvoiceEntity [id=" + id + ", invoiceTime=" + invoiceTime + ", status=" + status
-				+ ", customerId=" + customerId + ", customer=" + customer + ", detailInvoice=" + detailInvoice
-				+ "]";
-	}
-	
+	/*------------ begin ------------*/
+	@Column(name = "issue_invoice_id")
+	private int issueInvoicesId;
+
+	@ManyToOne
+	@JoinColumn(name = "issue_invoice_id", insertable = false, updatable = false)
+	private IssueInvoiceEntity issueInvoice;
+	/*------------ end ------------*/
+
+	/*------------ begin ------------*/
+	@Column(name = "customer_id")
+	private int customerId;
+
+	@ManyToOne
+	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
+	private CustomerEntity customer;
+	/*------------ end ------------*/
+
+	/*------------ begin ------------*/
+	@Column(name = "input_warehouse_id")
+	private int inputWarehouseId;
+
+	@Column(name = "output_warehouse_id")
+	private int outputWarehouseId;
+	/*------------ end ------------*/
+
+//
+//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	private List<DetailImageEntity> detailImage;
+//
+//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	private List<DetailInvoiceEntity> detailInvoice;
+//
+//    @Transient
+//    private String _startDatePromotion;
+//
+//    @Transient
+//    private String _endDatePromotion;
+
 }
+

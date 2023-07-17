@@ -8,7 +8,7 @@ public class UserDto {
 	private String userName;
 	private Date dob;
 	private String sex;
-	private long phone;
+	private String phone;
 	private String address;
 	private String email;
 	private String taiKhoanUser;
@@ -16,7 +16,7 @@ public class UserDto {
 	public UserDto() {
 		super();
 	}
-	public UserDto(int id, String userName, Date dob, String sex, long phone, String address,
+	public UserDto(int id, String userName, Date dob, String sex, String phone, String address,
 				   String email, String taiKhoanUser, String roleCode) {
 		super();
 		this.id = id;
@@ -53,10 +53,10 @@ public class UserDto {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public long getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(long phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getAddress() {

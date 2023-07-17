@@ -2,7 +2,6 @@ package com.example.nhanct.service.Impl;
 
 import com.example.nhanct.dto.MenuForRoleDto;
 import com.example.nhanct.entity.MenuEntity;
-import com.example.nhanct.entity.MenuEntity;
 import com.example.nhanct.repository.MenuRepository;
 import com.example.nhanct.service.MenuService;
 import org.modelmapper.ModelMapper;
