@@ -1,22 +1,22 @@
 package com.example.nhanct.entity;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "invoice")
+@Table(name="invoice")
 public class InvoiceEntity {
 
 	@Id
@@ -27,12 +27,12 @@ public class InvoiceEntity {
 	private int numberOfInvoice;
 
 	@Column(name="issue_date")
-	@UpdateTimestamp
-	private LocalDateTime issueDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date issueDate;
 
 	@Column(name="release_date")
-	@UpdateTimestamp
-	private LocalDateTime releaseDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date releaseDate;
 
 	@Column(name="issuer_id")
 	private int issuerId;
@@ -48,12 +48,12 @@ public class InvoiceEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String reasonForCancellation;
 
-	@Column(name = "sum_price", columnDefinition = "0")
+	@Column(name = "sum_price")
 	private int sumPrice;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY)
-	private List<InvoiceDetailEntity> invoiceDetail;
+	@OneToMany(mappedBy = "invoice")
+	private List<InvoiceDetailEntity> invoiceDetailEntityList;
 
 	/*------------ begin ------------*/
 	@Column(name = "business_id")
@@ -91,10 +91,10 @@ public class InvoiceEntity {
 	/*------------ end ------------*/
 
 //
-//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "product")
 //	private List<DetailImageEntity> detailImage;
 //
-//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "product")
 //	private List<DetailInvoiceEntity> detailInvoice;
 //
 //    @Transient

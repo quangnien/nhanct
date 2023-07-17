@@ -22,7 +22,7 @@ public class WarehouseEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String warehouseName;
 
-//	@OneToMany(mappedBy = "khach_hang", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "khach_hang")
 //	private List<ReviewEntity> review;
 
 }

@@ -70,7 +70,7 @@ public class UserEntity {
 	@OneToMany(mappedBy = "user")
 	private List<RoleUserEntity> roleUser;
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "user")
 //	private List<InvoiceEntity> invoice;
 	
 }

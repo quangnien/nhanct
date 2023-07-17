@@ -36,8 +36,8 @@
 //	private int priceActually;
 //
 //	@Column(name="last_update")
-//	@UpdateTimestamp
-//	private LocalDateTime lastUpdate;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	private Date lastUpdate;
 //
 //	@Column(name = "des", columnDefinition="TEXT")
 //	@NotBlank(message = "Please Input This Field!")
@@ -84,13 +84,13 @@
 //	private BrandEntity brand;
 //	/*------------ end ------------*/
 //
-////	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+////	@OneToMany(mappedBy = "product")
 ////	private List<ReviewEntity> review;
 //
-//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "product")
 //	private List<DetailImageEntity> detailImage;
 //
-//	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "product")
 //	private List<DetailInvoiceEntity> detailInvoice;
 //
 //    @Transient

@@ -3,11 +3,13 @@ package com.example.nhanct.entity;
 
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -43,15 +45,15 @@ public class IssueInvoiceEntity {
 	private int toNumber;
 
 	@Column(name="date_of_registration")
-	@UpdateTimestamp
-	private LocalDateTime dateOfRegistration;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date dateOfRegistration;
 
 	@Column(name = "current_invoice_number", columnDefinition = "integer default 0")
 	private int currentInvoiceNumber;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "issueInvoice", fetch = FetchType.LAZY)
-	private List<InvoiceEntity> invoice;
+	@OneToMany(mappedBy = "issueInvoice")
+	private List<InvoiceEntity> invoiceEntityList;
 
 	/*------------ begin ------------*/
 	@Column(name = "invoice_type_id")

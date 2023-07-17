@@ -10,10 +10,10 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-@Entity
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "invoice_detail")
+@NoArgsConstructor
+@Entity
+@Table(name="invoice_detail")
 public class InvoiceDetailEntity {
 
 	@Id

@@ -28,7 +28,7 @@ public class KindOfTaxEntity {
 	@Min(value=0, message = "Min price is 0")
 	private int ratio;
 
-	@OneToMany(mappedBy = "kindOfTax", fetch = FetchType.LAZY)
-	private List<InvoiceDetailEntity> invoiceDetail;
+	@OneToMany(mappedBy = "kindOfTax")
+	private List<InvoiceDetailEntity> invoiceDetailEntityList;
 
 }

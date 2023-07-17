@@ -41,7 +41,7 @@ public class BusinessEntity {
 	private String sampleSignature;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "business", fetch = FetchType.LAZY)
-	private List<InvoiceEntity> invoice;
+	@OneToMany(mappedBy = "business")
+	private List<InvoiceEntity> invoiceEntityList;
 
 }

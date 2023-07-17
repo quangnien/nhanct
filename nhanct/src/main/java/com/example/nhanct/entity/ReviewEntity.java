@@ -34,8 +34,8 @@
 //	private String image;
 //
 //	@Column(name="last_update")
-//	@UpdateTimestamp
-//	private LocalDateTime lastUpdate;
+//	@DateTimeFormat(pattern = "yyyy-MM-dd")
+//	private Date lastUpdate;
 //
 //	@Column(name = "customer_id")
 //	private int customerId;

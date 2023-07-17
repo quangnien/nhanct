@@ -24,7 +24,7 @@
 //	@NotBlank(message = "Please Input This Field!")
 //	private String categoryName;
 //
-//	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "category")
 //	private List<ProductEntity> product;
 //
 //}

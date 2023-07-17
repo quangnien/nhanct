@@ -43,6 +43,6 @@
 //	private String address;
 //
 //	/*------------------------*/
-//	@OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "brand")
 //	private List<ProductEntity> product;
 //}

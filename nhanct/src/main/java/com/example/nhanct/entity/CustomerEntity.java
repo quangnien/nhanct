@@ -57,10 +57,10 @@ public class CustomerEntity {
 //	@Column(name = "reset_token")
 //	private String resetToken;
 
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-	private List<InvoiceEntity> invoice;
+	@OneToMany(mappedBy = "customer")
+	private List<InvoiceEntity> invoiceEntityList;
 
-//	@OneToMany(mappedBy = "khach_hang", fetch = FetchType.LAZY)
+//	@OneToMany(mappedBy = "khach_hang")
 //	private List<ReviewEntity> review;
 
 }

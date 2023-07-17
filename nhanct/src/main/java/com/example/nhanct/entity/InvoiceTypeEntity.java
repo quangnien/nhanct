@@ -25,7 +25,7 @@ public class InvoiceTypeEntity {
 	private String nameOfInvoiceType;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "invoiceType", fetch = FetchType.LAZY)
-	private List<IssueInvoiceEntity> issueInvoice;
+	@OneToMany(mappedBy = "invoiceType")
+	private List<IssueInvoiceEntity> issueInvoiceEntityList;
 
 }

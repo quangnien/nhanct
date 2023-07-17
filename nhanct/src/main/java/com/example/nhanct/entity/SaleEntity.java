@@ -36,7 +36,7 @@
 //    @Column(name = "end_date")
 //    private LocalDate endDate;
 //
-//    @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
+//    @OneToMany(mappedBy = "sale")
 //	private List<ProductEntity> product;
 //
 //    @Transient
