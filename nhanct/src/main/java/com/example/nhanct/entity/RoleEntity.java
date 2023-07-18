@@ -4,12 +4,13 @@ package com.example.nhanct.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -30,10 +31,10 @@ public class RoleEntity {
 	
 	/*____________________________________*/
 
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	private List<RoleUserEntity> roleUser;
 
-	@OneToMany(mappedBy = "role")
+	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
 	private List<RoleMenuEntity> roleMenu;
 	
 }

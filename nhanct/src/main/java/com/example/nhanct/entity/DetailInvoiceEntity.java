@@ -2,11 +2,12 @@
 //
 //
 //import lombok.AllArgsConstructor;
-//import lombok.Data;
+//import lombok.*;
 //import lombok.NoArgsConstructor;
 //
 //import javax.persistence.*;
-//@Data
+//@Getter
+@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity

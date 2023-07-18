@@ -1,18 +1,16 @@
 package com.example.nhanct.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -52,7 +50,7 @@ public class InvoiceEntity {
 	private int sumPrice;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "invoice")
+	@OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY)
 	private List<InvoiceDetailEntity> invoiceDetailEntityList;
 
 	/*------------ begin ------------*/

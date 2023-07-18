@@ -1,15 +1,14 @@
 package com.example.nhanct.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,7 +24,7 @@ public class InvoiceTypeEntity {
 	private String nameOfInvoiceType;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "invoiceType")
+	@OneToMany(mappedBy = "invoiceType", fetch = FetchType.LAZY)
 	private List<IssueInvoiceEntity> issueInvoiceEntityList;
 
 }

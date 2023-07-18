@@ -5,10 +5,11 @@
 //import javax.persistence.*;
 //import javax.validation.constraints.NotBlank;
 //import lombok.AllArgsConstructor;
-//import lombok.Data;
+//import lombok.*;
 //import lombok.NoArgsConstructor;
 //
-//@Data
+//@Getter
+@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity

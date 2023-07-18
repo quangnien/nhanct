@@ -4,14 +4,15 @@
 //import javax.persistence.*;
 //import javax.validation.constraints.NotBlank;
 //import lombok.AllArgsConstructor;
-//import lombok.Data;
+//import lombok.*;
 //import lombok.NoArgsConstructor;
 //import org.hibernate.annotations.UpdateTimestamp;
 //import org.hibernate.validator.constraints.Length;
 //
 //import java.time.LocalDateTime;
 //
-//@Data
+//@Getter
+@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity

@@ -52,7 +52,7 @@ public class IssueInvoiceEntity {
 	private int currentInvoiceNumber;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "issueInvoice")
+	@OneToMany(mappedBy = "issueInvoice", fetch = FetchType.LAZY)
 	private List<InvoiceEntity> invoiceEntityList;
 
 	/*------------ begin ------------*/

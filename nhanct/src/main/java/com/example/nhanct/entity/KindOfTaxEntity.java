@@ -1,15 +1,14 @@
 package com.example.nhanct.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -28,7 +27,7 @@ public class KindOfTaxEntity {
 	@Min(value=0, message = "Min price is 0")
 	private int ratio;
 
-	@OneToMany(mappedBy = "kindOfTax")
+	@OneToMany(mappedBy = "kindOfTax", fetch = FetchType.LAZY)
 	private List<InvoiceDetailEntity> invoiceDetailEntityList;
 
 }

@@ -2,14 +2,16 @@ package com.example.nhanct.entity;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -28,7 +30,7 @@ public class MenuEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String menuName;
 	
-	@OneToMany(mappedBy = "menu")
+	@OneToMany(mappedBy = "menu", fetch = FetchType.LAZY)
 	private List<RoleMenuEntity> menuRole;
 
 	public MenuEntity(String menuCode, String menuName) {

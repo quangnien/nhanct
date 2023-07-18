@@ -1,10 +1,11 @@
 package com.example.nhanct.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 public class RoleUserId implements Serializable {
 	
 	private int roleId;

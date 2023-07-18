@@ -3,15 +3,17 @@ package com.example.nhanct.entity;
 import com.example.nhanct.annotation.Email;
 import com.example.nhanct.annotation.Phone;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -57,7 +59,7 @@ public class CustomerEntity {
 //	@Column(name = "reset_token")
 //	private String resetToken;
 
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
 	private List<InvoiceEntity> invoiceEntityList;
 
 //	@OneToMany(mappedBy = "khach_hang")

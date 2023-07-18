@@ -6,7 +6,7 @@ import com.example.nhanct.annotation.Phone;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +14,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -67,7 +68,7 @@ public class UserEntity {
 //	@JoinColumn(name = "role_id"  , insertable = false, updatable = false)
 //	private RoleEntity role;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<RoleUserEntity> roleUser;
 
 //    @OneToMany(mappedBy = "user")

@@ -1,11 +1,12 @@
 package com.example.nhanct.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "role_user")
 @IdClass(RoleUserId.class)

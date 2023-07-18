@@ -3,14 +3,16 @@ package com.example.nhanct.entity;
 
 import com.example.nhanct.annotation.Phone;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -41,7 +43,7 @@ public class BusinessEntity {
 	private String sampleSignature;
 
 	/*------------------------*/
-	@OneToMany(mappedBy = "business")
+	@OneToMany(mappedBy = "business", fetch = FetchType.LAZY)
 	private List<InvoiceEntity> invoiceEntityList;
 
 }

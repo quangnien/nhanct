@@ -3,7 +3,7 @@
 //import com.example.nhanct.annotation.Email;
 //import com.example.nhanct.annotation.Phone;
 //import lombok.AllArgsConstructor;
-//import lombok.Data;
+//import lombok.*;
 //import lombok.NoArgsConstructor;
 //import org.hibernate.validator.constraints.Length;
 //
@@ -12,7 +12,8 @@
 //import java.util.List;
 //
 //
-//@Data
+//@Getter
+@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity

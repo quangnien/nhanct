@@ -1,13 +1,14 @@
 //package com.example.nhanct.entity;
 //
 //import lombok.AllArgsConstructor;
-//import lombok.Data;
+//import lombok.*;
 //
 //import javax.persistence.*;
 //import java.util.Date;
 //import java.util.UUID;
 //
-//@Data
+//@Getter
+@Setter
 //@AllArgsConstructor
 //@Entity
 //@Table(name="confirmation_token")

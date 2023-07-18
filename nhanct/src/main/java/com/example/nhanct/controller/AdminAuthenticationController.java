@@ -30,8 +30,8 @@ public class AdminAuthenticationController {
 	}
 	
 	@RequestMapping("/403")
-	public String eror() {
-		return "admin/403";
+	public String error() {
+		return "403";
 	}
 	
 	@GetMapping("/logout/admin")

@@ -2,7 +2,8 @@ package com.example.nhanct.dto;
 
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleForAccountDto {
