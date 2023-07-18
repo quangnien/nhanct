@@ -1,9 +1,10 @@
 package com.example.nhanct.controller;
 
 import com.example.nhanct.consts.MenuConstant;
-import com.example.nhanct.entity.CustomerEntity;
-import com.example.nhanct.service.CustomerService;
+import com.example.nhanct.entity.WarehouseEntity;
+import com.example.nhanct.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,15 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("admin/customer")
-public class CustomerController extends FunctionCommon {
+@RequestMapping("admin/warehouse")
+public class WarehouseController extends FunctionCommon {
 
 	@Autowired
-	private CustomerService invoiceTypeService;
+	private WarehouseService invoiceTypeService;
 
 	@GetMapping("")
 	public String index(ModelMap model) {
-		if(hasRoleAuthor(MenuConstant.CUSTOMER) == false) {
+		if(hasRoleAuthor(MenuConstant.WAREHOUSE) == false) {
 			return "deny/deny";
 		}
 		menuListRole(model);
@@ -31,22 +32,22 @@ public class CustomerController extends FunctionCommon {
 
 	@GetMapping("/page/{pageNumber}")
 	public String listPage(ModelMap model, @PathVariable("pageNumber") int currentPage) {
-		if(hasRoleAuthor(MenuConstant.CUSTOMER) == false) {
+		if(hasRoleAuthor(MenuConstant.WAREHOUSE) == false) {
 			return "deny/deny";
 		}
 		menuListRole(model);
-		Page<CustomerEntity> page = invoiceTypeService.findAll(currentPage);
+		Page<WarehouseEntity> page = invoiceTypeService.findAll(currentPage);
 		long totalItems = page.getTotalElements();
 		int totalPages = page.getTotalPages();
 
-		List<CustomerEntity> listCustomer = page.getContent();
+		List<WarehouseEntity> listWarehouse = page.getContent();
 
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalItems", totalItems);
 		model.addAttribute("totalPages", totalPages);
 
-		model.addAttribute("listCustomer", listCustomer);
-		return "customer/index";
+		model.addAttribute("listWarehouse", listWarehouse);
+		return "warehouse/index";
 	}
 
 }

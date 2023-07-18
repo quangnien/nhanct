@@ -23,7 +23,11 @@ public class WarehouseEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String warehouseName;
 
-//	@OneToMany(mappedBy = "khach_hang")
+	@Column(name="warehouse_code")
+	@NotBlank(message = "Please Input This Field!")
+	private String warehouseCode;
+
+//	@OneToMany(mappedBy = "customer")
 //	private List<ReviewEntity> review;
 
 }

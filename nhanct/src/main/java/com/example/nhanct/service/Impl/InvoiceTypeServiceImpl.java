@@ -1,8 +1,8 @@
 package com.example.nhanct.service.Impl;
 
-import com.example.nhanct.entity.CustomerEntity;
-import com.example.nhanct.repository.CustomerRepository;
-import com.example.nhanct.service.CustomerService;
+import com.example.nhanct.entity.InvoiceTypeEntity;
+import com.example.nhanct.repository.InvoiceTypeRepository;
+import com.example.nhanct.service.InvoiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,14 +10,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
+public class InvoiceTypeServiceImpl implements InvoiceTypeService {
 
 	@Autowired
-	private CustomerRepository CustomerRepository;
+	private InvoiceTypeRepository InvoiceTypeRepository;
     
 	@Override
-	public Page<CustomerEntity> findAll(int pageNumber) {
+	public Page<InvoiceTypeEntity> findAll(int pageNumber) {
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
-		return CustomerRepository.findAll(pageable);
+		return InvoiceTypeRepository.findAll(pageable);
 	}
 }

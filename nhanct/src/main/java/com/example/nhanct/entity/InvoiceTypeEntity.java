@@ -23,6 +23,10 @@ public class InvoiceTypeEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String nameOfInvoiceType;
 
+	@Column(name = "code_of_invoice_type")
+	@NotBlank(message = "Please Input This Field!")
+	private String codeOfInvoiceType;
+
 	/*------------------------*/
 	@OneToMany(mappedBy = "invoiceType", fetch = FetchType.LAZY)
 	private List<IssueInvoiceEntity> issueInvoiceEntityList;
