@@ -33,16 +33,17 @@
 									<thead>
 										<tr>
 											<th>STT</th>
-											<th>Kind Of Tax Code</th>
-											<th>Kind Of Tax Name</th>
+											<th>Code Of Tax</th>
+											<th>Name Of Tax</th>
+											<th>Ratio (%)</th>
 										</tr>
 									</thead>
 									<tbody id="tbodyRole">
 										<tr th:each="item, state : ${listKindOfTax}">
-											<!--<th style="display:none;" th:text="${item.id}">1</th>-->
 											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
+											<td th:text="${item.codeOfTax}"></td>
 											<td th:text="${item.nameOfTax}"></td>
-											<td th:text="${item.}"></td>
+											<td th:text="${item.ratio}"></td>
 									</tbody>
 								</table>
 							</div>

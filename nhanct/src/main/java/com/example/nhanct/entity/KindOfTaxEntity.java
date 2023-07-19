@@ -23,6 +23,10 @@ public class KindOfTaxEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String nameOfTax;
 
+	@Column(name="code_of_tax")
+	@NotBlank(message = "Please Input This Field!")
+	private String codeOfTax;
+
 	@Column(name = "ratio")
 	@Min(value=0, message = "Min price is 0")
 	private int ratio;

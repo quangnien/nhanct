@@ -33,16 +33,22 @@
 									<thead>
 										<tr>
 											<th>STT</th>
-											<th>Customer Code</th>
 											<th>Customer Name</th>
+											<th>Address</th>
+											<th>Email</th>
+											<th>MST</th>
+											<th>Phone</th>
 										</tr>
 									</thead>
 									<tbody id="tbodyRole">
 										<tr th:each="item, state : ${listCustomer}">
 											<!--<th style="display:none;" th:text="${item.id}">1</th>-->
 											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
-											<td th:text="${item.customerCode}"></td>
 											<td th:text="${item.customerName}"></td>
+											<td th:text="${item.address}"></td>
+											<td th:text="${item.email}"></td>
+											<td th:text="${item.mst}"></td>
+											<td th:text="${item.phone}"></td>
 									</tbody>
 								</table>
 							</div>
