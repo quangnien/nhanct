@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum StatusOfInvoiceEnum {
-    CHO_LAY_HANG("Waiting for pick-up", "Waiting for pick-up."),
-    DANG_LAY_HANG("Currently picking up the goods", "Currently picking up the goods"),
-    DANG_GIAO_HANG("Currently delivering the goods", "Currently delivering the goods"),
-    DA_GIAO_HANG("The goods have been delivered", "The goods have been delivered"),
-    DA_YEU_CAU_HUY_DON_HANG("Cancellation of the order has been requested", "Cancellation of the order has been requested"),
-    XAC_NHAN_DA_HUY_DON_HANG("Cancellation of the order has been confirmed", "Cancellation of the order has been confirmed");
+    DU_THAO("Draft", "Draft"),
+    CHO_DUYET("Waiting Approve", "Waiting Approve"),
+    DA_DUYET("Approved", "Approved"),
+    DA_HUY("Canceled", "Canceled"),
+    ;
 
     private final String code;
     private final String text;
@@ -24,23 +23,19 @@ public enum StatusOfInvoiceEnum {
 
     public static List<CodeAndTextDto> getComboList() {
         List<CodeAndTextDto> list = new ArrayList<>();
-        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.CHO_LAY_HANG.getCode(), StatusOfInvoiceEnum.CHO_LAY_HANG.getText()));
-        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DANG_LAY_HANG.getCode(), StatusOfInvoiceEnum.DANG_LAY_HANG.getText()));
-        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DANG_GIAO_HANG.getCode(), StatusOfInvoiceEnum.DANG_GIAO_HANG.getText()));
-        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DA_GIAO_HANG.getCode(), StatusOfInvoiceEnum.DA_GIAO_HANG.getText()));
-        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DA_YEU_CAU_HUY_DON_HANG.getCode(), StatusOfInvoiceEnum.DA_YEU_CAU_HUY_DON_HANG.getText()));
-        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.XAC_NHAN_DA_HUY_DON_HANG.getCode(), StatusOfInvoiceEnum.XAC_NHAN_DA_HUY_DON_HANG.getText()));
+        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.CHO_DUYET.getCode(), StatusOfInvoiceEnum.CHO_DUYET.getText()));
+        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DA_DUYET.getCode(), StatusOfInvoiceEnum.DA_DUYET.getText()));
+        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DA_HUY.getCode(), StatusOfInvoiceEnum.DA_HUY.getText()));
+        list.add(new CodeAndTextDto(StatusOfInvoiceEnum.DU_THAO.getCode(), StatusOfInvoiceEnum.DU_THAO.getText()));
         return list;
     }
 
     public static List<Select2Dto> getSelect2ComboList() {
         List<Select2Dto> list = new ArrayList<>();
-        list.add(new Select2Dto(StatusOfInvoiceEnum.CHO_LAY_HANG.getCode(), StatusOfInvoiceEnum.CHO_LAY_HANG.getText(), StatusOfInvoiceEnum.CHO_LAY_HANG.getText()));
-        list.add(new Select2Dto(StatusOfInvoiceEnum.DANG_LAY_HANG.getCode(), StatusOfInvoiceEnum.DANG_LAY_HANG.getText(), StatusOfInvoiceEnum.DANG_LAY_HANG.getText()));
-        list.add(new Select2Dto(StatusOfInvoiceEnum.DANG_GIAO_HANG.getCode(), StatusOfInvoiceEnum.DANG_GIAO_HANG.getText(), StatusOfInvoiceEnum.DANG_GIAO_HANG.getText()));
-        list.add(new Select2Dto(StatusOfInvoiceEnum.DA_GIAO_HANG.getCode(), StatusOfInvoiceEnum.DA_GIAO_HANG.getText(), StatusOfInvoiceEnum.DA_GIAO_HANG.getText()));
-        list.add(new Select2Dto(StatusOfInvoiceEnum.DA_YEU_CAU_HUY_DON_HANG.getCode(), StatusOfInvoiceEnum.DA_YEU_CAU_HUY_DON_HANG.getText(), StatusOfInvoiceEnum.DA_YEU_CAU_HUY_DON_HANG.getText()));
-        list.add(new Select2Dto(StatusOfInvoiceEnum.XAC_NHAN_DA_HUY_DON_HANG.getCode(), StatusOfInvoiceEnum.XAC_NHAN_DA_HUY_DON_HANG.getText(), StatusOfInvoiceEnum.XAC_NHAN_DA_HUY_DON_HANG.getText()));
+        list.add(new Select2Dto(StatusOfInvoiceEnum.CHO_DUYET.getCode(), StatusOfInvoiceEnum.CHO_DUYET.getText(), StatusOfInvoiceEnum.CHO_DUYET.getText()));
+        list.add(new Select2Dto(StatusOfInvoiceEnum.DA_DUYET.getCode(), StatusOfInvoiceEnum.DA_DUYET.getText(), StatusOfInvoiceEnum.DA_DUYET.getText()));
+        list.add(new Select2Dto(StatusOfInvoiceEnum.DA_HUY.getCode(), StatusOfInvoiceEnum.DA_HUY.getText(), StatusOfInvoiceEnum.DA_HUY.getText()));
+        list.add(new Select2Dto(StatusOfInvoiceEnum.DU_THAO.getCode(), StatusOfInvoiceEnum.DU_THAO.getText(), StatusOfInvoiceEnum.DU_THAO.getText()));
         return list;
     }
 

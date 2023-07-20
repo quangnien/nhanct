@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Search Invoice Detail</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="/admin/invoice"> <i
+									class="feather"></i> Invoice
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Invoice Detail List</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card px-3">
+						<div class="card-header px-0 pb-2">
+							<h2 class="text-uppercase text-center">Invoice Detail List</h2>
+							<a th:href="@{/admin/invoice/detail/add}" class="btn btn-sm btn-primary">Add NewInvoice Detail</a>
+						</div>
+						<div class="card-block table-border-style">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>STT</th>
+											<th>Item Name</th>
+											<th>DVT</th>
+											<th>Quantity</th>
+											<th>Price</th>
+											<th>Price Before Tax</th>
+											<th>Price After Tax</th>
+											<th>Price Of Tax</th>
+											<th>Sum Money After Tax</th>
+											<th>Kind Of Tax</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+
+									<div>
+<!--										<form th:action="@{/admin/invoice/detail/search(invoiceId=${invoiceId})}">-->
+<!--											Filter: <input type="text" name="keyword"-->
+<!--												th:value="${keyword}" required /> &nbsp; <input-->
+<!--												type="submit" value="Search" />-->
+<!--										</form>-->
+<!--										<a th:href="@{/admin/invoice/detail}"><input type="submit"-->
+<!--											value="clear" /></a>-->
+										<tbody id="tbodyRole">
+											<tr th:each="item, state: ${listInvoiceDetail}">
+												<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
+												<td th:text="${item.itemName}"></td>
+												<td th:text="${item.dvt}"></td>
+												<td th:text="${item.quantity}"></td>
+												<td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">1</td>
+												<td th:text="${#numbers.formatDecimal(item.priceBeforeTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+												<td th:text="${#numbers.formatDecimal(item.priceAfterTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+												<td th:text="${#numbers.formatDecimal(item.priceOfTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+												<td th:text="${#numbers.formatDecimal(item.sumMoneyAfterTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+												<td th:text="${item.kindOfTax.codeOfTax}">1</td>
+
+												<td><a th:href="@{/admin/invoice/detail/edit(id=${item.id})}"
+													class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+													<a th:href="@{/admin/invoice/detail/delete(id=${item.id})}"
+													class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>
+												</td>
+											</tr>
+										</tbody>
+									</div>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

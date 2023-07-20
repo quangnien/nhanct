@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
 
@@ -19,5 +21,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 	public Page<WarehouseEntity> findAll(int pageNumber) {
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
 		return WarehouseRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<WarehouseEntity> findAll() {
+		return WarehouseRepository.findAll();
 	}
 }

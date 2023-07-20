@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Invoice Detail Management</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="/admin/invoice"> <i
+									class="feather"></i> Invoice
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Invoice Detail List</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card px-3">
+						<div class="card-header px-0 pb-2">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Invoice Detail List</h2>
+							<a th:href="@{/admin/invoice/detail/add(invoiceId=${invoiceId})}" class="btn btn-sm btn-primary">Add New Invoice Detail</a>
+						</div>
+
+						<div>
+<!--							<form th:action="@{/admin/invoice/detail/search(invoiceId=${invoiceId})}">-->
+<!--								Filter: <input type="text" name="keyword" th:value="${keyword}"-->
+<!--									required /> &nbsp; <input type="submit" value="Search" />-->
+<!--								&nbsp; <input type="submit" value="clear" />-->
+<!--							</form>-->
+						</div>
+
+						<div class="card-block table-border-style">
+						<!-- học grid để chia table đẹp hơn -->
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>STT</th>
+											<th>Item Name</th>
+											<th>DVT</th>
+											<th>Quantity</th>
+											<th>Price</th>
+											<th>Price Before Tax</th>
+											<th>Price After Tax</th>
+											<th>Price Of Tax</th>
+											<th>Sum Money After Tax</th>
+											<th>Kind Of Tax</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="tbodyRole">
+										<tr th:each="item, state: ${listInvoiceDetail}">
+											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
+											<td th:text="${item.itemName}"></td>
+											<td th:text="${item.dvt}"></td>
+											<td th:text="${item.quantity}"></td>
+											<td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">1</td>
+											<td th:text="${#numbers.formatDecimal(item.priceBeforeTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+											<td th:text="${#numbers.formatDecimal(item.priceAfterTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+											<td th:text="${#numbers.formatDecimal(item.priceOfTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+											<td th:text="${#numbers.formatDecimal(item.sumMoneyAfterTax, 0, 'COMMA', 0, 'POINT')}">1</td>
+											<td th:text="${item.kindOfTax.codeOfTax}">1</td>
+
+											<td><a th:href="@{/admin/invoice/detail/edit(id=${item.id}, invoiceId=${invoiceId})}"
+												class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+												<a th:href="@{/admin/invoice/detail/confirm-delete(id=${item.id}, invoiceId=${invoiceId})}"
+												class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div>&nbsp;</div>
+
+							<div>
+								Total Items: [[${totalItems}]] -- Page [[${currentPage}]] of
+								[[${totalPages}]] &nbsp; <a th:if="${totalPages > 1}"
+									th:href="@{'/admin/invoice/detail/page/' + ${1}}" class="text-success">First
+								</a> <a th:if="${(totalPages > 1) && (currentPage > 1)} "
+									th:href="@{'/admin/invoice/detail/page/' + ${currentPage -1} }"
+									class="text-success">Previous</a> <span
+									th:each="i: ${#numbers.sequence(1, totalPages)}"
+									class="text-danger"> <a th:if="${i != currentPage}"
+									th:href="@{'/admin/invoice/detail/page/' + ${i}}" class="text-danger">[[${i}]]</a>
+									<span th:unless="${i != currentPage}" class="text-danger">[[${i}]]</span>
+									&nbsp; &nbsp;
+								</span> <a th:if="${(totalPages > 1) && (currentPage < totalPages)}"
+									th:href="@{'/admin/invoice/detail/page/' + ${currentPage +1} }"
+									class="text-primary">Next </a> <a th:if="${totalPages > 1}"
+									th:href="@{'/admin/invoice/detail/page/' + ${totalPages}}"
+									class="text-success">Last</a>
+							</div>
+
+						</div>
+
+						<div class="col-12 mt-3">
+							<div class="form-group">
+								<a th:href="@{/admin/invoice}"
+								   class="btn btn-secondary text-white">Back</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

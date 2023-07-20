@@ -8,7 +8,7 @@
 //import java.util.UUID;
 //
 //@Getter
-@Setter
+//@Setter
 //@AllArgsConstructor
 //@Entity
 //@Table(name="confirmation_token")

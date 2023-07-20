@@ -23,6 +23,10 @@ public interface IssueInvoiceRepository extends JpaRepository<IssueInvoiceEntity
             " JOIN InvoiceTypeEntity ip ON ip.id = s.invoiceTypeId")
     List<IssueInvoiceEntity> findAll();
 
+	@Query("SELECT s FROM IssueInvoiceEntity s " +
+			" ORDER BY s.id DESC")
+	List<IssueInvoiceEntity> findAllOrderByIdDesc();
+
 //	List<IssueInvoiceEntity> findByCategoryId(int id);
 
 	//paging by category

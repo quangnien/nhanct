@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Add New Invoice Detail</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Add New Invoice Detail</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Add New Invoice Detail</h2>
+						</div>
+						<div class="card-block">
+							<form th:action="@{/admin/invoice/detail/add(invoiceId=${invoiceId})}" th:object="${invoiceDetail}"
+								method="post" enctype="multipart/form-data">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Item Name</label>
+											<input name="des" th:field="*{itemName}" class="form-control"
+												   rows="5"/>
+											<span class="text-danger"
+												  th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>DVT</label>
+											<input name="des" th:field="*{dvt}" class="form-control"
+												   rows="5"/>
+											<span class="text-danger"
+												  th:if="${#fields.hasErrors('dvt')}" th:errors="*{dvt}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>Kind Of Tax</label> <select th:field="*{kindOfTaxId}"
+																			   class="form-control">
+											<option th:each="item: ${listKindOfTax}" th:value="${item.id}"
+													th:text="${item.nameOfTax}"></option>
+										</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('kindOfTaxId')}"
+														th:errors="*{kindOfTaxId}"></span>
+										</div>
+
+									</div>
+									<div class="col-md-6">
+
+										<div class="form-group ">
+											<label class="input_inline">Quantity</label> <input
+												type="number" min="0" value="0" max="100000000"
+												th:field="*{quantity}" class="form-control input_inline" /> <span
+												class="text-danger col-md-6"
+												th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></span>
+										</div>
+
+										<div class="form-group ">
+											<label class="input_inline">Price</label> <input
+												type="number" min="0" value="0" max="100000000"
+												th:field="*{price}" class="form-control input_inline" /> <span
+												class="text-danger col-md-6"
+												th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+										</div>
+
+									</div>
+									<div class="col-12 mt-3">
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary m-b-0">Save</button>
+											<a th:href="@{/admin/invoice/detail(invoiceId=${invoiceId})}"
+												class="btn btn-secondary text-white">Back</a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

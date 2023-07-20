@@ -46,7 +46,7 @@ public class FunctionCommon {
 
         List<MenuEntity> menuEntityList = new ArrayList<>();
 
-        for(Object itemRole : tg){
+        for(Object itemRole : tg) {
             List<MenuEntity> menuEntityListItem = menuService.findAllByRoleCode(itemRole.toString());
             for(MenuEntity menuEntity : menuEntityListItem){
                 menuEntityList.add(menuEntity);

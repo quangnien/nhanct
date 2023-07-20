@@ -9,15 +9,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class KindOfTaxServiceImpl implements KindOfTaxService {
 
 	@Autowired
-	private KindOfTaxRepository KindOfTaxRepository;
+	private KindOfTaxRepository kindOfTaxRepository;
     
 	@Override
 	public Page<KindOfTaxEntity> findAll(int pageNumber) {
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
-		return KindOfTaxRepository.findAll(pageable);
+		return kindOfTaxRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<KindOfTaxEntity> findAll() {
+		return kindOfTaxRepository.findAll();
 	}
 }

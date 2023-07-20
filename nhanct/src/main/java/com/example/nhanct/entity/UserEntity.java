@@ -71,6 +71,12 @@ public class UserEntity {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<RoleUserEntity> roleUser;
 
+	@OneToMany(mappedBy = "issuerUser", fetch = FetchType.LAZY)
+	private List<InvoiceEntity> invoiceEntityInput;
+
+	@OneToMany(mappedBy = "releaserUser", fetch = FetchType.LAZY)
+	private List<InvoiceEntity> invoiceEntityOutput;
+
 //    @OneToMany(mappedBy = "user")
 //	private List<InvoiceEntity> invoice;
 	

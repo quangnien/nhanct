@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Add New Invoice</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Add New Invoice</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Add New Invoice</h2>
+						</div>
+						<div class="card-block">
+							<form th:action="@{/admin/invoice/add}" th:object="${invoice}"
+								method="post" enctype="multipart/form-data">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Business</label> <select th:field="*{businessId}"
+																			class="form-control">
+											<option th:each="item: ${listBusiness}" th:value="${item.id}"
+													th:text="${item.businessName}"></option>
+										</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('businessId')}"
+														th:errors="*{businessId}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>Customer</label> <select th:field="*{customerId}"
+																			class="form-control">
+											<option th:each="item: ${listCustomer}" th:value="${item.id}"
+													th:text="${item.customerName}"></option>
+										</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('customerId')}"
+														th:errors="*{customerId}"></span>
+										</div>
+
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Warehouse To Input</label> <select th:field="*{inputWarehouseId}"
+																					  class="form-control">
+											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+													th:text="${item.warehouseName}"></option>
+										</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('inputWarehouseId')}"
+														th:errors="*{inputWarehouseId}"></span>
+										</div>
+
+										<div class="form-group">
+											<label>Warehouse To Output</label> <select th:field="*{outputWarehouseId}"
+																					   class="form-control">
+											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+													th:text="${item.warehouseName}"></option>
+											</select> <span class="text-danger"
+															th:if="${#fields.hasErrors('outputWarehouseId')}"
+															th:errors="*{outputWarehouseId}"></span>
+										</div>
+
+<!--										<div class="form-group">-->
+<!--											<label>Issue Invoice</label> <select th:field="*{issueInvoicesId}"-->
+<!--																				 class="form-control">-->
+<!--											<option th:each="item: ${listIssueInvoice}" th:value="${item.id}"-->
+<!--													th:text="${item.symbol}"></option>-->
+<!--											</select> <span class="text-danger"-->
+<!--															th:if="${#fields.hasErrors('issueInvoicesId')}"-->
+<!--															th:errors="*{issueInvoicesId}"></span>-->
+<!--										</div>-->
+
+									</div>
+									<div class="col-12 mt-3">
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary m-b-0">Save</button>
+											<a th:href="@{/admin/invoice}"
+												class="btn btn-secondary text-white">Back</a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

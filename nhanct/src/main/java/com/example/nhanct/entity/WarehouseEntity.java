@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,7 +28,17 @@ public class WarehouseEntity {
 	@NotBlank(message = "Please Input This Field!")
 	private String warehouseCode;
 
+	/*______________________________________________*/
+
+	@OneToMany(mappedBy = "inputWarehouse", fetch = FetchType.LAZY)
+	private List<InvoiceEntity> invoiceEntityIssuer;
+
+	@OneToMany(mappedBy = "outputWarehouse", fetch = FetchType.LAZY)
+	private List<InvoiceEntity> invoiceEntityReleaser;
+
 //	@OneToMany(mappedBy = "customer")
 //	private List<ReviewEntity> review;
+
+
 
 }

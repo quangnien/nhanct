@@ -3,6 +3,7 @@ package com.example.nhanct.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -32,22 +34,17 @@ public class InvoiceEntity {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date releaseDate;
 
-	@Column(name="issuer_id")
-	private int issuerId;
-
-	@Column(name="releaser_id")
-	private int releaserId;
-
 	@Column(name = "status")
-	@NotBlank(message = "Please Input This Field!")
 	private String status;
 
 	@Column(name = "reason_for_cancellation")
-	@NotBlank(message = "Please Input This Field!")
 	private String reasonForCancellation;
 
 	@Column(name = "sum_price")
 	private int sumPrice;
+
+	@Column(name = "symbol")
+	private String symbol;
 
 	/*------------------------*/
 	@OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY)
@@ -64,7 +61,7 @@ public class InvoiceEntity {
 
 	/*------------ begin ------------*/
 	@Column(name = "issue_invoice_id")
-	private int issueInvoicesId;
+	private int issueInvoiceId;
 
 	@ManyToOne
 	@JoinColumn(name = "issue_invoice_id", insertable = false, updatable = false)
@@ -84,9 +81,34 @@ public class InvoiceEntity {
 	@Column(name = "input_warehouse_id")
 	private int inputWarehouseId;
 
+	@ManyToOne
+	@JoinColumn(name = "input_warehouse_id", insertable = false, updatable = false)
+	private WarehouseEntity inputWarehouse;
+
 	@Column(name = "output_warehouse_id")
 	private int outputWarehouseId;
+
+	@ManyToOne
+	@JoinColumn(name = "output_warehouse_id", insertable = false, updatable = false)
+	private WarehouseEntity outputWarehouse;
 	/*------------ end ------------*/
+
+	/*------------ begin ------------*/
+	@Column(name="issuer_id")
+	private int issuerId;
+
+	@ManyToOne
+	@JoinColumn(name = "issuer_id", insertable = false, updatable = false)
+	private UserEntity issuerUser;
+
+	@Column(name="releaser_id")
+	private int releaserId;
+
+	@ManyToOne
+	@JoinColumn(name = "releaser_id", insertable = false, updatable = false)
+	private UserEntity releaserUser;
+	/*------------ end ------------*/
+
 
 //
 //	@OneToMany(mappedBy = "product")

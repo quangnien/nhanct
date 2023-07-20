@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Search Invoice</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Invoice List</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card px-3">
+						<div class="card-header px-0 pb-2">
+							<h2 class="text-uppercase text-center">Invoice List</h2>
+							<a th:href="@{/admin/invoice/add}" class="btn btn-sm btn-primary" th:if="${isAdd == 'True'}">Add NewInvoice</a>
+						</div>
+						<div class="card-block table-border-style">
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>STT</th>
+
+											<th>Business Name</th>
+											<th>Customer Name</th>
+
+											<th>Warehouse To Input</th>
+											<th>Warehouse To Output</th>
+
+											<!--											<th>Issue Invoice</th>-->
+
+											<th>Sum Price</th>
+											<th>Number Of Invoice</th>
+
+											<th>Issuer</th>
+											<th>Releaser</th>
+
+											<th>Issue Date</th>
+											<th>Release Date</th>
+
+											<th>Reason For Cancel</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+
+									<div>
+										<form th:action="@{/admin/invoice/search}">
+											Filter: <input type="text" name="keyword"
+												th:value="${keyword}" required /> &nbsp; <input
+												type="submit" value="Search" />
+										</form>
+										<a th:href="@{/admin/invoice}"><input type="submit"
+											value="clear" /></a>
+										<tbody id="tbodyRole">
+											<tr th:each="item, state: ${listInvoice}">
+												<th th:text="${state.index}">1</th>
+												<td th:text="${item.business.businessName}"></td>
+												<td th:text="${item.customer.customerName}"></td>
+
+												<td th:text="${item.inputWarehouse.warehouseName}"></td>
+												<td th:text="${item.outputWarehouse.warehouseName}"></td>
+
+												<!-- <td th:text="${item.issueInvoice.}"></td> -->
+
+												<td th:text="${item.sumPrice}">1</td>
+												<td th:text="${item.numberOfInvoice}">1</td>
+
+												<td th:text="${item.issuerUser.userName}">1</td>
+												<td th:text="${item.releaserUser.userName}">1</td>
+
+												<td th:text="${item.issueDate}">1</td>
+												<td th:text="${item.releaseDate}">1</td>
+
+												<td th:text="${item.reasonForCancellation}">1</td>
+												<td th:text="${item.status}">1</td>
+
+												<td>
+													<a th:href="@{/admin/invoice/edit(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False'&& item.status == 'Draft'}"												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+													<a th:href="@{/admin/invoice/approve(id=${item.id})}" th:if="${isChecker == 'True' && item.status != 'Approved'}"
+													   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Approve</a>
+													<a th:href="@{/admin/invoice/confirm-delete(invoiceId=${item.id})}"  th:if="${isChecker == 'True' && item.status != 'Approved'}"
+													   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Cancel</a>
+<!--													<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"-->
+<!--													   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>-->
+												</td>
+											</tr>
+										</tbody>
+									</div>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="/layout/default">
+
+<head>
+<title>Invoice Management</title>
+</head>
+
+<body>
+	<div class="main-body" layout:fragment="content">
+		<div class="page-body">
+			<div class="row">
+				<div class="col-md-12 mb-2">
+					<div class="page-header-breadcrumb">
+						<ul class="breadcrumb-title">
+							<li class="breadcrumb-item"><a href="/admin"> <i
+									class="feather icon-home"></i> Home Page
+							</a></li>
+							<li class="breadcrumb-item"><a href="#!">Invoice List</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="card px-3">
+						<div class="card-header px-0 pb-2">
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Invoice List</h2>
+							<a th:href="@{/admin/invoice/add}" class="btn btn-sm btn-primary" th:if="${isAdd == 'True'}">Add New Invoice</a>
+						</div>
+
+						<div>
+							<form th:action="@{/admin/invoice/search}">
+								Filter: <input type="text" name="keyword" th:value="${keyword}"
+									required /> &nbsp; <input type="submit" value="Search" />
+								&nbsp; <input type="submit" value="clear" />
+							</form>
+						</div>
+
+
+						<div class="card-block table-border-style">
+						<!-- học grid để chia table đẹp hơn -->
+							<div class="table-responsive">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>STT</th>
+
+											<th>Business Name</th>
+											<th>Customer Name</th>
+
+											<th>Warehouse To Input</th>
+											<th>Warehouse To Output</th>
+
+<!--											<th>Issue Invoice</th>-->
+
+											<th>Sum Price</th>
+											<th>Number Of Invoice</th>
+
+											<th>Issuer</th>
+											<th>Releaser</th>
+
+											<th>Issue Date</th>
+											<th>Release Date</th>
+
+											<th>Reason For Cancel</th>
+											<th>Status</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="tbodyRole">
+										<tr th:each="item, state: ${listInvoice}">
+											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
+											<td th:text="${item.business.businessName}"></td>
+											<td th:text="${item.customer.customerName}"></td>
+
+											<td th:text="${item.inputWarehouse.warehouseName}"></td>
+											<td th:text="${item.outputWarehouse.warehouseName}"></td>
+
+											<!--											<td th:text="${item.issueInvoice.}"></td>-->
+
+											<td th:text="${item.sumPrice}">1</td>
+
+											<td th:if="${item.status == 'Approved'}" th:text="${item.numberOfInvoice}">1</td>
+											<td th:if="${item.status != 'Approved'}"></td>
+
+											<td th:text="${item.issuerUser.userName}"></td>
+											<td th:if="${item.status == 'Approved'}" th:text="${item.releaserUser.userName}"></td>
+											<td th:if="${item.status != 'Approved'}"></td>
+
+											<td th:text="${item.issueDate}">1</td>
+											<td th:text="${item.releaseDate}">1</td>
+
+											<td th:text="${item.reasonForCancellation}">1</td>
+											<td th:text="${item.status}">1</td>
+
+											<td>
+												<a th:href="@{/admin/invoice/edit(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+												<a th:href="@{/admin/invoice/approve(id=${item.id})}" th:if="${isChecker == 'True' && item.status != 'Approved' && item.status != 'Canceled'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Approve</a>
+												<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"  th:if="${isChecker == 'True' && item.status != 'Approved' && item.status != 'Canceled'}"
+												   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Cancel</a>
+												<a th:href="@{/admin/invoice/detail(invoiceId=${item.id})}" th:if="${item.status == 'Draft'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Invoice Detail</a>
+												<!--<a th:href="@{/admin/invoice/edit(id=${item.id})}"
+												class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+												<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"
+												class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>-->
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+							<div>&nbsp;</div>
+
+							<div>
+								Total Items: [[${totalItems}]] -- Page [[${currentPage}]] of
+								[[${totalPages}]] &nbsp; <a th:if="${totalPages > 1}"
+									th:href="@{'/admin/invoice/page/' + ${1}}" class="text-success">First
+								</a> <a th:if="${(totalPages > 1) && (currentPage > 1)} "
+									th:href="@{'/admin/invoice/page/' + ${currentPage -1} }"
+									class="text-success">Previous</a> <span
+									th:each="i: ${#numbers.sequence(1, totalPages)}"
+									class="text-danger"> <a th:if="${i != currentPage}"
+									th:href="@{'/admin/invoice/page/' + ${i}}" class="text-danger">[[${i}]]</a>
+									<span th:unless="${i != currentPage}" class="text-danger">[[${i}]]</span>
+									&nbsp; &nbsp;
+								</span> <a th:if="${(totalPages > 1) && (currentPage < totalPages)}"
+									th:href="@{'/admin/invoice/page/' + ${currentPage +1} }"
+									class="text-primary">Next </a> <a th:if="${totalPages > 1}"
+									th:href="@{'/admin/invoice/page/' + ${totalPages}}"
+									class="text-success">Last</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

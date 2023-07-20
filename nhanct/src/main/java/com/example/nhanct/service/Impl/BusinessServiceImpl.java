@@ -9,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BusinessServiceImpl implements BusinessService {
 
@@ -19,5 +21,10 @@ public class BusinessServiceImpl implements BusinessService {
 	public Page<BusinessEntity> findAll(int pageNumber) {
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
 		return BusinessRepository.findAll(pageable);
+	}
+
+	@Override
+	public List<BusinessEntity> findAll() {
+		return BusinessRepository.findAll();
 	}
 }
