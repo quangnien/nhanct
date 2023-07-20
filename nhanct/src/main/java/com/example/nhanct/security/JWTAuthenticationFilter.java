@@ -19,28 +19,23 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter{
 
 	private UserDetailsService userDetailsService;
 	
-	// sử dụng cho việc gọi hàm kiểm tra đăng nhập
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, 
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
 			UserDetailsService userDetailsService) {
 		super(authenticationManager);
 		this.userDetailsService = userDetailsService;
 	}
 
-	// CHỨC NĂNG KIỂM TRA TOKEN
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 									FilterChain chain)
 			throws IOException, ServletException {
 		
-		//B1: Lấy token từ header
 		String tokenHeader = request.getHeader("Authorization");
 		
-		//B2: Loại bỏ tiền tố 'Bearer ' để lấy JWT token
 		if(tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
 			try {
 				String token = tokenHeader.replace("Bearer ", "");
 				
-				//B3: Giải mã token lấy email gán trong subject của token
 				String email = Jwts
 						.parser()
 						.setSigningKey("ALO123")
@@ -48,13 +43,11 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter{
 						.getBody()
 						.getSubject();
 				
-				//B4: Sử dụng email vừa lấy => truy vấn db để lấy thông tin user
 				UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 				
 				Authentication authentication = 
 						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				
-				//B5: Set thông tin user vào SecurityContext
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				
 			}
@@ -63,7 +56,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter{
 			}
 		}
 		
-		// Cho phép request đi tiếp (vào filter tiếp theo hoặc controller)
 		chain.doFilter(request, response);
 	}
 }

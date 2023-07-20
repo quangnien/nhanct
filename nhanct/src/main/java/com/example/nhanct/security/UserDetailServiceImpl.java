@@ -33,7 +33,6 @@ public class UserDetailServiceImpl implements UserDetailsService{
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
 		
-		// lưu thông tin user vào trong CustomUserDetail để Security quản lý
 		CustomUserDetail myUser = new CustomUserDetail(user.getTaiKhoanUser(), user.getPassword(), authorities);
 		
 		myUser.setEmail(user.getEmail());
@@ -46,7 +45,6 @@ public class UserDetailServiceImpl implements UserDetailsService{
 		myUser.setPassword(user.getPassword());
 		myUser.setId(user.getId());
 		
-		//trả về đối tượng chứa thông tin email, password và quyền
 		return myUser;
 	}
 }

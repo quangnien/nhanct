@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 /**
  * demo
  *
- * @author NienNQ
+ * @author NhanCT
  * @date 7/3/2023 9:35 AM
  */
 @Constraint(validatedBy = EmailValidator.class)

@@ -24,14 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	//dùng để giải mã mật khẩu (Sử dụng thư viện JBcrypt)
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 
-	//khai báo service lấy thông tin user từ db và khai báo phương thức mã hóa password
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 			auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());

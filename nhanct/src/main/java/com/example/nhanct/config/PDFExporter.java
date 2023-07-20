@@ -22,7 +22,7 @@ import static javax.swing.text.StyleConstants.ALIGN_LEFT;
 /**
  * UserPDFExporter
  *
- * @author NienNQ
+ * @author NhanCT
  * @date 7/17/2023 5:33 PM
  */
 @Builder

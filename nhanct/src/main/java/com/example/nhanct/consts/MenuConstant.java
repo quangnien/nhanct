@@ -3,7 +3,7 @@ package com.example.nhanct.consts;
 /**
  * doan
  *
- * @author NienNQ
+ * @author NhanCT
  * @date 7/6/2023 1:37 AM
  */
 public interface MenuConstant {
