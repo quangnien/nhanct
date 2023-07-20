@@ -13,9 +13,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.Configuration;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,12 +30,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 	@Autowired
 	private InvoiceRepository invoiceRepository ;
-
 	@Autowired
 	private IssueInvoiceRepository issueInvoiceRepository ;
-
 	@Autowired
 	SecurityUtils myContext;
+	private Configuration configuration;
 
 	@Override
 	public Page<InvoiceEntity> findAll(int pageNumber) {
@@ -128,8 +134,19 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
+	public void pdfForCustomer(int id) throws Exception {
+
+	}
+
+	@Override
 	public List<InvoiceEntity> findAll() {
 		return invoiceRepository.findAll();
+	}
+
+	public String getPdfContent(Map<String, String> inParams, String template)
+			throws IOException, TemplateException {
+		Template t = configuration.getTemplate(template);
+		return FreeMarkerTemplateUtils.processTemplateIntoString(t, inParams);
 	}
 
 //	@Override

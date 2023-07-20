@@ -17,4 +17,5 @@ public interface InvoiceService {
 	List<InvoiceEntity> findAllByKeyword(String keyword);
 
 	void changeStatusInvoice(int id, String status, String reason) throws Exception;
+	void pdfForCustomer(int id) throws Exception;
 }

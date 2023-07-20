@@ -77,6 +77,11 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	}
 
 	@Override
+	public List<InvoiceDetailEntity> findAllByInvoiceId(int invoiceId) {
+		return invoiceDetailRepository.findAllByInvoiceId(invoiceId);
+	}
+
+	@Override
 	public List<InvoiceDetailEntity> findAll() {
 		return invoiceDetailRepository.findAll();
 	}

@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * demo
  *
- * @author Smartee
+ * @author NienNQ
  * @date 7/3/2023 9:36 AM
  */
 public class EmailValidator implements ConstraintValidator<Email, String> {

@@ -1,9 +1,11 @@
 package com.example.nhanct.controller;
 
+import com.example.nhanct.config.PDFExporter;
 import com.example.nhanct.consts.MenuConstant;
 import com.example.nhanct.entity.*;
 import com.example.nhanct.service.*;
 import com.example.nhanct.utils.SecurityUtils;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,10 +16,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.List;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("admin/invoice")
@@ -25,6 +40,8 @@ public class InvoiceController extends FunctionCommon {
 
 	@Autowired
 	private InvoiceService invoiceService;
+	@Autowired
+	private InvoiceDetailService invoiceDetailService;
     @Autowired
 	private InvoiceTypeService invoiceTypeService;
 	@Autowired
@@ -242,6 +259,118 @@ public class InvoiceController extends FunctionCommon {
 
 		return "redirect:/admin/invoice";
 	}
+
+	/* ____________________________ EXPORT PDF ____________________________*/
+	@GetMapping("pdf-customer")
+	public void exportPdf(@RequestParam("id") int id, ModelMap model, HttpSession session, HttpServletResponse response) throws IOException, DocumentException {
+
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+		response.setHeader(headerKey, headerValue);
+
+		InvoiceEntity invoiceEntity = invoiceService.getById(id);
+		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+
+		List<String> listHeader = new ArrayList<>();
+		listHeader.add("MST");
+		listHeader.add("Address");
+		listHeader.add("Phone");
+		listHeader.add("Date");
+		listHeader.add("FullName Of Carrier");
+		listHeader.add("Vehicle For Ship");
+		listHeader.add("Warehouse Input");
+		listHeader.add("Warehouse Output");
+
+		List<String> listHeaderContent = new ArrayList<>();
+		listHeaderContent.add(invoiceEntity.getBusiness().getMst());
+		listHeaderContent.add("HCM");
+		listHeaderContent.add(invoiceEntity.getBusiness().getPhone());
+		listHeaderContent.add(new Date().toString());
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add(invoiceEntity.getInputWarehouse().getWarehouseName());
+		listHeaderContent.add(invoiceEntity.getOutputWarehouse().getWarehouseName());
+
+		List<List<String>> listDataTable = new ArrayList<>();
+		for(int i = 0; i < invoiceDetailEntityList.size(); i++){
+			List<String> listDataTableItem = new ArrayList<>();
+			listDataTableItem.add(invoiceDetailEntityList.get(i).getItemName());
+			listDataTableItem.add("");
+			listDataTableItem.add(invoiceDetailEntityList.get(i).getDvt());
+			listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getQuantity()));
+			listDataTableItem.add("");
+			listDataTableItem.add("");
+			listDataTableItem.add("");
+		}
+
+		PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON XUAT KHO KIEM VAN CHUYEN NOI BO").listHeader(listHeader)
+				.listHeaderContent(listHeaderContent).colNum(7).listDataTable(listDataTable).build();
+
+		exporter.export(response);
+//		return "redirect:/detail/invoice/edit?id="+id;
+	}
+
+
+
+	/* ____________________________ EXPORT PDF OPTION 2 - BUT NO SUCCESS with list data____________________________*/
+
+	//	@GetMapping("pdf-customer")
+	public void invoiceForCustomer(ModelMap model, @RequestParam("id") int id, HttpSession session, HttpServletResponse response) throws IOException, DocumentException {
+		menuListRole(model);
+
+		String fileName = "customer_invoice_" + id + ".pdf";
+		response.setContentType("application/pdf");
+		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+		try (OutputStream outputStream = response.getOutputStream()) {
+			String templatePath = "/templates/invoice/file/invoice_customer.html";
+			String htmlContent = parseThymeleafTemplate(templatePath, "to", "Some Address");
+			ITextRenderer renderer = new ITextRenderer();
+			renderer.setDocumentFromString(htmlContent);
+			renderer.layout();
+			renderer.createPDF(outputStream);
+		}
+
+	}
+
+	private String parseThymeleafTemplate(String templatePath, String name, String address) throws IOException {
+		// Read the template file from the specified location
+		String template = readTemplateFromFile(templatePath);
+
+		// Replace placeholders with actual values
+		String htmlContent = template.replace("${to}", name);
+		return htmlContent;
+	}
+
+	private String readTemplateFromFile(String templatePath) throws IOException {
+		InputStream inputStream = getClass().getResourceAsStream(templatePath);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+			StringBuilder stringBuilder = new StringBuilder();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line).append("\n");
+			}
+			return stringBuilder.toString();
+		}
+	}
+
+//	private String parseThymeleafTemplate() {
+//		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+//		templateResolver.setSuffix(".html");
+//		templateResolver.setTemplateMode(TemplateMode.HTML);
+//
+//		TemplateEngine templateEngine = new TemplateEngine();
+//		templateEngine.setTemplateResolver(templateResolver);
+//
+//		Context context = new Context();
+//		context.setVariable("to", "Baeldung");
+//
+//		return templateEngine.process("invoice_customer", context);
+//	}
 
 	/*---------------- begin AUTHOR ------------*/
 	private String hasRoleByParam(String roleCode) {

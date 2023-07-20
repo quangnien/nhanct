@@ -29,6 +29,7 @@ public interface InvoiceDetailRepository extends JpaRepository<InvoiceDetailEnti
 	List<InvoiceDetailEntity> findAllOrderByIdDesc();
 
 	Page<InvoiceDetailEntity> findAllByInvoiceId(int invoiceId, Pageable pageable);
+	List<InvoiceDetailEntity> findAllByInvoiceId(int invoiceId);
 
 	@Modifying
 	@Query("DELETE FROM InvoiceEntity WHERE id = ?1")

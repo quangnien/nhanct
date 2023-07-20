@@ -17,4 +17,5 @@ public interface InvoiceDetailService {
 	boolean deleteById(int id);
 
 	List<InvoiceDetailEntity> findAllByKeyword(String keyword);
+	List<InvoiceDetailEntity> findAllByInvoiceId(int invoiceId);
 }
