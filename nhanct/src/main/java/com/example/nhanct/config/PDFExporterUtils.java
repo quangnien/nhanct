@@ -25,7 +25,7 @@ public class PDFExporterUtils {
     }
 
     public static Font fontBlackHeader1(){
-        return setFont(24, Color.BLACK, FontFactory.HELVETICA_BOLD);
+        return setFont(20, Color.BLACK, FontFactory.HELVETICA_BOLD);
     }
 
     public static Font fontBlackHeader3(){
@@ -34,6 +34,10 @@ public class PDFExporterUtils {
 
     public static Font fontBlackNormal(){
         return setFont(12, Color.BLACK, FontFactory.HELVETICA);
+    }
+
+    public static Font fontBlackSmall(){
+        return setFont(8, Color.BLACK, FontFactory.HELVETICA_OBLIQUE);
     }
 
     private static Font setFont(int size, Color color, String style){

@@ -14,7 +14,7 @@
 //import java.util.List;
 //
 //@Getter
-@Setter
+//@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity

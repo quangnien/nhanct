@@ -12,7 +12,7 @@
 //import java.time.LocalDateTime;
 //
 //@Getter
-@Setter
+//@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity

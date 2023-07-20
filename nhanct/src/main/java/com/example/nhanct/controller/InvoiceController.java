@@ -276,14 +276,14 @@ public class InvoiceController extends FunctionCommon {
 		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
 
 		List<String> listHeader = new ArrayList<>();
-		listHeader.add("MST");
-		listHeader.add("Address");
-		listHeader.add("Phone");
-		listHeader.add("Date");
-		listHeader.add("FullName Of Carrier");
-		listHeader.add("Vehicle For Ship");
-		listHeader.add("Warehouse Input");
-		listHeader.add("Warehouse Output");
+		listHeader.add("MST: ");
+		listHeader.add("Address: ");
+		listHeader.add("Phone: ");
+		listHeader.add("Date: ");
+		listHeader.add("FullName Of Carrier: ");
+		listHeader.add("Vehicle For Ship: ");
+		listHeader.add("Warehouse Input: ");
+		listHeader.add("Warehouse Output: ");
 
 		List<String> listHeaderContent = new ArrayList<>();
 		listHeaderContent.add(invoiceEntity.getBusiness().getMst());
@@ -305,10 +305,29 @@ public class InvoiceController extends FunctionCommon {
 			listDataTableItem.add("");
 			listDataTableItem.add("");
 			listDataTableItem.add("");
+
+			listDataTable.add(listDataTableItem);
 		}
 
+		List<String> listTableHeader = new ArrayList<>();
+		listTableHeader.add("STT");
+		listTableHeader.add("Item Name");
+		listTableHeader.add("Number");
+		listTableHeader.add("DVT");
+		listTableHeader.add("Quantity Input");
+		listTableHeader.add("Quantity Output");
+		listTableHeader.add("Price");
+		listTableHeader.add("To Price");
+
+
+		List<String> listSign = new ArrayList<>();
+		listSign.add("Nguoi lap phieu");
+		listSign.add("Thu kho xuat");
+		listSign.add("Nguoi van chuyen");
+		listSign.add("Thu kho nhap");
+
 		PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON XUAT KHO KIEM VAN CHUYEN NOI BO").listHeader(listHeader)
-				.listHeaderContent(listHeaderContent).colNum(7).listDataTable(listDataTable).build();
+				.listHeaderContent(listHeaderContent).colNum(8).listDataTable(listDataTable).listTableHeader(listTableHeader).listSign(listSign).build();
 
 		exporter.export(response);
 //		return "redirect:/detail/invoice/edit?id="+id;

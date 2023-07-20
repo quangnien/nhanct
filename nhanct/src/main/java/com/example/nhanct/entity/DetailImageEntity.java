@@ -7,7 +7,7 @@
 //
 //import javax.persistence.*;
 //@Getter
-@Setter
+//@Setter
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Entity
