@@ -44,8 +44,9 @@
 									<thead>
 										<tr>
 											<th>STT</th>
+											<th>Status</th>
+											<th>Action</th>
 
-											<th>Business Name</th>
 											<th>Customer Name</th>
 
 											<th>Warehouse To Input</th>
@@ -63,14 +64,30 @@
 											<th>Release Date</th>
 
 											<th>Reason For Cancel</th>
-											<th>Status</th>
-											<th>Action</th>
 										</tr>
 									</thead>
 									<tbody id="tbodyRole">
 										<tr th:each="item, state: ${listInvoice}">
 											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
-											<td th:text="${item.business.businessName}"></td>
+											<td th:text="${item.status}">1</td>
+											<td>
+												<a th:href="@{/admin/invoice/edit(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+												<a th:href="@{/admin/invoice/detail(invoiceId=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Invoice Detail</a>
+												<a th:href="@{/admin/invoice/request-to-approve(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Request to approve</a>
+
+												<a th:href="@{/admin/invoice/approve(id=${item.id})}" th:if="${isAdd == 'False' && isChecker == 'True' && item.status == 'Waiting Approve'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Approve</a>
+												<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"  th:if="${isAdd == 'False' && isChecker == 'True'  && item.status == 'Waiting Approve'}"
+												   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Cancel</a>
+
+												<!--													<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"-->
+												<!--													   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>-->
+											</td>
+											</td>
+<!--											<td th:text="${item.business.businessName}"></td>-->
 											<td th:text="${item.customer.customerName}"></td>
 
 											<td th:text="${item.inputWarehouse.warehouseName}"></td>
@@ -91,21 +108,8 @@
 											<td th:text="${item.releaseDate}">1</td>
 
 											<td th:text="${item.reasonForCancellation}">1</td>
-											<td th:text="${item.status}">1</td>
 
-											<td>
-												<a th:href="@{/admin/invoice/edit(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
-												<a th:href="@{/admin/invoice/approve(id=${item.id})}" th:if="${isChecker == 'True' && item.status != 'Approved' && item.status != 'Canceled'}"
-												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Approve</a>
-												<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"  th:if="${isChecker == 'True' && item.status != 'Approved' && item.status != 'Canceled'}"
-												   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Cancel</a>
-												<a th:href="@{/admin/invoice/detail(invoiceId=${item.id})}" th:if="${item.status == 'Draft'}"
-												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Invoice Detail</a>
-												<!--<a th:href="@{/admin/invoice/edit(id=${item.id})}"
-												class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
-												<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"
-												class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>-->
-											</td>
+
 										</tr>
 									</tbody>
 								</table>

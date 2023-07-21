@@ -126,6 +126,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 					invoice.setStatus(StatusOfInvoiceEnum.DA_HUY.getText());
 					invoiceRepository.save(invoice);
 				}
+				else if(status.equals("request")){
+					invoice.setStatus(StatusOfInvoiceEnum.CHO_DUYET.getText());
+					invoiceRepository.save(invoice);
+				}
 			}
 
 		}

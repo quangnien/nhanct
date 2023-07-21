@@ -242,6 +242,31 @@ public class InvoiceController extends FunctionCommon {
 		}
 	}
 
+	@GetMapping("request-to-approve")
+	public String requestToAppove(@RequestParam("id") int id, ModelMap model) {
+		if(hasRoleAuthor(MenuConstant.INVOICE) == false) {
+			return "deny/deny";
+		}
+		menuListRole(model);
+		String message = "";
+		try {
+			String status = "request";
+			try {
+				invoiceService.changeStatusInvoice(id, status, "");
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			return "redirect:/admin/invoice";
+
+		} catch (DataIntegrityViolationException e) {
+			message = "F";
+			return "redirect:/admin/invoice"+ id + "&&message="+message;
+		} catch(Exception e) {
+			message = "F";
+			return "redirect:/admin/invoice"+ id + "&&message="+message;
+		}
+	}
+
 	/*______________________________________*/
 	@GetMapping("approve")
 	public String approve(ModelMap model, @RequestParam("id") int id) {
