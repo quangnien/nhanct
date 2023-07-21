@@ -1,5 +1,6 @@
 package com.example.nhanct.service.Impl;
 
+import com.example.nhanct.dto.InvoiceDetailDto;
 import com.example.nhanct.entity.InvoiceDetailEntity;
 import com.example.nhanct.entity.KindOfTaxEntity;
 import com.example.nhanct.repository.InvoiceDetailRepository;
@@ -29,6 +30,11 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
 		Page<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailRepository.findAllByInvoiceId(invoiceId, pageable);
 		return invoiceDetailEntityList;
+	}
+
+	@Override
+	public List<InvoiceDetailDto> findAllByInvoiceIdGroupByKindOfTaxId(int id) {
+		return invoiceDetailRepository.findAllByInvoiceIdGroupByKindOfTaxId(id);
 	}
 
 	@Override
@@ -79,6 +85,11 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	@Override
 	public List<InvoiceDetailEntity> findAllByInvoiceId(int invoiceId) {
 		return invoiceDetailRepository.findAllByInvoiceId(invoiceId);
+	}
+
+	@Override
+	public List<InvoiceDetailEntity> findAllByKindOfTaxId(int invoiceId) {
+		return invoiceDetailRepository.findAllByKindOfTaxId(invoiceId);
 	}
 
 	@Override

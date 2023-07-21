@@ -13,11 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-
-import static javax.swing.text.StyleConstants.ALIGN_LEFT;
 
 /**
  * UserPDFExporter
@@ -39,10 +36,15 @@ public class PDFExporter {
     private List<String> listHeader;
     private List<String> listHeaderContent;
 
-    /* TABLE */
-    private int colNum;
-    private List<String> listTableHeader;
-    private List<List<String>> listDataTable;
+    /* TABLE 1 */
+    private int colNum1;
+    private List<String> listTableHeader1;
+    private List<List<String>> listDataTable1;
+
+    /* TABLE 2 */
+    private int colNum2;
+    private List<String> listTableHeader2;
+    private List<List<String>> listDataTable2;
 
     /* SIGN */
     private List<String> listSign;
@@ -54,7 +56,7 @@ public class PDFExporter {
     private static Font fontBlackSmall = PDFExporterUtils.fontBlackSmall();
 
 
-    private void writeTableHeader(PdfPTable table) {
+    private void writeTableHeader(PdfPTable table, List<String> listTableHeader) {
         PdfPCell cell = new PdfPCell();
         cell.setBackgroundColor(Color.GRAY);
         cell.setPadding(5);
@@ -95,7 +97,7 @@ public class PDFExporter {
         table.addCell(cellWithImage);
     }
 
-    private void writeTableData(PdfPTable table) {
+    private void writeTableData(PdfPTable table, int colNum, List<List<String>> listDataTable) {
         int count = 0;
         for (List<String> itemObject : listDataTable) {
             table.addCell(String.valueOf(count++));
@@ -118,14 +120,10 @@ public class PDFExporter {
         writeHeader(document);
 
         /* __________ TABLE 1 __________*/
-        PdfPTable table = new PdfPTable(colNum);
-        table.setWidthPercentage(100f);
-        table.setWidths(new float[] {2f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f, 3.5f});
-        table.setSpacingBefore(10);
+        addDataToTable(document, colNum1, listDataTable1, listTableHeader1);
 
-        writeTableHeader(table);
-        writeTableData(table);
-        document.add(table);
+        /* __________ TABLE 2 __________*/
+        addDataToTable(document, colNum2, listDataTable2, listTableHeader2);
 
         /* __________ TABLE SIGN __________*/
         PdfPTable tableSign = new PdfPTable(listSign.size());
@@ -146,6 +144,10 @@ public class PDFExporter {
     }
 
     private void writeHeader(Document document) throws DocumentException {
+        documentParaCommon(document, "CONG HOA XA HOI CHU NGHIA VIET NAM", "", fontBlackHeader3, Paragraph.ALIGN_CENTER);
+        documentParaCommon(document, "Doc lap - Tu do - Hanh phuc", "", fontBlackSmall, Paragraph.ALIGN_CENTER);
+        documentParaCommon(document, "______________________", "", fontBlackSmall, Paragraph.ALIGN_CENTER);
+        documentParaCommon(document, "                                ", "", fontBlackHeader1, Paragraph.ALIGN_CENTER);
         documentParaCommon(document, titleHeader, "", fontBlackHeader1, Paragraph.ALIGN_CENTER);
         documentParaCommon(document, "________________________________", "", fontBlackHeader1, Paragraph.ALIGN_CENTER);
         documentParaCommon(document, "                                ", "", fontBlackHeader1, Paragraph.ALIGN_CENTER);
@@ -158,5 +160,18 @@ public class PDFExporter {
         Paragraph paragraph= new Paragraph(header + headerContent, font);
         paragraph.setAlignment(alignment);
         document.add(paragraph);
+    }
+
+    private void addDataToTable(Document document, int colNum, List<List<String>> listDataTable,  List<String> listDataHeader ) throws DocumentException {
+        if(colNum != 0) {
+            PdfPTable table = new PdfPTable(colNum);
+            table.setWidthPercentage(100f);
+            table.setWidths(PDFExporterUtils.getTableCol(colNum));
+            table.setSpacingBefore(10);
+
+            writeTableHeader(table, listDataHeader);
+            writeTableData(table, colNum, listDataTable);
+            document.add(table);
+        }
     }
 }

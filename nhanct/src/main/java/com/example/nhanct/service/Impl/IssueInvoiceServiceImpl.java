@@ -73,6 +73,11 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 		return issueInvoiceRepository.findAll();
 	}
 
+	@Override
+	public List<IssueInvoiceEntity> findAllOrderByDate() {
+		return issueInvoiceRepository.findAllOrderByDate();
+	}
+
 //	@Override
 //	public List<IssueInvoiceEntity> finByCategoryId(int id) {
 //		return issueInvoiceRepository.findByCategoryId(id);

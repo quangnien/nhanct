@@ -2,37 +2,35 @@ package com.example.nhanct.controller;
 
 import com.example.nhanct.config.PDFExporter;
 import com.example.nhanct.consts.MenuConstant;
+import com.example.nhanct.dto.InvoiceDetailDto;
 import com.example.nhanct.entity.*;
+import com.example.nhanct.repository.KindOfTaxRepository;
 import com.example.nhanct.service.*;
 import com.example.nhanct.utils.SecurityUtils;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.BaseFont;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("admin/invoice")
@@ -52,6 +50,8 @@ public class InvoiceController extends FunctionCommon {
 	private WarehouseService warehouseService;
 	@Autowired
 	private IssueInvoiceService issueInvoiceService;
+	@Autowired
+	private KindOfTaxRepository kindOfTaxRepository;
 	@Autowired
 	private SecurityUtils myUser;
 	@Value("${adress.404}")
@@ -261,8 +261,8 @@ public class InvoiceController extends FunctionCommon {
 	}
 
 	/* ____________________________ EXPORT PDF ____________________________*/
-	@GetMapping("pdf-customer")
-	public void exportPdf(@RequestParam("id") int id, ModelMap model, HttpSession session, HttpServletResponse response) throws IOException, DocumentException {
+	@GetMapping("report/business")
+	public void exportPdfForBusiness(@RequestParam("id") int id, HttpServletResponse response) throws IOException, DocumentException {
 
 		response.setContentType("application/pdf");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -327,17 +327,167 @@ public class InvoiceController extends FunctionCommon {
 		listSign.add("Thu kho nhap");
 
 		PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON XUAT KHO KIEM VAN CHUYEN NOI BO").listHeader(listHeader)
-				.listHeaderContent(listHeaderContent).colNum(8).listDataTable(listDataTable).listTableHeader(listTableHeader).listSign(listSign).build();
+				.listHeaderContent(listHeaderContent).colNum1(8).listDataTable1(listDataTable).listTableHeader1(listTableHeader).listSign(listSign)
+				.colNum2(0).listTableHeader2(null).listDataTable2(null).build();
 
 		exporter.export(response);
-//		return "redirect:/detail/invoice/edit?id="+id;
 	}
 
+	@GetMapping("report/customer")
+	public void exportPdfForCustomer(@RequestParam("id") int id, HttpServletResponse response) throws IOException, DocumentException {
 
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+		response.setHeader(headerKey, headerValue);
+
+		InvoiceEntity invoiceEntity = invoiceService.getById(id);
+		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+
+		List<String> listHeader = new ArrayList<>();
+		listHeader.add("CONG TY CO PHAN NOI THAT HOA PHAT");
+		listHeader.add("Ma so thue:  0311942282");
+		listHeader.add("Dia chi: 76 duong so 2, khu pho 5, Phuong Binh Hung Hoa B, Quan Binh Tan, TP Ho Chi Minh, Viet Nam");
+		listHeader.add("So dien thoai: 0938024027");
+		listHeader.add("_______________________");
+		listHeader.add("Ho va ten nguoi mua hang: ");
+		listHeader.add("Ma so thue: ");
+		listHeader.add("Dia chi: ");
+		listHeader.add("Dien thoai: ");
+		listHeader.add("Email: ");
+
+		List<String> listHeaderContent = new ArrayList<>();
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add(invoiceEntity.getCustomer().getCustomerName());
+		listHeaderContent.add(invoiceEntity.getCustomer().getMst());
+		listHeaderContent.add(invoiceEntity.getCustomer().getAddress());
+		listHeaderContent.add(invoiceEntity.getCustomer().getPhone());
+		listHeaderContent.add(invoiceEntity.getCustomer().getEmail());
+
+		List<String> listTableHeader1 = new ArrayList<>();
+		listTableHeader1.add("STT");
+		listTableHeader1.add("Ten hang hoa, dich vu");
+		listTableHeader1.add("Don vi tinh");
+		listTableHeader1.add("So luong");
+		listTableHeader1.add("Don gia");
+		listTableHeader1.add("Thanh tien");
+		listTableHeader1.add("Thue xuat GTGT");
+		listTableHeader1.add("Tien xuat GTGT");
+
+		List<String> listTableHeader2 = new ArrayList<>();
+		listTableHeader2.add("STT");
+		listTableHeader2.add("Tong hop");
+		listTableHeader2.add("Thanh tien truoc thue");
+		listTableHeader2.add("Tien thue");
+		listTableHeader2.add("Tong tien thanh toan");
+
+		List<List<String>> listDataTable1 = new ArrayList<>();
+		for(int i = 0; i < invoiceDetailEntityList.size(); i++){
+			List<String> listDataTableItem = new ArrayList<>();
+			listDataTableItem.add(invoiceDetailEntityList.get(i).getItemName());
+			listDataTableItem.add(invoiceDetailEntityList.get(i).getDvt());
+			listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getQuantity()));
+			listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPrice()));
+			listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceBeforeTax()));
+			listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %");
+			listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()));
+
+			listDataTable1.add(listDataTableItem);
+		}
+
+		List<List<String>> listDataTable2 = new ArrayList<>();
+		List<KindOfTaxEntity> listKindOfTaxEntityList = kindOfTaxRepository.findAll();
+		for(KindOfTaxEntity kindOfTaxEntity : listKindOfTaxEntityList){
+			BigDecimal priceBeforeTax = BigDecimal.valueOf(0);
+			BigDecimal priceOfTax = BigDecimal.valueOf(0);
+			BigDecimal priceAfterTax = BigDecimal.valueOf(0);
+			List<InvoiceDetailEntity> invoiceDetailList = invoiceDetailService.findAllByKindOfTaxId(kindOfTaxEntity.getId());
+			for(InvoiceDetailEntity invoiceDetail: invoiceDetailList){
+				priceBeforeTax = priceBeforeTax. add(invoiceDetail.getPriceBeforeTax());
+				priceOfTax = priceOfTax.add(invoiceDetail.getPriceOfTax());
+				priceAfterTax = priceAfterTax.add(invoiceDetail.getPriceAfterTax());
+			}
+
+			List<String> listDataItem = new ArrayList<>();
+			listDataItem.add(kindOfTaxEntity.getNameOfTax());
+			listDataItem.add(priceBeforeTax.toString());
+			listDataItem.add(priceOfTax.toString());
+			listDataItem.add(priceAfterTax.toString());
+
+			listDataTable2.add(listDataItem);
+		}
+
+		List<String> listSign = new ArrayList<>();
+		listSign.add("Nguoi mua hang");
+		listSign.add("Nguoi ban hang");
+
+		PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON GIA TRI GIA TANG").listHeader(listHeader)
+				.listHeaderContent(listHeaderContent)
+				.colNum1(8).listTableHeader1(listTableHeader1).listDataTable1(listDataTable1)
+				.colNum2(5).listTableHeader2(listTableHeader2).listDataTable2(listDataTable2)
+				.listSign(listSign).build();
+
+		exporter.export(response);
+	}
+
+	@GetMapping("cancel-invoice")
+	public void exportPdfForCalcelInvoice(@RequestParam("id") int id, HttpServletResponse response) throws IOException, DocumentException {
+
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+		response.setHeader(headerKey, headerValue);
+
+		InvoiceEntity invoiceEntity = invoiceService.getById(id);
+		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+
+		List<String> listHeader = new ArrayList<>();
+		listHeader.add("Tien hanh lap bien ban ve viec huy hoa don sau");
+		listHeader.add("Ngay: ");
+		listHeader.add("Loai hoa don: ");
+		listHeader.add("Ky hieu hoa don: ");
+		listHeader.add("So hoa don: ");
+		listHeader.add("Phat hanh ngay: ");
+		listHeader.add("Nguoi phat hanh: ");
+		listHeader.add("Ly do huy: ");
+		listHeader.add("Vay chung toi lap bien ban nay de lam co so huy hoa don viet sai tren va cam ket" +
+				" khong su dung hoa don tren de ke khai thue GTGT");
+
+		List<String> listHeaderContent = new ArrayList<>();
+		listHeaderContent.add("");
+		listHeaderContent.add(new Date().toString());
+		listHeaderContent.add(invoiceEntity.getIssueInvoice().getInvoiceType().getNameOfInvoiceType());
+		listHeaderContent.add(invoiceEntity.getSymbol());
+		listHeaderContent.add(String.valueOf(invoiceEntity.getNumberOfInvoice()));
+		listHeaderContent.add(String.valueOf(invoiceEntity.getIssueDate()));
+		listHeaderContent.add(String.valueOf(invoiceEntity.getIssuerUser().getUserName()));
+		listHeaderContent.add(String.valueOf(invoiceEntity.getReasonForCancellation()));
+		listHeaderContent.add("");
+
+		List<String> listSign = new ArrayList<>();
+		listSign.add("Nguoi lap bien ban");
+		listSign.add("Nguoi dai dien");
+
+		PDFExporter exporter = PDFExporter.builder().titleHeader("BIEN BAN HUY HOA DON").listHeader(listHeader)
+				.listHeaderContent(listHeaderContent).colNum1(0).listDataTable1(null).listTableHeader1(null).listSign(listSign)
+				.colNum2(0).listTableHeader2(null).listDataTable2(null).build();
+
+		exporter.export(response);
+	}
 
 	/* ____________________________ EXPORT PDF OPTION 2 - BUT NO SUCCESS with list data____________________________*/
 
-	//	@GetMapping("pdf-customer")
+//		@GetMapping("pdf-customer")
 	public void invoiceForCustomer(ModelMap model, @RequestParam("id") int id, HttpSession session, HttpServletResponse response) throws IOException, DocumentException {
 		menuListRole(model);
 
@@ -346,9 +496,11 @@ public class InvoiceController extends FunctionCommon {
 		response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
 		try (OutputStream outputStream = response.getOutputStream()) {
-			String templatePath = "/templates/invoice/file/invoice_customer.html";
-			String htmlContent = parseThymeleafTemplate(templatePath, "to", "Some Address");
+			String templatePath = "/templates/invoice/file/invoice_customer.ftlh";
+			String htmlContent = parseThymeleafTemplate(templatePath, "", "");
 			ITextRenderer renderer = new ITextRenderer();
+			String fontPath = "./static/fonts/Baloo-Regular.ttf";
+			renderer.getFontResolver().addFont(fontPath, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
 			renderer.setDocumentFromString(htmlContent);
 			renderer.layout();
 			renderer.createPDF(outputStream);
@@ -361,8 +513,9 @@ public class InvoiceController extends FunctionCommon {
 		String template = readTemplateFromFile(templatePath);
 
 		// Replace placeholders with actual values
-		String htmlContent = template.replace("${to}", name);
-		return htmlContent;
+//		String htmlContent = template.replace("${to}", name);
+//		return htmlContent;
+		return template;
 	}
 
 	private String readTemplateFromFile(String templatePath) throws IOException {

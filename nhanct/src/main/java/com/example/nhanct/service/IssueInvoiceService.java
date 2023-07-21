@@ -9,6 +9,7 @@ import java.util.List;
 public interface IssueInvoiceService {
 
 	List<IssueInvoiceEntity> findAll();
+	List<IssueInvoiceEntity> findAllOrderByDate();
 	Page<IssueInvoiceEntity> findAll(int pageNumber);
 	IssueInvoiceEntity getById(int id);
 	void add(IssueInvoiceEntity product);

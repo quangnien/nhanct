@@ -1,5 +1,6 @@
 package com.example.nhanct.service;
 
+import com.example.nhanct.dto.InvoiceDetailDto;
 import com.example.nhanct.entity.InvoiceDetailEntity;
 import org.springframework.data.domain.Page;
 
@@ -18,4 +19,7 @@ public interface InvoiceDetailService {
 
 	List<InvoiceDetailEntity> findAllByKeyword(String keyword);
 	List<InvoiceDetailEntity> findAllByInvoiceId(int invoiceId);
+	List<InvoiceDetailEntity> findAllByKindOfTaxId(int invoiceId);
+	List<InvoiceDetailDto> findAllByInvoiceIdGroupByKindOfTaxId(int id);
+
 }

@@ -47,4 +47,38 @@ public class PDFExporterUtils {
         return setFont;
     }
 
+    static float[] getTableCol(int colNum){
+        float f2 = 2f;
+        float f35 = 3.5f;
+        if(colNum == 1){
+            return new float[] {f2};
+        }
+        else if(colNum == 2){
+            return new float[] {f2, f35};
+        }
+        else if(colNum == 3){
+            return new float[] {f2, f35, f35};
+        }
+        else if(colNum == 4){
+            return new float[] {f2, f35, f35, f35};
+        }
+        else if(colNum == 5){
+            return new float[] {f2, f35, f35, f35, f35};
+        }
+        else if(colNum == 6){
+            return new float[] {f2, f35, f35, f35, f35, f35};
+        }
+        else if(colNum == 7){
+            return new float[] {f2, f35, f35, f35, f35, f35, f35};
+        }
+        else if(colNum == 8){
+            return new float[] {f2, f35, f35, f35, f35, f35, f35, f35};
+        }
+        else if(colNum == 9){
+            return new float[] {f2, f35, f35, f35, f35, f35, f35, f35, f35};
+        }
+
+        return new float[0];
+    }
+
 }

@@ -7,7 +7,6 @@ import com.example.nhanct.repository.InvoiceRepository;
 import com.example.nhanct.repository.IssueInvoiceRepository;
 import com.example.nhanct.service.InvoiceService;
 import com.example.nhanct.utils.SecurityUtils;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +16,6 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.Configuration;
 
 import java.io.IOException;
 import java.util.Date;

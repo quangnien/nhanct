@@ -1,10 +1,14 @@
 package com.example.nhanct.controller;
 
+import com.example.nhanct.config.PDFExporter;
 import com.example.nhanct.consts.MenuConstant;
+import com.example.nhanct.entity.InvoiceDetailEntity;
+import com.example.nhanct.entity.InvoiceEntity;
 import com.example.nhanct.entity.InvoiceTypeEntity;
 import com.example.nhanct.entity.IssueInvoiceEntity;
 import com.example.nhanct.service.InvoiceTypeService;
 import com.example.nhanct.service.IssueInvoiceService;
+import com.lowagie.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +19,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -167,4 +177,72 @@ public class IssueInvoiceController extends FunctionCommon {
 			return "redirect:/admin/issue-invoice/confirm-delete?id=" + id + "&&message="+message;
 		}
 	}
+
+	@GetMapping("report")
+	public void exportPdfForIssueInvoice(HttpServletResponse response) throws IOException, DocumentException {
+
+		response.setContentType("application/pdf");
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+		String currentDateTime = dateFormatter.format(new Date());
+
+		String headerKey = "Content-Disposition";
+
+		String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+		response.setHeader(headerKey, headerValue);
+
+		List<IssueInvoiceEntity> issueInvoiceEntityList = issueInvoiceService.findAllOrderByDate();
+
+		List<String> listHeader = new ArrayList<>();
+		listHeader.add("CONG TY CO PHAN NOI THAT HOA PHAT");
+		listHeader.add("Ma so thue:  0311942282");
+		listHeader.add("Dia chi: 76 duong so 2, khu pho 5, Phuong Binh Hung Hoa B, Quan Binh Tan, TP Ho Chi Minh, Viet Nam");
+		listHeader.add("So dien thoai: 0938024027");
+		listHeader.add("                           ");
+		listHeader.add("Loai hoa don: Tat ca");
+		listHeader.add("Thoi gian: ");
+
+		List<String> listHeaderContent = new ArrayList<>();
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add("");
+		listHeaderContent.add(issueInvoiceEntityList.get(0).getDateOfRegistration() + " - " + issueInvoiceEntityList.get(issueInvoiceEntityList.size()-1).getDateOfRegistration());
+
+		List<String> listTableHeader1 = new ArrayList<>();
+		listTableHeader1.add("STT");
+		listTableHeader1.add("Ten loai hoa don");
+		listTableHeader1.add("Ky hieu");
+		listTableHeader1.add("Tong so");
+		listTableHeader1.add("Tu so");
+		listTableHeader1.add("Toi so");
+		listTableHeader1.add("Da su dung");
+		listTableHeader1.add("Con lai");
+
+		List<List<String>> listDataTable1 = new ArrayList<>();
+		for(int i = 0; i < issueInvoiceEntityList.size(); i++){
+			List<String> listDataTableItem = new ArrayList<>();
+			listDataTableItem.add(issueInvoiceEntityList.get(i).getInvoiceType().getNameOfInvoiceType());
+			listDataTableItem.add(issueInvoiceEntityList.get(i).getSymbol());
+			listDataTableItem.add(String.valueOf(issueInvoiceEntityList.get(i).getQuantity()));
+			listDataTableItem.add(String.valueOf(issueInvoiceEntityList.get(i).getFromNumber()));
+			listDataTableItem.add(String.valueOf(issueInvoiceEntityList.get(i).getToNumber()));
+			listDataTableItem.add(String.valueOf(issueInvoiceEntityList.get(i).getCurrentInvoiceNumber()));
+			listDataTableItem.add(String.valueOf(issueInvoiceEntityList.get(i).getQuantity() - issueInvoiceEntityList.get(i).getCurrentInvoiceNumber()));
+
+			listDataTable1.add(listDataTableItem);
+		}
+
+		List<String> listSign = new ArrayList<>();
+		listSign.add("Nguoi lap phieu");
+		listSign.add("Nguoi dai dien");
+
+		PDFExporter exporter = PDFExporter.builder().titleHeader("BAO CAO TINH HINH SU DUNG HOA DON").listHeader(listHeader)
+				.listHeaderContent(listHeaderContent).colNum1(8).listDataTable1(listDataTable1).listTableHeader1(listTableHeader1).listSign(listSign)
+				.colNum2(0).listTableHeader2(null).listDataTable2(null).build();
+
+		exporter.export(response);
+	}
+
 }
