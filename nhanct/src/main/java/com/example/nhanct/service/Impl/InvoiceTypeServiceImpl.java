@@ -19,7 +19,7 @@ public class InvoiceTypeServiceImpl implements InvoiceTypeService {
     
 	@Override
 	public Page<InvoiceTypeEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return InvoiceTypeRepository.findAll(pageable);
 	}
 

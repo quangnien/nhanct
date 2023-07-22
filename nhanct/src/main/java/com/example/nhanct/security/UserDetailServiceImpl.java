@@ -33,7 +33,7 @@ public class UserDetailServiceImpl implements UserDetailsService{
 			authorities.add(new SimpleGrantedAuthority(role));
 		}
 		
-		CustomUserDetail myUser = new CustomUserDetail(user.getTaiKhoanUser(), user.getPassword(), authorities);
+		CustomUserDetail myUser = new CustomUserDetail(user.getUserName(), user.getPassword(), authorities);
 		
 		myUser.setEmail(user.getEmail());
 		myUser.setAddress(user.getAddress());

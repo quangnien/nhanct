@@ -14,12 +14,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
+import javax.activation.DataSource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -268,22 +271,137 @@ public class InvoiceController extends FunctionCommon {
 	}
 
 	/*______________________________________*/
-	@GetMapping("approve")
-	public String approve(ModelMap model, @RequestParam("id") int id) {
-		if(hasRoleAuthor(MenuConstant.INVOICE) == false) {
-			return "deny/deny";
-		}
-		menuListRole(model);
-
-		String status = "approve";
-		try {
-			invoiceService.changeStatusInvoice(id, status, "");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-		return "redirect:/admin/invoice";
-	}
+//	@GetMapping("approve")
+//	public String approve(ModelMap model, @RequestParam("id") int id, HttpServletResponse response) {
+//		if(hasRoleAuthor(MenuConstant.INVOICE) == false) {
+//			return "deny/deny";
+//		}
+//		menuListRole(model);
+//
+//		String status = "approve";
+//		try {
+//			invoiceService.changeStatusInvoice(id, status, "");
+//
+//			/* ___________ AUTO SEND MAIL ____________*/
+//			InvoiceEntity invoiceEntity = invoiceService.getById(id);
+//
+//			SimpleMailMessage message = new SimpleMailMessage();
+//
+//			helper.setTo(invoiceEntity.getCustomer().getEmail());
+//			helper.setSubject("Invoice Information");
+//			message.setText("Here is invoice for you!");
+//
+//			if(invoiceEntity != null){
+//				/*__________________*/
+//				response.setContentType("application/pdf");
+//				DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+//				String currentDateTime = dateFormatter.format(new Date());
+//
+//				String headerKey = "Content-Disposition";
+//				String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+//				response.setHeader(headerKey, headerValue);
+//
+//				List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+//
+//				List<String> listHeader = new ArrayList<>();
+//				listHeader.add("CONG TY CO PHAN NOI THAT HOA PHAT");
+//				listHeader.add("Ma so thue:  0311942282");
+//				listHeader.add("Dia chi: 76 duong so 2, khu pho 5, Phuong Binh Hung Hoa B, Quan Binh Tan, TP Ho Chi Minh, Viet Nam");
+//				listHeader.add("So dien thoai: 0938024027");
+//				listHeader.add("_______________________");
+//				listHeader.add("Ho va ten nguoi mua hang: ");
+//				listHeader.add("Ma so thue: ");
+//				listHeader.add("Dia chi: ");
+//				listHeader.add("Dien thoai: ");
+//				listHeader.add("Email: ");
+//
+//				List<String> listHeaderContent = new ArrayList<>();
+//				listHeaderContent.add("");
+//				listHeaderContent.add("");
+//				listHeaderContent.add("");
+//				listHeaderContent.add("");
+//				listHeaderContent.add("");
+//				listHeaderContent.add(invoiceEntity.getCustomer().getCustomerName());
+//				listHeaderContent.add(invoiceEntity.getCustomer().getMst());
+//				listHeaderContent.add(invoiceEntity.getCustomer().getAddress());
+//				listHeaderContent.add(invoiceEntity.getCustomer().getPhone());
+//				listHeaderContent.add(invoiceEntity.getCustomer().getEmail());
+//
+//				List<String> listTableHeader1 = new ArrayList<>();
+//				listTableHeader1.add("STT");
+//				listTableHeader1.add("Ten hang hoa, dich vu");
+//				listTableHeader1.add("Don vi tinh");
+//				listTableHeader1.add("So luong");
+//				listTableHeader1.add("Don gia");
+//				listTableHeader1.add("Thanh tien");
+//				listTableHeader1.add("Thue xuat GTGT");
+//				listTableHeader1.add("Tien xuat GTGT");
+//
+//				List<String> listTableHeader2 = new ArrayList<>();
+//				listTableHeader2.add("STT");
+//				listTableHeader2.add("Tong hop");
+//				listTableHeader2.add("Thanh tien truoc thue");
+//				listTableHeader2.add("Tien thue");
+//				listTableHeader2.add("Tong tien thanh toan");
+//
+//				List<List<String>> listDataTable1 = new ArrayList<>();
+//				for(int i = 0; i < invoiceDetailEntityList.size(); i++){
+//					List<String> listDataTableItem = new ArrayList<>();
+//					listDataTableItem.add(invoiceDetailEntityList.get(i).getItemName());
+//					listDataTableItem.add(invoiceDetailEntityList.get(i).getDvt());
+//					listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getQuantity()));
+//					listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPrice()));
+//					listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceBeforeTax()));
+//					listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %");
+//					listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()));
+//
+//					listDataTable1.add(listDataTableItem);
+//				}
+//
+//				List<List<String>> listDataTable2 = new ArrayList<>();
+//				List<KindOfTaxEntity> listKindOfTaxEntityList = kindOfTaxRepository.findAll();
+//				for(KindOfTaxEntity kindOfTaxEntity : listKindOfTaxEntityList){
+//					BigDecimal priceBeforeTax = BigDecimal.valueOf(0);
+//					BigDecimal priceOfTax = BigDecimal.valueOf(0);
+//					BigDecimal priceAfterTax = BigDecimal.valueOf(0);
+//					List<InvoiceDetailEntity> invoiceDetailList = invoiceDetailService.findAllByKindOfTaxId(kindOfTaxEntity.getId());
+//					for(InvoiceDetailEntity invoiceDetail: invoiceDetailList){
+//						priceBeforeTax = priceBeforeTax. add(invoiceDetail.getPriceBeforeTax());
+//						priceOfTax = priceOfTax.add(invoiceDetail.getPriceOfTax());
+//						priceAfterTax = priceAfterTax.add(invoiceDetail.getPriceAfterTax());
+//					}
+//
+//					List<String> listDataItem = new ArrayList<>();
+//					listDataItem.add(kindOfTaxEntity.getNameOfTax());
+//					listDataItem.add(priceBeforeTax.toString());
+//					listDataItem.add(priceOfTax.toString());
+//					listDataItem.add(priceAfterTax.toString());
+//
+//					listDataTable2.add(listDataItem);
+//				}
+//
+//				List<String> listSign = new ArrayList<>();
+//				listSign.add("Nguoi mua hang");
+//				listSign.add("Nguoi ban hang");
+//
+//				PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON GIA TRI GIA TANG").listHeader(listHeader)
+//						.listHeaderContent(listHeaderContent)
+//						.colNum1(8).listTableHeader1(listTableHeader1).listDataTable1(listDataTable1)
+//						.colNum2(5).listTableHeader2(listTableHeader2).listDataTable2(listDataTable2)
+//						.listSign(listSign).build();
+//
+//				// Attach the PDF file to the email
+//				helper.addAttachment(exporter.getTitleHeader(), (DataSource) exporter);
+//				/*__________________*/
+//			}
+//
+//			this.emailSender.send(message);
+//		} catch (Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//
+//		return "redirect:/admin/invoice";
+//	}
 
 	/* ____________________________ EXPORT PDF ____________________________*/
 	@GetMapping("report/business")

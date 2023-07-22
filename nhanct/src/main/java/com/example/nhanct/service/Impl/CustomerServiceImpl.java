@@ -19,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
     
 	@Override
 	public Page<CustomerEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return CustomerRepository.findAll(pageable);
 	}
 

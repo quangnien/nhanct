@@ -55,7 +55,6 @@ public class PDFExporter {
     private static Font fontBlackNormal = PDFExporterUtils.fontBlackNormal();
     private static Font fontBlackSmall = PDFExporterUtils.fontBlackSmall();
 
-
     private void writeTableHeader(PdfPTable table, List<String> listTableHeader) {
         PdfPCell cell = new PdfPCell();
         cell.setBackgroundColor(Color.GRAY);

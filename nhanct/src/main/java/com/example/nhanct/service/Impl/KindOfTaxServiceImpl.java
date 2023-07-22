@@ -19,7 +19,7 @@ public class KindOfTaxServiceImpl implements KindOfTaxService {
     
 	@Override
 	public Page<KindOfTaxEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return kindOfTaxRepository.findAll(pageable);
 	}
 

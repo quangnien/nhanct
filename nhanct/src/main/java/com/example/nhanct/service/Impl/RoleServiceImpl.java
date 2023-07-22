@@ -30,7 +30,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public Page<RoleEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 4);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return roleRepository.findAll(pageable);
 	}
 

@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Page<UserEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 4);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return userRepository.findAll(pageable);
 	}
 
@@ -53,7 +53,11 @@ public class UserServiceImpl implements UserService{
 			entity.setPhone(user.getPhone());
 			entity.setAddress(user.getAddress());
 			entity.setTaiKhoanUser(user.getTaiKhoanUser());
-			entity.setImage(user.getImage());
+
+			if(user.getImage() != null){
+				entity.setImage(user.getImage());
+			}
+
 			entity.setSex(user.getSex());
 			entity.setDob(user.getDob());
 			userRepository.save(entity);

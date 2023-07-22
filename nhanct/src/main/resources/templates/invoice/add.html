@@ -51,6 +51,16 @@
 														th:errors="*{customerId}"></span>
 										</div>
 
+										<div class="form-group">
+											<label>Issue Invoice</label> <select th:field="*{inputWarehouseId}"
+																					  class="form-control">
+											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+													th:text="${item.warehouseName}"></option>
+										</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('inputWarehouseId')}"
+														th:errors="*{inputWarehouseId}"></span>
+										</div>
+
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">

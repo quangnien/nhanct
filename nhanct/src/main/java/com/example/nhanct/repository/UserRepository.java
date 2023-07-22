@@ -32,6 +32,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer>{
 	@Query("SELECT vt.roleCode from RoleEntity vt "
 			+ "left join RoleUserEntity vtnv on vt.id = vtnv.roleId "
 			+ "left join UserEntity nv on nv.id = vtnv.userId "
-			+ "where nv.taiKhoanUser = ?1")
+			+ "where nv.userName = ?1")
 	public List<String> findListRoleByUserName(String username);
 }

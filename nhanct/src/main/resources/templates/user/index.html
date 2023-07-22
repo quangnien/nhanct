@@ -64,11 +64,11 @@
 									<tbody>
 										<tr th:each="item, state : ${user}">
 											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
-											<td th:text="${item.userName}">Nguyễn Văn Tèo</td>
+											<td th:text="${item.taiKhoanUser}"></td>
 											<td th:text="${item.phone}"></td>
 											<td th:text="${item.address}"></td>
 											<td th:text="${item.email}"></td>
-											<td th:text="${item.taiKhoanUser}"></td>
+											<td th:text="${item.userName}"></td>
 
 											<td><a th:href="@{/admin/user/edit(id=${item.id})}"
 												class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>

@@ -6,7 +6,8 @@ import com.example.nhanct.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -59,7 +60,18 @@ public class FunctionCommon {
         menuEntityList.add(menuEntityDashBoard);
         menuEntityList.add(menuEntityProfile);
 
-        return menuEntityList;
+
+        return removeDuplicates(menuEntityList);
+    }
+
+    public static <T> List<T> removeDuplicates(List<T> list) {
+        // Create a LinkedHashSet to store unique items while preserving order
+        Set<T> set = new LinkedHashSet<>(list);
+
+        // Create a new list from the set
+        List<T> result = new ArrayList<>(set);
+
+        return result;
     }
     /*---------------- end COMMON ------------*/
 

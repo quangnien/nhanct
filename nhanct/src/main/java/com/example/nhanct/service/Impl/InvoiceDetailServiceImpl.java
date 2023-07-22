@@ -27,7 +27,7 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 
 	@Override
 	public Page<InvoiceDetailEntity> findAll(int pageNumber, int invoiceId) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		Page<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailRepository.findAllByInvoiceId(invoiceId, pageable);
 		return invoiceDetailEntityList;
 	}

@@ -53,7 +53,8 @@ public class UserController extends FunctionCommon {
 	@GetMapping("")
 	public String index(ModelMap model) {
 		if(hasRoleAuthor(MenuConstant.USER) == false) {
-			return "deny/deny";
+			return "redirect:/admin/profile";
+//			return "deny/deny";
 		}
 		menuListRole(model);
 		return listPage(model, 1);
@@ -63,7 +64,8 @@ public class UserController extends FunctionCommon {
 	public String listPage(ModelMap model, @PathVariable("pageNumber") int currentPage) {
 
 		if(hasRoleAuthor(MenuConstant.USER) == false) {
-			return "deny/deny";
+			return "redirect:/admin/profile";
+//			return "deny/deny";
 		}
 		menuListRole(model);
 
@@ -168,9 +170,9 @@ public class UserController extends FunctionCommon {
 
 	@GetMapping("edit")
 	public String edit(@RequestParam("id") int id, ModelMap model) {
-		if(hasRoleAuthor(MenuConstant.USER) == false) {
-			return "deny/deny";
-		}
+//		if(hasRoleAuthor(MenuConstant.USER) == false) {
+//			return "deny/deny";
+//		}
 		menuListRole(model);
 		try {
 			model.addAttribute("roles", roleService.findAll());
@@ -191,8 +193,9 @@ public class UserController extends FunctionCommon {
 			} catch (Exception e) {
 				errors.rejectValue("image", "user", "Can't upload files");
 			}
-		} else
-			errors.rejectValue("image", "user", "You haven't uploaded the file yet!");
+		}
+//		else
+//			errors.rejectValue("image", "user", "You haven't uploaded the file yet!");
 
 		if (errors.hasErrors() || duplicateEmail(user, errors)
 				|| duplicateTenDangNhap(user, errors)) {
@@ -207,22 +210,25 @@ public class UserController extends FunctionCommon {
 		}
 		
 		/*__________ KIỂM TRA ĐỦ 18 CHƯA ? __________*/
-		LocalDate start = LocalDate.now();
-		
-		Date input =  user.getDob();
-		LocalDate end = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		
-		long years = Math.abs(ChronoUnit.YEARS.between(start, end));
-		
-		if (years < 18) {
-			menuListRole(model);
-			errors.rejectValue("dob", "user", "Age not enough 18!");
-			return "user/add";
+		if(null != user.getDob()){
+			LocalDate start = LocalDate.now();
+
+			Date input =  user.getDob();
+			LocalDate end = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+			long years = Math.abs(ChronoUnit.YEARS.between(start, end));
+
+			if (years < 18) {
+				menuListRole(model);
+				errors.rejectValue("dob", "user", "Age not enough 18!");
+				return "user/add";
+			}
 		}
+
 		/*__________ END KIỂM TRA ĐỦ 18 CHƯA ? __________*/
 		
 		userService.update(user);
-		return "redirect:/admin";
+		return "redirect:/admin/user";
 	}
 
 	@GetMapping("confirm-delete")
@@ -375,11 +381,11 @@ public class UserController extends FunctionCommon {
 	}
 	
 	public boolean duplicateTenDangNhap(UserEntity user, BindingResult errors) {
-		UserEntity entity = userService.findByTenTaiKhoanUser(user.getTaiKhoanUser().trim());
+		UserEntity entity = userService.findByTenTaiKhoanUser(user.getUserName().trim());
 		if (entity == null || entity.getId() == user.getId())
 			return false;
 		else {
-			errors.rejectValue("taiKhoanUser", "user", "This Username already exists!");
+			errors.rejectValue("userName", "user", "This Username already exists!");
 			return true;
 		}
 	}

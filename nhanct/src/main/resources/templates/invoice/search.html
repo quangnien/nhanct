@@ -81,6 +81,10 @@
 													<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"  th:if="${isAdd == 'False' && isChecker == 'True'  && item.status == 'Waiting Approve'}"
 													   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Cancel</a>
 
+													<a th:href="@{/admin/invoice/report/business(id=${item.id})}" th:if="${item.status == 'Approved'}"
+													   class="btn btn-sm btn-twitter btn-round py-1 font-weight-bold">Export For Business</a>
+													<a th:href="@{/admin/invoice/report/customer(id=${item.id})}" th:if="${item.status == 'Approved'}"
+													   class="btn btn-sm btn-dark btn-round py-1 font-weight-bold">Export For Customer</a>
 													<!--													<a th:href="@{/admin/invoice/confirm-delete(id=${item.id})}"-->
 													<!--													   class="btn btn-sm btn-danger btn-round py-1 font-weight-bold">Delete</a>-->
 												</td>

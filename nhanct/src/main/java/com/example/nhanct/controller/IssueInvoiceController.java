@@ -187,7 +187,7 @@ public class IssueInvoiceController extends FunctionCommon {
 
 		String headerKey = "Content-Disposition";
 
-		String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+		String headerValue = "attachment; filenamhay e=users_" + currentDateTime + ".pdf";
 		response.setHeader(headerKey, headerValue);
 
 		List<IssueInvoiceEntity> issueInvoiceEntityList = issueInvoiceService.findAllOrderByDate();

@@ -25,7 +25,7 @@ public interface RoleRepository extends JpaRepository<RoleEntity, Integer>{
 			+ "")
 	List<RoleForAccountDto> getListRoleForUpdate();
 
-	@Query("SELECT role.roleName "
+	@Query("SELECT role.roleCode "
 	+ "from RoleEntity role "
 	+ "join RoleUserEntity roleUser on role.id = roleUser.roleId "
 	+ "join UserEntity user on user.id = roleUser.userId "

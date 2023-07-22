@@ -31,7 +31,7 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public Page<MenuEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 4);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return menuRepository.findAll(pageable);
 	}
 

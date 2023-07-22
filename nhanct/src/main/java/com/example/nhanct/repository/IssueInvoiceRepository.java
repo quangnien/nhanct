@@ -10,13 +10,15 @@ import java.util.List;
 @Repository
 public interface IssueInvoiceRepository extends JpaRepository<IssueInvoiceEntity, Integer>{
 
-	@Query("SELECT s, ip FROM IssueInvoiceEntity s " +
-			" JOIN InvoiceTypeEntity ip ON ip.id = s.invoiceTypeId" +
-			" WHERE STR(s.currentInvoiceNumber) = ?1" +
-			" OR s.mst LIKE %?1%" +
-			" OR s.symbol LIKE %?1%" +
-			" OR STR(s.quantity) = ?1" +
-			" OR ip.codeOfInvoiceType LIKE %?1%")
+//	@Query("SELECT s, ip FROM IssueInvoiceEntity s " +
+//			" JOIN InvoiceTypeEntity ip ON ip.id = s.invoiceTypeId" +
+//			" WHERE STR(s.currentInvoiceNumber) = ?1" +
+//			" OR s.mst LIKE %?1%" +
+//			" OR s.symbol LIKE %?1%" +
+//			" OR STR(s.quantity) = ?1" +
+//			" OR ip.codeOfInvoiceType LIKE %?1%")
+	@Query("SELECT s FROM IssueInvoiceEntity s " +
+		" WHERE s.symbol LIKE %?1%")
     List<IssueInvoiceEntity> findAllByKeyword(String keyword);
 
     @Query("SELECT s ,ip FROM IssueInvoiceEntity s " +

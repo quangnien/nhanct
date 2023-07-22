@@ -19,7 +19,7 @@ public class BusinessServiceImpl implements BusinessService {
     
 	@Override
 	public Page<BusinessEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return BusinessRepository.findAll(pageable);
 	}
 

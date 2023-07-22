@@ -19,7 +19,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     
 	@Override
 	public Page<WarehouseEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return WarehouseRepository.findAll(pageable);
 	}
 

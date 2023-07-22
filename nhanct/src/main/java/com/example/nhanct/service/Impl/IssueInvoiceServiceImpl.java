@@ -23,7 +23,7 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 
 	@Override
 	public Page<IssueInvoiceEntity> findAll(int pageNumber) {
-		Pageable pageable = PageRequest.of(pageNumber - 1, 5);
+		Pageable pageable = PageRequest.of(pageNumber - 1, 10);
 		return issueInvoiceRepository.findAll(pageable);
 	}
 

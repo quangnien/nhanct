@@ -269,11 +269,11 @@ public class RoleUserController extends FunctionCommon {
 	}
 	
 	public boolean duplicateTenDangNhap(UserEntity user, BindingResult errors) {
-		UserEntity entity = userService.findByTenTaiKhoanUser(user.getTaiKhoanUser().trim());
+		UserEntity entity = userService.findByTenTaiKhoanUser(user.getUserName().trim());
 		if (entity == null || entity.getId() == user.getId())
 			return false;
 		else {
-			errors.rejectValue("taiKhoanUser", "user", "This Username already exists!");
+			errors.rejectValue("userName", "user", "This Username already exists!");
 			return true;
 		}
 	}
