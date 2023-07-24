@@ -47,41 +47,44 @@
 												th:errors="*{dateOfRegistration}"></span>
 										</div>
 
-										<div class="form-group ">
-											<label class="input_inline">From Number</label> <input
-												type="number" min="0" value="0" max="100000000"
-												th:field="*{fromNumber}" class="form-control input_inline" /> <span
-												class="text-danger col-md-6"
-												th:if="${#fields.hasErrors('fromNumber')}" th:errors="*{fromNumber}"></span>
-										</div>
+<!--										<div class="form-group ">-->
+<!--											<label class="input_inline">From Number</label> <input-->
+<!--												type="number" min="0" value="0" max="100000000"-->
+<!--												th:field="*{fromNumber}" class="form-control input_inline" /> <span-->
+<!--												class="text-danger col-md-6"-->
+<!--												th:if="${#fields.hasErrors('fromNumber')}" th:errors="*{fromNumber}"></span>-->
+<!--										</div>-->
 
-										<div class="form-group ">
-											<label class="input_inline">To Number</label> <input
-												type="number" min="0" value="0" max="100000000"
-												th:field="*{toNumber}" class="form-control input_inline" /> <span
-												class="text-danger col-md-6"
-												th:if="${#fields.hasErrors('toNumber')}" th:errors="*{toNumber}"></span>
-										</div>
+<!--										<div class="form-group ">-->
+<!--											<label class="input_inline">To Number</label> <input-->
+<!--												type="number" min="0" value="0" max="100000000"-->
+<!--												th:field="*{toNumber}" class="form-control input_inline" /> <span-->
+<!--												class="text-danger col-md-6"-->
+<!--												th:if="${#fields.hasErrors('toNumber')}" th:errors="*{toNumber}"></span>-->
+<!--										</div>-->
 
-									</div>
-									<div class="col-md-6">
 										<div class="form-group">
-											<label>Quantity</label> <input type="number" min="1"
-												value="0" max="1000" th:field="*{quantity}"
-												class="form-control" /> <span class="text-danger"
-												th:if="${#fields.hasErrors('quantity')}"
-												th:errors="*{quantity}"></span>
+											<label>Quantity</label>
+											<input type="number" min="1"
+											   value="0" max="1000" th:field="*{quantity}"
+											   class="form-control" /> <span class="text-danger"
+																			 th:if="${#fields.hasErrors('quantity')}"
+																			 th:errors="*{quantity}"></span>
 										</div>
 
 										<div class="form-group">
 											<label>Category</label> <select th:field="*{invoiceTypeId}"
-												class="form-control">
-												<option th:each="item: ${listInvoiceType}" th:value="${item.id}"
+																			class="form-control">
+											<option th:each="item: ${listInvoiceType}" th:value="${item.id}"
 													th:text="${item.codeOfInvoiceType}">Category</option>
-											</select> <span class="text-danger"
-												th:if="${#fields.hasErrors('invoiceTypeId')}"
-												th:errors="*{invoiceTypeId}"></span>
+										</select> <span class="text-danger"
+														th:if="${#fields.hasErrors('invoiceTypeId')}"
+														th:errors="*{invoiceTypeId}"></span>
 										</div>
+
+									</div>
+									<div class="col-md-6">
+
 
 										<div class="form-group">
 											<label>Symbol</label>

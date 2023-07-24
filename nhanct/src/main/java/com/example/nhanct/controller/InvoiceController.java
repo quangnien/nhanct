@@ -2,7 +2,6 @@ package com.example.nhanct.controller;
 
 import com.example.nhanct.config.PDFExporter;
 import com.example.nhanct.consts.MenuConstant;
-import com.example.nhanct.dto.InvoiceDetailDto;
 import com.example.nhanct.entity.*;
 import com.example.nhanct.repository.KindOfTaxRepository;
 import com.example.nhanct.service.*;
@@ -14,15 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import javax.activation.DataSource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

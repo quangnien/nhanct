@@ -34,7 +34,21 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 
 	@Override
 	public void add(IssueInvoiceEntity issueInvoice) {
-		issueInvoice.setCurrentInvoiceNumber(0);
+		List<IssueInvoiceEntity> issueInvoiceEntityList = issueInvoiceRepository.findAllOrderByIdDesc();
+		int toNumberToLargest = 1;
+		if(issueInvoiceEntityList != null){
+			toNumberToLargest = issueInvoiceEntityList.get(0).getToNumber();
+
+			issueInvoice.setFromNumber(toNumberToLargest + 1);
+			issueInvoice.setToNumber(toNumberToLargest + issueInvoice.getQuantity());
+			issueInvoice.setCurrentInvoiceNumber(toNumberToLargest + 1);
+		}
+		else {
+			issueInvoice.setFromNumber(1);
+			issueInvoice.setToNumber(issueInvoice.getQuantity());
+			issueInvoice.setCurrentInvoiceNumber(0);
+		}
+
 		issueInvoiceRepository.save(issueInvoice);
 	}
 
@@ -43,13 +57,13 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 		Optional<IssueInvoiceEntity> entityOptional = issueInvoiceRepository.findById(issueInvoiceEntity.getId());
 		if(entityOptional.isPresent()){
 			IssueInvoiceEntity entity = entityOptional.get();
-			entity.setCurrentInvoiceNumber(issueInvoiceEntity.getCurrentInvoiceNumber());
+//			entity.setCurrentInvoiceNumber(issueInvoiceEntity.getCurrentInvoiceNumber());
 			entity.setDateOfRegistration(issueInvoiceEntity.getDateOfRegistration());
-			entity.setFromNumber(issueInvoiceEntity.getFromNumber());
-			entity.setToNumber(issueInvoiceEntity.getToNumber());
+//			entity.setFromNumber(issueInvoiceEntity.getFromNumber());
+//			entity.setToNumber(issueInvoiceEntity.getToNumber());
 			entity.setInvoiceTypeId(issueInvoiceEntity.getInvoiceTypeId());
 			entity.setMst(issueInvoiceEntity.getMst());
-			entity.setQuantity(issueInvoiceEntity.getQuantity());
+//			entity.setQuantity(issueInvoiceEntity.getQuantity());
 			entity.setSymbol(issueInvoiceEntity.getSymbol());
 			entity.setToNumber(issueInvoiceEntity.getToNumber());
 
