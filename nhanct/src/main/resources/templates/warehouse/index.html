@@ -4,7 +4,7 @@
 	layout:decorator="/layout/default">
 
 <head>
-<title>Invoice Type Management</title>
+<title>Warehoure Management</title>
 </head>
 
 <body>
@@ -17,14 +17,14 @@
 							<li class="breadcrumb-item"><a href="/admin"> <i
 									class="feather icon-home"></i> Home Page
 							</a></li>
-							<li class="breadcrumb-item"><a href="#!">Invoice Type List</a></li>
+							<li class="breadcrumb-item"><a href="#!">Warehoure List</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-sm-12">
 					<div class="card px-3">
 						<div class="card-header px-0 pb-2">
-							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Invoice Type List</h2>
+							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Warehoure List</h2>
 						</div>
 
 						<div class="card-block table-border-style">
@@ -33,16 +33,16 @@
 									<thead>
 										<tr>
 											<th>STT</th>
-											<th>Invoice Type Code</th>
-											<th>Invoice Type Name</th>
+											<th>Warehoure Code</th>
+											<th>Warehoure Name</th>
 										</tr>
 									</thead>
 									<tbody id="tbodyRole">
-										<tr th:each="item, state : ${listInvoiceType}">
+										<tr th:each="item, state : ${listWarehouse}">
 											<!--<th style="display:none;" th:text="${item.id}">1</th>-->
 											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
-											<td th:text="${item.codeOfInvoiceType}"></td>
-											<td th:text="${item.nameOfInvoiceType}"></td>
+											<td th:text="${item.warehouseCode}"></td>
+											<td th:text="${item.warehouseName}"></td>
 									</tbody>
 								</table>
 							</div>

@@ -121,51 +121,56 @@ public class UserController extends FunctionCommon {
 	public String add(@Valid @ModelAttribute("user") UserEntity user, BindingResult errors,
 					  @RequestParam("fileUpload") MultipartFile file, ModelMap model, @RequestParam String confirm) {
 
-		String message = "";
-		if (!file.isEmpty()) {
-			try {
-				user.setImage(imageService.upload(file));
-			} catch (Exception e) {
-				errors.rejectValue("image", "user", "Can't upload files");
+		try {
+			String message = "";
+			if (!file.isEmpty()) {
+				try {
+					user.setImage(imageService.upload(file));
+				} catch (Exception e) {
+					errors.rejectValue("image", "user", "Can't upload files");
+				}
+			} else
+				errors.rejectValue("image", "user", "You haven't uploaded the file yet!");
+
+			if (errors.hasErrors() || !passWordMatch(user.getPassword(), confirm, errors)
+					|| duplicateEmail(user, errors)
+					|| duplicateTenDangNhap(user, errors)) {
+				menuListRole(model);
+				model.addAttribute("roles", roleService.findAll());
+				return "user/add";
 			}
-		} else
-			errors.rejectValue("image", "user", "You haven't uploaded the file yet!");
+			if (userService.isException(user)) {
+				message = "F";
+				return "redirect:/admin/user/add?message=" + message;
+			}
 
-		if (errors.hasErrors() || !passWordMatch(user.getPassword(), confirm, errors)
-				|| duplicateEmail(user, errors)
-				|| duplicateTenDangNhap(user, errors)) {
-			menuListRole(model);
-			model.addAttribute("roles", roleService.findAll());
-			return "user/add";
-		}
-		if(userService.isException(user)) {
-			message = "F";
-			return "redirect:/admin/user/add?message="+message;
-		}
-		
-		if(userService.isExceptionEmail(user)) {
-			menuListRole(model);
-			errors.rejectValue("email", "user", "Enter the correct format email");
-			return "user/add";
-		}
-	
-		/*__________ KIỂM TRA ĐỦ 18 CHƯA ? __________*/
-		LocalDate start = LocalDate.now();
-		
-		Date input =  user.getDob();
-		LocalDate end = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		
-		long years = Math.abs(ChronoUnit.YEARS.between(start, end));
-		
-		if (years < 18) {
-			errors.rejectValue("dob", "user", "Age not enough 18!");
-			menuListRole(model);
-			return "user/add";
-		}
-		/*__________ END KIỂM TRA ĐỦ 18 CHƯA ? __________*/
+			if (userService.isExceptionEmail(user)) {
+				menuListRole(model);
+				errors.rejectValue("email", "user", "Enter the correct format email");
+				return "user/add";
+			}
 
-		userService.add(user);
-		return "redirect:/admin/user";
+			/*__________ KIỂM TRA ĐỦ 18 CHƯA ? __________*/
+			LocalDate start = LocalDate.now();
+
+			Date input = user.getDob();
+			LocalDate end = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+			long years = Math.abs(ChronoUnit.YEARS.between(start, end));
+
+			if (years < 18) {
+				errors.rejectValue("dob", "user", "Age not enough 18!");
+				menuListRole(model);
+				return "user/add";
+			}
+			/*__________ END KIỂM TRA ĐỦ 18 CHƯA ? __________*/
+
+			userService.add(user);
+			return "redirect:/admin/user";
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+			return "redirect:/admin/user";
+		}
 	}
 
 	@GetMapping("edit")
@@ -256,9 +261,10 @@ public class UserController extends FunctionCommon {
 		menuListRole(model);
 		String message = "";
 		try {
+			String imageToDelete = userService.getById(id).getImage();
 			if(id != myUser.getPrincipal().getId() && userService.delete(id) ) {
-				imageService.delete(userService.getById(id).getImage());
-				userService.delete(id);
+				imageService.delete(imageToDelete);
+//				userService.delete(id);
 				return "redirect:/admin/user";
 			}else {
 				message = "F";
@@ -291,7 +297,7 @@ public class UserController extends FunctionCommon {
 			@RequestParam String confirm, ModelMap model) {
 		if (passWordMatch(user.getPassword(), confirm, errors) && !errors.hasFieldErrors("password")) {
 			userService.updatePassword(user);
-			return "redirect:/admin";
+			return "redirect:/admin/user";
 		}
 		// userService.changePassword(user);
 		menuListRole(model);

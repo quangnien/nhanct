@@ -32,20 +32,21 @@
 								<table class="table table-bordered">
 									<thead>
 										<tr>
-											<th>STT</th>
 											<th>Business Name</th>
 											<th>MST</th>
 											<th>Phone</th>
+											<th>Address</th>
 											<th>Logo</th>
 											<th>Sample Signature</th>
 										</tr>
 									</thead>
 									<tbody id="tbodyRole">
 										<tr th:each="item, state : ${listBusiness}">
-											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
+<!--											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>-->
 											<td th:text="${item.businessName}"></td>
 											<td th:text="${item.mst}"></td>
 											<td th:text="${item.phone}"></td>
+											<td th:text="${item.address}"></td>
 											<td><img src="https://static.vecteezy.com/system/resources/previews/000/606/650/original/vector-letter-a-logo-business-corporation-logo-design-concept-templat.jpg" height="50"
 													 width="100" /></td>
 											<td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHRvgrx1YX_bMv8bLZqcZT6--Z0Wi0_kVnxK1GPaIqRoYS9ln3DUxBewAVwi9dhGk33D4&usqp=CAU" height="50"
