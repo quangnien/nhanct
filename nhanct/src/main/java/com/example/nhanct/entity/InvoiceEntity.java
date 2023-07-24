@@ -1,9 +1,12 @@
 package com.example.nhanct.entity;
 
+import com.example.nhanct.annotation.Email;
+import com.example.nhanct.annotation.Phone;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -46,6 +49,26 @@ public class InvoiceEntity {
 	@Column(name = "symbol")
 	private String symbol;
 
+	@Column(name = "flag_invoice_type")
+	private String flagInvoiceType;
+
+	/* _____ begin FOR CUSTOMER IF INVOICE-TYPE IS VAT _____ */
+	@Transient
+	private String invoiceType;
+
+	@Transient
+	private String mst;
+
+	@Transient
+	private String customerName;
+
+	@Transient
+	private String phone;
+
+	@Transient
+	private String address;
+	/* _____ end FOR CUSTOMER IF INVOICE-TYPE IS VAT _____ */
+
 	/*------------------------*/
 	@OneToMany(mappedBy = "invoice", fetch = FetchType.LAZY)
 	private List<InvoiceDetailEntity> invoiceDetailEntityList;
@@ -72,7 +95,7 @@ public class InvoiceEntity {
 	@Column(name = "customer_id")
 	private int customerId;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
 	private CustomerEntity customer;
 	/*------------ end ------------*/

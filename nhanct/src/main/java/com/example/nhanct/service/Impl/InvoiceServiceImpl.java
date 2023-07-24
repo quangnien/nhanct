@@ -1,10 +1,12 @@
 package com.example.nhanct.service.Impl;
 
-import com.example.nhanct.entity.InvoiceEntity;
-import com.example.nhanct.entity.IssueInvoiceEntity;
+import com.example.nhanct.entity.*;
 import com.example.nhanct.enumdef.StatusOfInvoiceEnum;
+import com.example.nhanct.repository.CustomerRepository;
 import com.example.nhanct.repository.InvoiceRepository;
 import com.example.nhanct.repository.IssueInvoiceRepository;
+import com.example.nhanct.repository.WarehouseRepository;
+import com.example.nhanct.service.CustomerService;
 import com.example.nhanct.service.InvoiceService;
 import com.example.nhanct.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Autowired
 	private IssueInvoiceRepository issueInvoiceRepository ;
 	@Autowired
+	private CustomerRepository customerRepository ;
+	@Autowired
+	private WarehouseRepository warehouseRepository ;
+	@Autowired
 	SecurityUtils myContext;
 	private Configuration configuration;
 
@@ -42,7 +48,35 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 	@Override
 	public InvoiceEntity getById(int id) {
-		return invoiceRepository.findById(id).get();
+		InvoiceEntity invoiceEntity = invoiceRepository.findById(id).get();
+
+		Optional<CustomerEntity> customer = customerRepository.findById(invoiceEntity.getCustomerId());
+		Optional<WarehouseEntity> warehouseInput = warehouseRepository.findById(invoiceEntity.getInputWarehouseId());
+		Optional<WarehouseEntity> warehouseOutput = warehouseRepository.findById(invoiceEntity.getInputWarehouseId());
+
+		CustomerEntity customerEntity = new CustomerEntity();
+		WarehouseEntity warehouseInputEntity = new WarehouseEntity();
+		WarehouseEntity warehouseOutputEntity = new WarehouseEntity();
+		if(invoiceEntity.getFlagInvoiceType().equals("VAT")){
+			customerEntity = customer.get();
+			invoiceEntity.setCustomerName(customerEntity.getCustomerName());
+			invoiceEntity.setPhone(customerEntity.getPhone());
+			invoiceEntity.setAddress(customerEntity.getAddress());
+			invoiceEntity.setMst(customerEntity.getMst());
+			invoiceEntity.setInvoiceType("VAT");
+		}
+		else if(invoiceEntity.getFlagInvoiceType().equals("WC")){
+			warehouseInputEntity = warehouseInput.get();
+			invoiceEntity.setInputWarehouseId(warehouseInputEntity.getId());
+
+			warehouseOutputEntity = warehouseInput.get();
+			invoiceEntity.setOutputWarehouseId(warehouseOutputEntity.getId());
+
+			invoiceEntity.setInvoiceType("WC");
+
+		}
+
+		return invoiceEntity;
 	}
 
 	@Override
@@ -52,7 +86,14 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoice.setReleaserId(myContext.getPrincipal().getId());
 		invoice.setStatus(StatusOfInvoiceEnum.DU_THAO.getText());
 
-		IssueInvoiceEntity issueInvoice = issueInvoiceRepository.findAllOrderByIdDesc().get(0);
+		IssueInvoiceEntity issueInvoice = new IssueInvoiceEntity();
+		if(invoice.getInvoiceType().equals("VAT")){
+			issueInvoice = issueInvoiceRepository.findAllByInvoiceTypeOrderByIdDesc("VAT").get(0);
+		}
+		else if(invoice.getInvoiceType().equals("WC")){
+			issueInvoice = issueInvoiceRepository.findAllByInvoiceTypeOrderByIdDesc("WC").get(0);
+		};
+
 		invoice.setIssueInvoiceId(issueInvoice.getId());
 
 		Optional<IssueInvoiceEntity> issueInvoiceEntityOptional = issueInvoiceRepository.findById(invoice.getIssueInvoiceId());
@@ -67,6 +108,36 @@ public class InvoiceServiceImpl implements InvoiceService{
 			}
 		}
 
+		/* IF INVOICE_TYPE = VAT */
+		if(invoice.getInvoiceType().equals("VAT")){
+			CustomerEntity customerEntityFromDB = customerRepository.findByMst(invoice.getMst());
+			if(null != customerEntityFromDB){
+				customerEntityFromDB.setCustomerName(invoice.getCustomerName());
+				customerEntityFromDB.setPhone(invoice.getPhone());
+				customerEntityFromDB.setAddress(invoice.getAddress());
+				customerRepository.save(customerEntityFromDB);
+
+				invoice.setCustomerId(customerEntityFromDB.getId());
+			}
+			else {
+				CustomerEntity customerEntity = new CustomerEntity();
+				customerEntity.setCustomerName(invoice.getCustomerName());
+				customerEntity.setMst(invoice.getMst());
+				customerEntity.setPhone(invoice.getPhone());
+				customerEntity.setAddress(invoice.getAddress());
+				customerRepository.save(customerEntity);
+
+				invoice.setCustomerId(customerEntity.getId());
+			}
+		}
+
+		if(invoice.getInvoiceType().equals("VAT")){
+			invoice.setFlagInvoiceType("VAT");
+		}
+		else if(invoice.getInvoiceType().equals("WC")){
+			invoice.setFlagInvoiceType("WC");
+		}
+
 		invoiceRepository.save(invoice);
 	}
 
@@ -79,6 +150,45 @@ public class InvoiceServiceImpl implements InvoiceService{
 			entity.setCustomerId(invoiceEntity.getCustomerId());
 			entity.setInputWarehouseId(invoiceEntity.getInputWarehouseId());
 			entity.setOutputWarehouseId(invoiceEntity.getOutputWarehouseId());
+
+			/* IF INVOICE_TYPE = VAT */
+			if(invoiceEntity.getInvoiceType().equals("VAT")){
+				CustomerEntity customerEntityFromDB = customerRepository.findByMst(invoiceEntity.getMst());
+				if(null != customerEntityFromDB){
+//					customerEntityFromDB.setCustomerName(invoiceEntity.getCustomerName());
+//					customerEntityFromDB.setPhone(invoiceEntity.getPhone());
+//					customerEntityFromDB.setAddress(invoiceEntity.getAddress());
+//					customerRepository.save(customerEntityFromDB);
+
+					entity.setCustomerId(customerEntityFromDB.getId());
+				}
+				else {
+					CustomerEntity customerEntity = new CustomerEntity();
+					customerEntity.setCustomerName(invoiceEntity.getCustomerName());
+					customerEntity.setMst(invoiceEntity.getMst());
+					customerEntity.setPhone(invoiceEntity.getPhone());
+					customerEntity.setAddress(invoiceEntity.getAddress());
+					customerRepository.save(customerEntity);
+
+					entity.setCustomerId(customerEntity.getId());
+				}
+			}
+			else if(invoiceEntity.getInvoiceType().equals("WC")){
+				entity.setInputWarehouseId(invoiceEntity.getInputWarehouseId());
+				entity.setOutputWarehouseId(invoiceEntity.getOutputWarehouseId());
+
+				/* MUST BE SET, BECAUSE -> ERROR (RELASIONSHIP OF JPA) */
+				CustomerEntity customerEntityFromDB = customerRepository.findByMst(invoiceEntity.getMst());
+				entity.setCustomerId(customerEntityFromDB.getId());
+			}
+
+
+			if(invoiceEntity.getInvoiceType().equals("VAT")){
+				entity.setFlagInvoiceType("VAT");
+			}
+			else if(invoiceEntity.getInvoiceType().equals("WC")){
+				entity.setFlagInvoiceType("WC");
+			}
 
 			invoiceRepository.save(entity);
 		}

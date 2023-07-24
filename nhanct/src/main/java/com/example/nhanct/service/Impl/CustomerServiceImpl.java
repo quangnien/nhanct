@@ -27,4 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerEntity> findAll() {
 		return CustomerRepository.findAll();
 	}
+
+	@Override
+	public CustomerEntity findByMst(String mst) {
+		return CustomerRepository.findByMst(mst);
+	}
 }

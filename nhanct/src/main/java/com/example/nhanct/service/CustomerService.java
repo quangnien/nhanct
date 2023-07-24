@@ -8,4 +8,5 @@ import java.util.List;
 public interface CustomerService {
 	Page<CustomerEntity> findAll(int pageNumber);
 	List<CustomerEntity> findAll();
+	CustomerEntity findByMst(String mst);
 }

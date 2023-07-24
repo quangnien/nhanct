@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	@CrossOrigin(origins = "http://127.0.0.1:8090/", maxAge = 3600)
+	@CrossOrigin(origins = "http://localhost:7080/", maxAge = 3600)
 	protected void configure(HttpSecurity http) throws Exception {
 //		http.authorizeRequests().antMatchers("/user/invoice/**", "/user/customer/**",
 //				"/user/review", "/admin/profile", "/admin", "/admin/product",
@@ -46,6 +46,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 		http.authorizeRequests().and().formLogin().loginProcessingUrl("/login/admin").loginPage("/login/admin").usernameParameter("username").passwordParameter("password")
 		.defaultSuccessUrl("/admin").failureUrl("/login/admin?message=error");
-
 	}
 }

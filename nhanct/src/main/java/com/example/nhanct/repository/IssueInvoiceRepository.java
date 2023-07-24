@@ -30,6 +30,12 @@ public interface IssueInvoiceRepository extends JpaRepository<IssueInvoiceEntity
 	List<IssueInvoiceEntity> findAllOrderByIdDesc();
 
 	@Query("SELECT s FROM IssueInvoiceEntity s " +
+			" JOIN InvoiceTypeEntity i ON s.invoiceTypeId = i.id" +
+			" WHERE i.codeOfInvoiceType LIKE ?1" +
+			" ORDER BY s.id DESC")
+	List<IssueInvoiceEntity> findAllByInvoiceTypeOrderByIdDesc(String codeInvoiceType);
+
+	@Query("SELECT s FROM IssueInvoiceEntity s " +
 			" ORDER BY s.dateOfRegistration")
 	List<IssueInvoiceEntity> findAllOrderByDate();
 

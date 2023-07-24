@@ -25,26 +25,23 @@ public class CustomerEntity {
 	private int id;
 
 	@Column(name = "mst")
-	@NotBlank(message = "Please Input This Field!")
+//	@NotBlank(message = "Please Input This Field!")
 	private String mst;
 	
 	@Column(name="customer_name")
-	@NotBlank(message = "Please Input This Field!")
+//	@NotBlank(message = "Please Input This Field!")
 	private String customerName;
 	
 	@Column(name="phone")
-	@Phone
-	@NotBlank(message = "Please Input This Field!")
+//	@NotBlank(message = "Please Input This Field!")
 	private String phone;
 	
 	@Column(name="email")
-	@NotBlank(message = "Please Input This Field!")
-	@Email
 	private String email;
 	
 	@Column(name="address")
-	@NotBlank(message = "Please Input This Field!")
-	@Length(min = 15 , message = "This field length must be more than 15 characters!")
+//	@NotBlank(message = "Please Input This Field!")
+//	@Length(min = 15 , message = "This field length must be more than 15 characters!")
 	private String address;
 	
 //	@Column(name="user_name")

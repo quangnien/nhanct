@@ -2,6 +2,7 @@ package com.example.nhanct.controller;
 
 import com.example.nhanct.config.PDFExporter;
 import com.example.nhanct.consts.MenuConstant;
+import com.example.nhanct.dto.InvoiceJson;
 import com.example.nhanct.entity.*;
 import com.example.nhanct.repository.KindOfTaxRepository;
 import com.example.nhanct.service.*;
@@ -693,4 +694,29 @@ public class InvoiceController extends FunctionCommon {
 		}
 		return "False";
 	}
+
+	/* __________ PROCESS FOR AJAX _____________ */
+	@PostMapping("/get-customer")
+	@ResponseBody
+	public InvoiceJson getCustomerName(@RequestParam(name = "mst") String mst) {
+		InvoiceJson invoiceJson = new InvoiceJson();
+		CustomerEntity customerEntity = new CustomerEntity();
+		try {
+			if(mst != null || mst.equals("")){
+				customerEntity = customerService.findByMst(mst);
+				if(null == customerEntity){
+					return null;
+				}
+			}
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+			return null;
+		}
+
+		invoiceJson.setCustomerName(customerEntity.getCustomerName());
+		invoiceJson.setPhone(customerEntity.getPhone());
+		invoiceJson.setAddress(customerEntity.getAddress());
+		return invoiceJson;
+	}
+
 }

@@ -41,47 +41,35 @@
 														th:errors="*{businessId}"></span>
 										</div>
 
-										<div class="form-group">
-											<label>Customer</label> <select th:field="*{customerId}"
-																			class="form-control">
-											<option th:each="item: ${listCustomer}" th:value="${item.id}"
-													th:text="${item.customerName}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('customerId')}"
-														th:errors="*{customerId}"></span>
-										</div>
+<!--										<div class="form-group">-->
+<!--											<label>Customer</label> <select th:field="*{customerId}"-->
+<!--																			class="form-control">-->
+<!--											<option th:each="item: ${listCustomer}" th:value="${item.id}"-->
+<!--													th:text="${item.customerName}"></option>-->
+<!--										</select> <span class="text-danger"-->
+<!--														th:if="${#fields.hasErrors('customerId')}"-->
+<!--														th:errors="*{customerId}"></span>-->
+<!--										</div>-->
 
+<!--										<div class="form-group">-->
+<!--											<label>Issue Invoice</label> <select th:field="*{inputWarehouseId}"-->
+<!--																					  class="form-control">-->
+<!--											<option th:each="item: ${listWarehouse}" th:value="${item.id}"-->
+<!--													th:text="${item.warehouseName}"></option>-->
+<!--										</select> <span class="text-danger"-->
+<!--														th:if="${#fields.hasErrors('inputWarehouseId')}"-->
+<!--														th:errors="*{inputWarehouseId}"></span>-->
+<!--										</div>-->
 										<div class="form-group">
-											<label>Issue Invoice</label> <select th:field="*{inputWarehouseId}"
-																					  class="form-control">
-											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
-													th:text="${item.warehouseName}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('inputWarehouseId')}"
-														th:errors="*{inputWarehouseId}"></span>
+											<label>Invoice Type</label>
+											<select id="invoice-type" class="form-control" th:field="*{invoiceType}">
+												<option value="VAT" id="invoice-type-vat">VAT</option>
+												<option value="WC"  id = "invoice-type-wc">WC</option>
+											</select>
 										</div>
-
 									</div>
 									<div class="col-md-6">
-										<div class="form-group">
-											<label>Warehouse To Input</label> <select th:field="*{inputWarehouseId}"
-																					  class="form-control">
-											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
-													th:text="${item.warehouseName}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('inputWarehouseId')}"
-														th:errors="*{inputWarehouseId}"></span>
-										</div>
 
-										<div class="form-group">
-											<label>Warehouse To Output</label> <select th:field="*{outputWarehouseId}"
-																					   class="form-control">
-											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
-													th:text="${item.warehouseName}"></option>
-											</select> <span class="text-danger"
-															th:if="${#fields.hasErrors('outputWarehouseId')}"
-															th:errors="*{outputWarehouseId}"></span>
-										</div>
 
 <!--										<div class="form-group">-->
 <!--											<label>Issue Invoice</label> <select th:field="*{issueInvoicesId}"-->
@@ -92,6 +80,63 @@
 <!--															th:if="${#fields.hasErrors('issueInvoicesId')}"-->
 <!--															th:errors="*{issueInvoicesId}"></span>-->
 <!--										</div>-->
+
+
+
+										<!-- BEGIN IF INVOICE_TYPE = WC -->
+										<div class="warehouse_div warehouse_hidden">
+											<div class="form-group">
+												<label>Warehouse To Input</label> <select th:field="*{inputWarehouseId}"
+																						  class="form-control">
+												<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+														th:text="${item.warehouseName}"></option>
+											</select> <span class="text-danger"
+															th:if="${#fields.hasErrors('inputWarehouseId')}"
+															th:errors="*{inputWarehouseId}"></span>
+											</div>
+
+											<div class="form-group">
+												<label>Warehouse To Output</label> <select th:field="*{outputWarehouseId}"
+																						   class="form-control">
+												<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+														th:text="${item.warehouseName}"></option>
+											</select> <span class="text-danger"
+															th:if="${#fields.hasErrors('outputWarehouseId')}"
+															th:errors="*{outputWarehouseId}"></span>
+											</div>
+										</div>
+
+										<!-- END IF INVOICE_TYPE = WC -->
+
+										<!-- BEGIN IF INVOICE_TYPE = VAT -->
+
+										<div class="form-group vat_div vat_display ">
+											<div >
+												<!-- DUMA begin research to fixed eror 403 -->
+												<meta name="_csrf" th:content="${_csrf.token}"/>
+												<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+												<!-- DUMA begin research to fixed eror 403 -->
+												<label>MST</label> <input id="vat_mst" type="text"  class="form-control" th:field="*{mst}"/>
+											</div>
+
+											<div>
+												<label>Customer Name</label> <input id="vat_customer_name" type="text"  class="form-control" th:field="*{customerName}"/>
+											</div>
+
+											<div>
+												<label>Phone</label> <input id="vat_phone" type="text"  class="form-control" th:field="*{phone}"/>
+											</div>
+
+											<div>
+												<label>Address</label> <input id="vat_address" type="text"  class="form-control" th:field="*{address}"/>
+											</div>
+										</div>
+
+
+
+										<!-- END IF INVOICE_TYPE = VAT -->
+
+
 
 									</div>
 									<div class="col-12 mt-3">
@@ -109,5 +154,33 @@
 			</div>
 		</div>
 	</div>
+
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			debugger;
+
+			let vat = document.getElementById('invoice-type-vat').value;
+		});
+
+			// // Gọi api để thêm mới
+			// axios({
+			// 	url: 'http://localhost:8080/ElearningApp/api/admin/role',
+			// 	method: 'POST',
+			// 	data: {
+			// 		"id": "",
+			// 		"name": name,
+			// 		"description": desc
+			// 	}
+			// })
+			// 		.then(function (response) { // Xử lý response trả về
+			// 			console.log(response);
+			// 			swal("Thông báo!", "Add New thành công!", "success");
+			// 			window.location.href = '/role-index.html';
+			// 		})
+			// 		.catch(function (error) { // Xử lý error trả về
+			// 			console.log(error);
+			// 			swal("Thông báo!", "Add New thất bại!", "error");
+			// 		})
+	</script>
 </body>
 </html>

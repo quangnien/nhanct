@@ -29,6 +29,7 @@
 						<div class="card-block">
 							<form th:action="@{/admin/invoice/edit}" method="post"
 								th:object="${invoice}" enctype="multipart/form-data">
+								<input type="hidden" th:field="*{id}" />
 								<div class="row">
 									<input type="hidden" th:field="*{id}" />
 									<div class="col-md-6">
@@ -42,54 +43,90 @@
 														th:errors="*{businessId}"></span>
 										</div>
 
+<!--										<div class="form-group">-->
+<!--											<label>Issue Invoice</label> <select th:field="*{inputWarehouseId}"-->
+<!--																				 class="form-control">-->
+<!--											<option th:each="item: ${listWarehouse}" th:value="${item.id}"-->
+<!--													th:text="${item.warehouseName}"></option>-->
+<!--										</select> <span class="text-danger"-->
+<!--														th:if="${#fields.hasErrors('inputWarehouseId')}"-->
+<!--														th:errors="*{inputWarehouseId}"></span>-->
+<!--										</div>-->
+
+
 										<div class="form-group">
-											<label>Customer</label> <select th:field="*{customerId}"
-																			class="form-control">
-											<option th:each="item: ${listCustomer}" th:value="${item.id}"
-													th:text="${item.customerName}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('customerId')}"
-														th:errors="*{customerId}"></span>
+											<label>Invoice Type</label>
+											<select id="invoice-type" class="form-control" th:field="*{invoiceType}">
+												<option value="VAT" id="invoice-type-vat">VAT</option>
+												<option value="WC"  id = "invoice-type-wc">WC</option>
+											</select>
 										</div>
 									</div>
-
 									<div class="col-md-6">
-										<div class="form-group">
-											<label>Warehouse To Input</label> <select th:field="*{inputWarehouseId}"
-																					  class="form-control">
-											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
-													th:text="${item.warehouseName}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('inputWarehouseId')}"
-														th:errors="*{inputWarehouseId}"></span>
+
+
+
+										<!-- BEGIN IF INVOICE_TYPE = WC -->
+										<div class="warehouse_div warehouse_hidden">
+											<div class="form-group">
+												<label>Warehouse To Input</label> <select th:field="*{inputWarehouseId}"
+																						  class="form-control">
+												<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+														th:text="${item.warehouseName}"></option>
+											</select> <span class="text-danger"
+															th:if="${#fields.hasErrors('inputWarehouseId')}"
+															th:errors="*{inputWarehouseId}"></span>
+											</div>
+
+											<div class="form-group">
+												<label>Warehouse To Output</label> <select th:field="*{outputWarehouseId}"
+																						   class="form-control">
+												<option th:each="item: ${listWarehouse}" th:value="${item.id}"
+														th:text="${item.warehouseName}"></option>
+											</select> <span class="text-danger"
+															th:if="${#fields.hasErrors('outputWarehouseId')}"
+															th:errors="*{outputWarehouseId}"></span>
+											</div>
 										</div>
 
-										<div class="form-group">
-											<label>Warehouse To Output</label> <select th:field="*{outputWarehouseId}"
-																					   class="form-control">
-											<option th:each="item: ${listWarehouse}" th:value="${item.id}"
-													th:text="${item.warehouseName}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('outputWarehouseId')}"
-														th:errors="*{outputWarehouseId}"></span>
+										<!-- END IF INVOICE_TYPE = WC -->
+
+										<!-- BEGIN IF INVOICE_TYPE = VAT -->
+
+										<div class="form-group vat_div vat_display ">
+											<div >
+												<!-- DUMA begin research to fixed eror 403 -->
+												<meta name="_csrf" th:content="${_csrf.token}"/>
+												<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+												<!-- DUMA begin research to fixed eror 403 -->
+												<label>MST</label> <input id="vat_mst" type="text"  class="form-control" th:field="*{mst}"/>
+											</div>
+
+											<div>
+												<label>Customer Name</label> <input id="vat_customer_name" type="text"  class="form-control" th:field="*{customerName}"/>
+											</div>
+
+											<div>
+												<label>Phone</label> <input id="vat_phone" type="text"  class="form-control" th:field="*{phone}"/>
+											</div>
+
+											<div>
+												<label>Address</label> <input id="vat_address" type="text"  class="form-control" th:field="*{address}"/>
+											</div>
 										</div>
 
-<!--										<div class="form-group">-->
-<!--											<label>Issue Invoice</label> <select th:field="*{issueInvoicesId}"-->
-<!--																				 class="form-control">-->
-<!--											<option th:each="item: ${listIssueInvoice}" th:value="${item.id}"-->
-<!--													th:text="${item.symbol}"></option>-->
-<!--										</select> <span class="text-danger"-->
-<!--														th:if="${#fields.hasErrors('issueInvoicesId')}"-->
-<!--														th:errors="*{issueInvoicesId}"></span>-->
-<!--										</div>-->
+
+
+										<!-- END IF INVOICE_TYPE = VAT -->
+
+
 
 									</div>
 									<div class="col-12 mt-3">
 										<div class="form-group">
 											<button type="submit" class="btn btn-primary m-b-0">Save</button>
 											<a th:href="@{/admin/invoice}"
-												class="btn btn-secondary text-white">Back</a>
+											   class="btn btn-secondary text-white">Back</a>
 										</div>
 									</div>
 								</div>

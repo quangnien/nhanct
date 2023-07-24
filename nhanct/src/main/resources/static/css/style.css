@@ -25236,3 +25236,21 @@ body.dark #styleSelector .form-control {
 .input_inline{
 	display: inline-block !important;
 }
+
+
+/* PROCESS INVOICE */
+.warehouse_hidden {
+    display: none;
+}
+
+.warehouse_display {
+    display: block;
+}
+
+.vat_hidden {
+    display: none;
+}
+
+.vat_display {
+    display: block;
+}

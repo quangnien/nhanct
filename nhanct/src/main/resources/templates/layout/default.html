@@ -92,6 +92,92 @@ Meta -->
 		src="http://cdn.ckeditor.com/4.4.7/standard-all/adapters/jquery.js"></script>
 		
 	<script th:src="@{/js/number/easy-number-separator.js}"></script>
+
+	<!-- INVOICE FOR USER -> CHOOSE INVOICE TYPE -->
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			const vat = "VAT";
+			const wc = "WC";
+			let invoice_type = document.getElementById('invoice-type').value;
+			if(invoice_type == vat){
+				let vat_div = $(".vat_div");
+				let warehouse_div = $(".warehouse_div");
+
+				warehouse_div.addClass("warehouse_hidden");
+				warehouse_div.removeClass("warehouse_display");
+
+				vat_div.addClass("vat_display");
+				vat_div.removeClass("vat_hidden");
+			}
+			else if(invoice_type == wc){
+				let vat_div = $(".vat_div");
+				let warehouse_div = $(".warehouse_div");
+
+				vat_div.addClass("vat_hidden");
+				vat_div.removeClass("vat_display");
+
+				warehouse_div.addClass("warehouse_display");
+				warehouse_div.removeClass("warehouse_hidden");
+			}
+
+			$('#invoice-type').change(function() {
+				debugger;
+				let invoice_type = document.getElementById('invoice-type').value;
+				if(invoice_type == vat){
+					let vat_div = $(".vat_div");
+					let warehouse_div = $(".warehouse_div");
+
+					warehouse_div.addClass("warehouse_hidden");
+					warehouse_div.removeClass("warehouse_display");
+
+					vat_div.addClass("vat_display");
+					vat_div.removeClass("vat_hidden");
+				}
+				else if(invoice_type == wc){
+					let vat_div = $(".vat_div");
+					let warehouse_div = $(".warehouse_div");
+
+					vat_div.addClass("vat_hidden");
+					vat_div.removeClass("vat_display");
+
+					warehouse_div.addClass("warehouse_display");
+					warehouse_div.removeClass("warehouse_hidden");
+				}
+			});
+
+			$('#vat_mst').on('change', function(e) {
+				e.preventDefault();
+				let mst = document.getElementById('vat_mst').value;
+				var pathname = window.location.origin;
+
+				var token = $("meta[name='_csrf']").attr("content");
+				var header = $("meta[name='_csrf_header']").attr("content");
+
+				$.ajax({
+					url: pathname + '/admin/invoice/get-customer',
+					type: 'POST',
+					data: {
+						'mst': mst
+					},
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function(invoiceJson) {
+						console.log("Call API success!");
+						if (null != invoiceJson) {
+							$('#vat_customer_name').val(invoiceJson.customerName);
+							$('#vat_address').val(invoiceJson.address);
+							$('#vat_phone').val(invoiceJson.phone);
+						}
+					},
+					error: function(xhr) {
+						console.log("Call API error!");
+					}
+				});
+			});
+
+		});
+	</script>
 </body>
 
 </html>
