@@ -3,6 +3,7 @@ package com.example.nhanct.repository;
 import com.example.nhanct.entity.IssueInvoiceEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -44,5 +45,35 @@ public interface IssueInvoiceRepository extends JpaRepository<IssueInvoiceEntity
 	//paging by category
 //	@Query("SELECT s FROM IssueInvoiceEntity s WHERE s.categoryId = ?1")
 //	public List<IssueInvoiceEntity> findAllIssueInvoiceByCategory(int id, Pageable pageable);
+
+	/*______________________ BEGIN REPORT FOR ISSUE ______________________*/
+	/*______________________ BEGIN REPORT FOR ISSUE ______________________*/
+	/*______________________ BEGIN REPORT FOR ISSUE ______________________*/
+	/*______________________ BEGIN REPORT FOR ISSUE ______________________*/
+	/*______________________ BEGIN REPORT FOR ISSUE ______________________*/
+	@Query(value = "SELECT DISTINCT  ii.*" +
+			" FROM issue_invoice ii" +
+			" JOIN invoice i ON ii.id = i.issue_invoice_id" +
+			" JOIN  invoice_type it ON it.id = ii.invoice_type_id" +
+			" WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
+			" AND  i.flag_invoice_type = :invoiceType" +
+			" GROUP BY i.date_present" +
+			" ORDER BY i.date_present ASC",
+			nativeQuery = true)
+	List<IssueInvoiceEntity> findAllReportIssueByInvoiceType(@Param("invoiceType") String invoiceType,
+															 @Param("fromDate") String fromDate,
+															 @Param("toDate") String toDate);
+
+	@Query(value = "SELECT DISTINCT  ii.*" +
+			" FROM issue_invoice ii" +
+			" JOIN invoice i ON ii.id = i.issue_invoice_id" +
+			" JOIN  invoice_type it ON it.id = ii.invoice_type_id" +
+			" WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
+			" GROUP BY i.date_present" +
+			" ORDER BY i.date_present ASC",
+			nativeQuery = true)
+	List<IssueInvoiceEntity> findAllReporIssuetByDate(@Param("fromDate") String fromDate,
+													  @Param("toDate") String toDate);
+
 
 }

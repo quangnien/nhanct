@@ -11,6 +11,7 @@ public enum StatusOfInvoiceEnum {
     CHO_DUYET("Waiting Approve", "Waiting Approve"),
     DA_DUYET("Approved", "Approved"),
     DA_HUY("Canceled", "Canceled"),
+    ALL("All", "All"),
     ;
 
     private final String code;
@@ -32,6 +33,7 @@ public enum StatusOfInvoiceEnum {
 
     public static List<Select2Dto> getSelect2ComboList() {
         List<Select2Dto> list = new ArrayList<>();
+        list.add(new Select2Dto(StatusOfInvoiceEnum.ALL.getCode(), StatusOfInvoiceEnum.ALL.getText(), StatusOfInvoiceEnum.ALL.getText()));
         list.add(new Select2Dto(StatusOfInvoiceEnum.CHO_DUYET.getCode(), StatusOfInvoiceEnum.CHO_DUYET.getText(), StatusOfInvoiceEnum.CHO_DUYET.getText()));
         list.add(new Select2Dto(StatusOfInvoiceEnum.DA_DUYET.getCode(), StatusOfInvoiceEnum.DA_DUYET.getText(), StatusOfInvoiceEnum.DA_DUYET.getText()));
         list.add(new Select2Dto(StatusOfInvoiceEnum.DA_HUY.getCode(), StatusOfInvoiceEnum.DA_HUY.getText(), StatusOfInvoiceEnum.DA_HUY.getText()));

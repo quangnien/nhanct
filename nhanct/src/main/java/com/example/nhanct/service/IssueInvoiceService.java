@@ -1,5 +1,6 @@
 package com.example.nhanct.service;
 
+import com.example.nhanct.dto.ReportDto;
 import com.example.nhanct.entity.IssueInvoiceEntity;
 import org.springframework.data.domain.Page;
 
@@ -17,4 +18,6 @@ public interface IssueInvoiceService {
 	boolean delete(int id);
 
 	List<IssueInvoiceEntity> findAllByKeyword(String keyword);
+	List<IssueInvoiceEntity> findAllReportIssue(ReportDto report);
+
 }

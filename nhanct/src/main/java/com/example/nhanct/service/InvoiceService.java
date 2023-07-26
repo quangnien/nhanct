@@ -1,6 +1,8 @@
 package com.example.nhanct.service;
 
+import com.example.nhanct.dto.ReportDto;
 import com.example.nhanct.entity.InvoiceEntity;
+import com.example.nhanct.entity.IssueInvoiceEntity;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -18,5 +20,8 @@ public interface InvoiceService {
 
 	void changeStatusInvoice(int id, String status, String reason) throws Exception;
 	void pdfForCustomer(int id) throws Exception;
+
+	/*____InvoiceType_____*/
+	List<InvoiceEntity> findAllReport(ReportDto report);
 
 }

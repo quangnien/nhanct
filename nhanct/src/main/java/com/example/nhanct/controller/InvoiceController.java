@@ -268,20 +268,20 @@ public class InvoiceController extends FunctionCommon {
 	}
 
 	/*______________________________________*/
-//	@GetMapping("approve")
-//	public String approve(ModelMap model, @RequestParam("id") int id, HttpServletResponse response) {
-//		if(hasRoleAuthor(MenuConstant.INVOICE) == false) {
-//			return "deny/deny";
-//		}
-//		menuListRole(model);
-//
-//		String status = "approve";
-//		try {
-//			invoiceService.changeStatusInvoice(id, status, "");
-//
-//			/* ___________ AUTO SEND MAIL ____________*/
+	@GetMapping("approve")
+	public String approve(ModelMap model, @RequestParam("id") int id, HttpServletResponse response) {
+		if (hasRoleAuthor(MenuConstant.INVOICE) == false) {
+			return "deny/deny";
+		}
+		menuListRole(model);
+
+		String status = "approve";
+		try {
+			invoiceService.changeStatusInvoice(id, status, "");
+
+			/* ___________ AUTO SEND MAIL ____________*/
 //			InvoiceEntity invoiceEntity = invoiceService.getById(id);
-//
+
 //			SimpleMailMessage message = new SimpleMailMessage();
 //
 //			helper.setTo(invoiceEntity.getCustomer().getEmail());
@@ -289,6 +289,8 @@ public class InvoiceController extends FunctionCommon {
 //			message.setText("Here is invoice for you!");
 //
 //			if(invoiceEntity != null){
+//
+//			}
 //				/*__________________*/
 //				response.setContentType("application/pdf");
 //				DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -396,11 +398,14 @@ public class InvoiceController extends FunctionCommon {
 //		} catch (Exception e) {
 //			throw new RuntimeException(e);
 //		}
-//
-//		return "redirect:/admin/invoice";
-//	}
 
-	/* ____________________________ EXPORT PDF ____________________________*/
+			return "redirect:/admin/invoice";
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+		/* ____________________________ EXPORT PDF ____________________________*/
 	@GetMapping("report/business")
 	public void exportPdfForBusiness(@RequestParam("id") int id, HttpServletResponse response) throws IOException, DocumentException {
 

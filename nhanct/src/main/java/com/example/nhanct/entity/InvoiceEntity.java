@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +53,15 @@ public class InvoiceEntity {
 	@Column(name = "flag_invoice_type")
 	private String flagInvoiceType;
 
+	@Column(name = "cancel_date")
+	private Date cancelDate;
+
+	@Column(name = "status_present")
+	private String statusPresent;
+
+	@Column(name = "date_present")
+	private Date datePresent;
+
 	/* _____ begin FOR CUSTOMER IF INVOICE-TYPE IS VAT _____ */
 	@Transient
 	private String invoiceType;
@@ -67,6 +77,41 @@ public class InvoiceEntity {
 
 	@Transient
 	private String address;
+
+	@Column(name = "from_number")
+	private Integer  fromNumber;
+
+	@Column(name = "to_number")
+	private Integer  toNumber;
+
+	@Column(name = "price_after_tax")
+	private String priceAfterTax;
+
+	@Column(name = "price_of_tax")
+	private String priceOfTax;
+
+	@Column(name = "price_before_tax")
+	private String priceBeforeTax;
+
+	@Column(name = "quantity")
+	private Integer quantity;
+
+	/* FOR ISSUE INVOICE REPORT */
+//	@Column(name = "issue_quantity")
+//	private Integer issueQuantity;
+//
+//	@Column(name = "issue_from_number")
+//	private Integer  issueFromNumber;
+//
+//	@Column(name = "issue_to_number")
+//	private Integer  issueToNumber;
+//
+//	@Column(name = "issue_number_of_invoice")
+//	private Integer  issueNumberOfInvoice;
+//
+//	@Column(name = "issue_number_empty")
+//	private Integer  issueNumberEmpty;
+
 	/* _____ end FOR CUSTOMER IF INVOICE-TYPE IS VAT _____ */
 
 	/*------------------------*/

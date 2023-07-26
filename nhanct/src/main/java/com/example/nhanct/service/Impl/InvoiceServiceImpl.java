@@ -1,25 +1,32 @@
 package com.example.nhanct.service.Impl;
 
-import com.example.nhanct.entity.*;
+import com.example.nhanct.dto.ReportDto;
+import com.example.nhanct.entity.CustomerEntity;
+import com.example.nhanct.entity.InvoiceEntity;
+import com.example.nhanct.entity.IssueInvoiceEntity;
+import com.example.nhanct.entity.WarehouseEntity;
 import com.example.nhanct.enumdef.StatusOfInvoiceEnum;
 import com.example.nhanct.repository.CustomerRepository;
 import com.example.nhanct.repository.InvoiceRepository;
 import com.example.nhanct.repository.IssueInvoiceRepository;
 import com.example.nhanct.repository.WarehouseRepository;
-import com.example.nhanct.service.CustomerService;
 import com.example.nhanct.service.InvoiceService;
 import com.example.nhanct.utils.SecurityUtils;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +92,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 		invoice.setIssuerId(myContext.getPrincipal().getId());
 		invoice.setReleaserId(myContext.getPrincipal().getId());
 		invoice.setStatus(StatusOfInvoiceEnum.DU_THAO.getText());
+		invoice.setStatusPresent(StatusOfInvoiceEnum.DU_THAO.getText());
+		invoice.setDatePresent(new Date());
 
 		IssueInvoiceEntity issueInvoice = new IssueInvoiceEntity();
 		if(invoice.getInvoiceType().equals("VAT")){
@@ -129,6 +138,10 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 				invoice.setCustomerId(customerEntity.getId());
 			}
+		}
+		else {
+			CustomerEntity customerTemp = customerRepository.findAll().get(0);
+			invoice.setCustomerId(customerTemp.getId());
 		}
 
 		if(invoice.getInvoiceType().equals("VAT")){
@@ -215,6 +228,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 					invoice.setReleaseDate(new Date());
 					invoice.setReleaserId(myContext.getPrincipal().getId());
 					invoice.setStatus(StatusOfInvoiceEnum.DA_DUYET.getText());
+					invoice.setStatusPresent(StatusOfInvoiceEnum.DA_DUYET.getText());
+					invoice.setDatePresent(new Date());
 
 					Optional<IssueInvoiceEntity> issueInvoiceEntityOptional = issueInvoiceRepository.findById(invoice.getIssueInvoiceId());
 					if(issueInvoiceEntityOptional.isPresent()){
@@ -234,10 +249,15 @@ public class InvoiceServiceImpl implements InvoiceService{
 				else if(status.equals("cancel")){
 					invoice.setReasonForCancellation(reason);
 					invoice.setStatus(StatusOfInvoiceEnum.DA_HUY.getText());
+					invoice.setCancelDate(new Date());
+					invoice.setStatusPresent(StatusOfInvoiceEnum.DA_HUY.getText());
+					invoice.setDatePresent(new Date());
 					invoiceRepository.save(invoice);
 				}
 				else if(status.equals("request")){
 					invoice.setStatus(StatusOfInvoiceEnum.CHO_DUYET.getText());
+					invoice.setStatusPresent(StatusOfInvoiceEnum.CHO_DUYET.getText());
+					invoice.setDatePresent(new Date());
 					invoiceRepository.save(invoice);
 				}
 			}
@@ -251,6 +271,80 @@ public class InvoiceServiceImpl implements InvoiceService{
 	}
 
 	@Override
+	public List<InvoiceEntity> findAllReport(ReportDto report) {
+		if(report.getInvoiceType().equals(StatusOfInvoiceEnum.ALL.getText())){
+			report.setInvoiceType(null);
+		}
+		if(report.getStatus().equals(StatusOfInvoiceEnum.ALL.getText())){
+			report.setStatus(null);
+		}
+		if(report.getKindOfTax().equals(StatusOfInvoiceEnum.ALL.getText())){
+			report.setKindOfTax(null);
+		}
+
+		String fromDate = dateFormat(report.getFromDate());
+		String toDate = dateFormat(report.getToDate());
+
+
+		if(report.getInvoiceType() != null
+			&& report.getKindOfTax() == null
+			&& report.getStatus() == null){
+				return invoiceRepository.findAllReportByInvoiceType(
+						report.getInvoiceType(),
+						fromDate, toDate);
+		}
+		else if(report.getInvoiceType() != null
+				&& report.getKindOfTax() != null
+				&& report.getStatus() == null){
+			return invoiceRepository.findAllReportByInvoiceTypeAndKindOfTax(
+					report.getInvoiceType(), report.getKindOfTax(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() != null
+				&& report.getKindOfTax() == null
+				&& report.getStatus() != null){
+			return invoiceRepository.findAllReportByInvoiceTypeAndStatus(
+					report.getInvoiceType(), report.getStatus(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() != null
+				&& report.getKindOfTax() != null
+				&& report.getStatus() != null){
+			return invoiceRepository.findAllReportByInvoiceTypeAndStatusAndKindOfTax(
+					report.getInvoiceType(), report.getStatus(), report.getKindOfTax(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() == null
+				&& report.getKindOfTax() != null
+				&& report.getStatus() == null){
+			return invoiceRepository.findAllReportByKindOfTax(
+					report.getKindOfTax(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() == null
+				&& report.getKindOfTax() != null
+				&& report.getStatus() != null){
+			return invoiceRepository.findAllReportByStatusAndKindOfTax(
+					report.getStatus(), report.getKindOfTax(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() == null
+				&& report.getKindOfTax() == null
+				&& report.getStatus() != null){
+			return invoiceRepository.findAllReportByStatus(
+					report.getStatus(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() == null
+				&& report.getKindOfTax() == null
+				&& report.getStatus() == null){
+			return invoiceRepository.findAllReportByDate(
+					fromDate, toDate);
+		}
+		return null;
+	}
+
+	@Override
 	public List<InvoiceEntity> findAll() {
 		return invoiceRepository.findAll();
 	}
@@ -259,6 +353,18 @@ public class InvoiceServiceImpl implements InvoiceService{
 			throws IOException, TemplateException {
 		Template t = configuration.getTemplate(template);
 		return FreeMarkerTemplateUtils.processTemplateIntoString(t, inParams);
+	}
+
+	private String dateFormat(Date inputDate){
+
+		Instant instant = inputDate.toInstant();
+		ZoneId zoneId = ZoneId.systemDefault();
+		LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+		String formattedDate = localDateTime.format(formatter);
+		return formattedDate;
 	}
 
 //	@Override

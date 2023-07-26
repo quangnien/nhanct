@@ -16,5 +16,8 @@ public interface MenuConstant {
     String WAREHOUSE = "warehouse";
     String KIND_OF_TAX = "kind-of-tax";
     String MENU = "menu";
+    String REPORT_INVOICE = "report/invoice";
+    String REPORT_INVOICE_WAREHOUSE = "report/invoice-warehouse";
+    String REPORT_INVOICE_ISSUE = "report-invoice-issue";
     String ROLE = "role";
 }

@@ -1,6 +1,8 @@
 package com.example.nhanct.service.Impl;
 
+import com.example.nhanct.dto.ReportDto;
 import com.example.nhanct.entity.IssueInvoiceEntity;
+import com.example.nhanct.enumdef.StatusOfInvoiceEnum;
 import com.example.nhanct.repository.IssueInvoiceRepository;
 import com.example.nhanct.service.IssueInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,4 +104,36 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 //		return issueInvoiceRepository.findByCategoryId(id);
 //	}
 
+	@Override
+	public List<IssueInvoiceEntity> findAllReportIssue(ReportDto report) {
+		if(report.getInvoiceType().equals(StatusOfInvoiceEnum.ALL.getText())){
+			report.setInvoiceType(null);
+		}
+
+		String fromDate = dateFormat(report.getFromDate());
+		String toDate = dateFormat(report.getToDate());
+
+		if(report.getInvoiceType() != null){
+			return issueInvoiceRepository.findAllReportIssueByInvoiceType(
+					report.getInvoiceType(),
+					fromDate, toDate);
+		}
+		else if(report.getInvoiceType() == null){
+			return issueInvoiceRepository.findAllReporIssuetByDate(
+					fromDate, toDate);
+		}
+		return null;
+	}
+
+	private String dateFormat(Date inputDate){
+
+		Instant instant = inputDate.toInstant();
+		ZoneId zoneId = ZoneId.systemDefault();
+		LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+		String formattedDate = localDateTime.format(formatter);
+		return formattedDate;
+	}
 }
