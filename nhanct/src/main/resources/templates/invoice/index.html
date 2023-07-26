@@ -98,8 +98,11 @@
 <!--											<td th:text="${item.business.businessName}"></td>-->
 											<td th:text="${item.customer.customerName}"></td>
 
-											<td th:text="${item.inputWarehouse.warehouseName}"></td>
-											<td th:text="${item.outputWarehouse.warehouseName}"></td>
+											<td th:if="${item.flagInvoiceType == 'WC'}" th:text="${item.inputWarehouse.warehouseName}"></td>
+											<td th:if="${item.flagInvoiceType == 'VAT'}"></td>
+
+											<td th:if="${item.flagInvoiceType == 'WC'}" th:text="${item.outputWarehouse.warehouseName}"></td>
+											<td th:if="${item.flagInvoiceType == 'VAT'}"></td>
 
 											<!--											<td th:text="${item.issueInvoice.}"></td>-->
 

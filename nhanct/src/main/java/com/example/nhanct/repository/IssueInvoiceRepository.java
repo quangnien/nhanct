@@ -57,7 +57,6 @@ public interface IssueInvoiceRepository extends JpaRepository<IssueInvoiceEntity
 			" JOIN  invoice_type it ON it.id = ii.invoice_type_id" +
 			" WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
 			" AND  i.flag_invoice_type = :invoiceType" +
-			" GROUP BY i.date_present" +
 			" ORDER BY i.date_present ASC",
 			nativeQuery = true)
 	List<IssueInvoiceEntity> findAllReportIssueByInvoiceType(@Param("invoiceType") String invoiceType,
@@ -69,7 +68,6 @@ public interface IssueInvoiceRepository extends JpaRepository<IssueInvoiceEntity
 			" JOIN invoice i ON ii.id = i.issue_invoice_id" +
 			" JOIN  invoice_type it ON it.id = ii.invoice_type_id" +
 			" WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-			" GROUP BY i.date_present" +
 			" ORDER BY i.date_present ASC",
 			nativeQuery = true)
 	List<IssueInvoiceEntity> findAllReporIssuetByDate(@Param("fromDate") String fromDate,

@@ -31,30 +31,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
     List<InvoiceEntity> findAll();
 
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -103,30 +105,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 												   @Param("fromDate") String fromDate,
 												   @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -179,30 +183,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 															@Param("fromDate") String fromDate,
 															@Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -255,36 +261,36 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 															   @Param("fromDate") String fromDate,
 															   @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+////			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 //			" , i.date_present " +
 //			" , i.priceOfTax " +
 //			" , i.priceBeforeTax " +
 //			" , i.priceAfterTax " +
 //			" , i.fromNumber " +
 //			" , i.toNumber " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -343,30 +349,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 																			  );
 	/*_____Status____*/
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -415,30 +423,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 											  @Param("fromDate") String fromDate,
 											  @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -492,30 +502,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 														  @Param("toDate") String toDate);
 	/*_____KindOfTax____*/
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol" +
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) " +
+			" , MAX(i.issue_date) " +
+			" , MAX(i.release_date) as  release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +
@@ -564,30 +576,32 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 												 @Param("fromDate") String fromDate,
 												 @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
-			" , i.id " +
-			" , i.number_of_invoice " +
-			" , i.issue_date " +
-			" , i.release_date " +
-			" , i.status " +
-			" , i.reason_for_cancellation " +
-			" , i.sum_price " +
-			" , i.symbol " +
-			" , i.flag_invoice_type " +
-			" , i.cancel_date " +
-			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
-			" , i.business_id " +
-			" , i.issue_invoice_id " +
-			" , i.customer_id " +
-			" , i.input_warehouse_id " +
-			" , i.output_warehouse_id " +
-			" , i.issuer_id " +
-			" , i.releaser_id " +
+			" MAX(ii.symbol) as symbol"+
+			" , MAX(i.id) as id " +
+			" , MAX(i.number_of_invoice) as number_of_invoice " +
+			" , MAX(i.issue_date) as issue_date " +
+			" , MAX(i.release_date) as release_date" +
+			" , MAX(i.status) as status " +
+			" , MAX(i.reason_for_cancellation) AS reason_for_cancellation" +
+			" , MAX(i.sum_price) as sum_price " +
+			" , MAX(i.symbol) as symbol " +
+			" , MAX(i.flag_invoice_type) AS flag_invoice_type " +
+			" , MAX(i.cancel_date) AS  cancel_date" +
+			" , MAX(i.status_present) AS status_present " +
+
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+
+			" , MAX(i.business_id) AS business_id " +
+			" , MAX(i.issue_invoice_id) AS issue_invoice_id " +
+			" , MAX(i.customer_id) AS customer_id  " +
+			" , MAX(i.input_warehouse_id) AS input_warehouse_id " +
+			" , MAX(i.output_warehouse_id) AS output_warehouse_id  " +
+			" , MAX(i.issuer_id) AS issuer_id  " +
+			" , MAX(i.releaser_id) AS releaser_id  " +
 
 //			" , i.issue_quantity " +
 //			" , i.issue_from_number " +

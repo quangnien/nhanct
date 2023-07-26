@@ -118,8 +118,9 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 			// tiền thuế = tiền trước thuế * tỉ lệ thuế
 			BigDecimal priceOfTax = BigDecimal.valueOf(kindOfTax.getRatio()).multiply(priceBeforeTax).divide(BigDecimal.valueOf(100));
 
-			// tiền sau thuế = tiền trước thuế * tiền thuế
-			BigDecimal priceAfterTax = priceBeforeTax.multiply(priceOfTax);
+			// tiền sau thuế = tiền trước thuế + tiền thuế
+//			BigDecimal priceAfterTax = priceBeforeTax.multiply(priceOfTax);
+			BigDecimal priceAfterTax = priceBeforeTax.add(priceOfTax);
 			BigDecimal sumOfAfterTax = priceAfterTax;
 
 			invoiceDetail.setPriceBeforeTax(priceBeforeTax);

@@ -235,7 +235,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 					if(issueInvoiceEntityOptional.isPresent()){
 						IssueInvoiceEntity issueInvoiceEntity = issueInvoiceEntityOptional.get();
 						int curentInvoiceNumber = issueInvoiceEntity.getCurrentInvoiceNumber();
-						if(curentInvoiceNumber + 1 > issueInvoiceEntity.getQuantity()){
+						if(curentInvoiceNumber + 1 > issueInvoiceEntity.getToNumber()){
 							throw new Exception("Quantity of Invoice > quantity was registered with Issue-Invoice.");
 						}
 						else {
