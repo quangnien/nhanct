@@ -59,7 +59,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="item, state : ${role}">
+										<tr th:each="item, state : ${role}" th:if="${item.roleCode != 'ROLE_ADMIN'}">
 											<th th:text="${state.index} + 5 * (${currentPage} - 1)">1</th>
 											<td th:text="${item.roleCode}"></td>
 											<td th:text="${item.roleName}"></td>
