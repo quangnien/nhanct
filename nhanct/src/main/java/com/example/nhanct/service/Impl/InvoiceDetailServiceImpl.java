@@ -2,8 +2,10 @@ package com.example.nhanct.service.Impl;
 
 import com.example.nhanct.dto.InvoiceDetailDto;
 import com.example.nhanct.entity.InvoiceDetailEntity;
+import com.example.nhanct.entity.InvoiceEntity;
 import com.example.nhanct.entity.KindOfTaxEntity;
 import com.example.nhanct.repository.InvoiceDetailRepository;
+import com.example.nhanct.repository.InvoiceRepository;
 import com.example.nhanct.repository.KindOfTaxRepository;
 import com.example.nhanct.service.InvoiceDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 	private InvoiceDetailRepository invoiceDetailRepository ;
 	@Autowired
 	private KindOfTaxRepository kindOfTaxRepository;
+	@Autowired
+	private InvoiceRepository invoiceRepository;
 
 	@Override
 	public Page<InvoiceDetailEntity> findAll(int pageNumber, int invoiceId) {
@@ -109,7 +113,13 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 
 	private void updatePriceTax(InvoiceDetailEntity invoiceDetail){
 
-		if(invoiceDetail.getInvoice().getFlagInvoiceType().equals("VAT")){
+		String typeOfInvoice = "";
+		Optional<InvoiceEntity> invoiceEntity = invoiceRepository.findById(invoiceDetail.getInvoiceId());
+		if(invoiceEntity != null){
+			typeOfInvoice = invoiceEntity.get().getFlagInvoiceType();
+		}
+
+		if(typeOfInvoice.equals("VAT")){
 			// tiền trước thuế = đơn giá * số lượng
 			BigDecimal priceBeforeTax = BigDecimal.valueOf(invoiceDetail.getQuantity()).multiply(invoiceDetail.getPrice());
 
@@ -130,6 +140,9 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 				invoiceDetail.setPriceOfTax(priceOfTax);
 				invoiceDetail.setSumMoneyAfterTax(sumOfAfterTax);
 			}
+		}
+		else {
+
 		}
 	}
 }
