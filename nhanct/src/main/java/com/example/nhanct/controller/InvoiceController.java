@@ -729,6 +729,7 @@ public class InvoiceController extends FunctionCommon {
 		invoiceJson.setCustomerName(customerEntity.getCustomerName());
 		invoiceJson.setPhone(customerEntity.getPhone());
 		invoiceJson.setAddress(customerEntity.getAddress());
+		invoiceJson.setEmail(customerEntity.getEmail());
 		return invoiceJson;
 	}
 

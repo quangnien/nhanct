@@ -78,6 +78,9 @@ public class InvoiceEntity {
 	@Transient
 	private String address;
 
+	@Transient
+	private String email;
+
 	@Column(name = "from_number")
 	private Integer  fromNumber;
 

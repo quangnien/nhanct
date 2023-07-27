@@ -66,6 +66,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			invoiceEntity.setCustomerName(customerEntity.getCustomerName());
 			invoiceEntity.setPhone(customerEntity.getPhone());
 			invoiceEntity.setAddress(customerEntity.getAddress());
+			invoiceEntity.setEmail(customerEntity.getEmail());
 			invoiceEntity.setMst(customerEntity.getMst());
 			invoiceEntity.setInvoiceType("VAT");
 		}
@@ -122,6 +123,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				customerEntityFromDB.setCustomerName(invoice.getCustomerName());
 				customerEntityFromDB.setPhone(invoice.getPhone());
 				customerEntityFromDB.setAddress(invoice.getAddress());
+				customerEntityFromDB.setEmail(invoice.getEmail());
 				customerRepository.save(customerEntityFromDB);
 
 				invoice.setCustomerId(customerEntityFromDB.getId());
@@ -132,6 +134,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				customerEntity.setMst(invoice.getMst());
 				customerEntity.setPhone(invoice.getPhone());
 				customerEntity.setAddress(invoice.getAddress());
+				customerEntity.setEmail(invoice.getEmail());
 				customerRepository.save(customerEntity);
 
 				invoice.setCustomerId(customerEntity.getId());
@@ -178,6 +181,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 					customerEntity.setMst(invoiceEntity.getMst());
 					customerEntity.setPhone(invoiceEntity.getPhone());
 					customerEntity.setAddress(invoiceEntity.getAddress());
+					customerEntity.setEmail(invoiceEntity.getEmail());
 					customerRepository.save(customerEntity);
 
 					entity.setCustomerId(customerEntity.getId());

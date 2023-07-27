@@ -16,4 +16,5 @@ public class InvoiceJson {
 	private String customerName;
 	private String phone;
 	private String address;
+	private String email;
 }
