@@ -54,7 +54,7 @@
 
 <!--											<th>Issue Invoice</th>-->
 
-											<th>Sum Price</th>
+<!--											<th>Sum Price</th>-->
 											<th>Number Of Invoice</th>
 
 											<th>Issuer</th>
@@ -99,7 +99,8 @@
 											</td>
 											</td>
 <!--											<td th:text="${item.business.businessName}"></td>-->
-											<td th:text="${item.customer.customerName}"></td>
+											<td th:if="${item.flagInvoiceType == 'VAT'}" th:text="${item.customer.customerName}"></td>
+											<td th:if="${item.flagInvoiceType == 'WC'}"></td>
 
 											<td th:if="${item.flagInvoiceType == 'WC'}" th:text="${item.inputWarehouse.warehouseName}"></td>
 											<td th:if="${item.flagInvoiceType == 'VAT'}"></td>
@@ -109,7 +110,7 @@
 
 											<!--											<td th:text="${item.issueInvoice.}"></td>-->
 
-											<td th:text="${item.sumPrice}">1</td>
+<!--											<td th:text="${item.sumPrice}">1</td>-->
 
 											<td th:if="${item.status == 'Approved'}" th:text="${item.numberOfInvoice}">1</td>
 											<td th:if="${item.status != 'Approved'}"></td>

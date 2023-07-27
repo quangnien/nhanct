@@ -284,9 +284,9 @@ public class UserController extends FunctionCommon {
 
 	@GetMapping(value = "change-password")
 	public String password(@RequestParam int id, ModelMap model) {
-		if(hasRoleAuthor(MenuConstant.USER) == false) {
-			return "deny/deny";
-		}
+//		if(hasRoleAuthor(MenuConstant.USER) == false) {
+//			return "deny/deny";
+//		}
 		menuListRole(model);
 		model.addAttribute("user", userService.getById(id));
 		return "user/change-password";

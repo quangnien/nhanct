@@ -62,6 +62,8 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 			entity.setQuantity(invoiceDetailEntity.getQuantity());
 			entity.setDvt(invoiceDetailEntity.getDvt());
 			entity.setPrice(invoiceDetailEntity.getPrice());
+			entity.setKindOfTaxId(invoiceDetailEntity.getKindOfTaxId());
+
 			updatePriceTax(entity);
 
 			invoiceDetailRepository.save(entity);

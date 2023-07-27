@@ -228,19 +228,20 @@ public class InvoiceServiceImpl implements InvoiceService{
 					invoice.setStatusPresent(StatusOfInvoiceEnum.DA_DUYET.getText());
 					invoice.setDatePresent(new Date());
 
-					Optional<IssueInvoiceEntity> issueInvoiceEntityOptional = issueInvoiceRepository.findById(invoice.getIssueInvoiceId());
-					if(issueInvoiceEntityOptional.isPresent()){
-						IssueInvoiceEntity issueInvoiceEntity = issueInvoiceEntityOptional.get();
-						int curentInvoiceNumber = issueInvoiceEntity.getCurrentInvoiceNumber();
-						if(curentInvoiceNumber + 1 > issueInvoiceEntity.getToNumber()){
-							throw new Exception("Quantity of Invoice > quantity was registered with Issue-Invoice.");
-						}
-						else {
-							issueInvoiceEntity.setCurrentInvoiceNumber(curentInvoiceNumber + 1);
-							invoice.setNumberOfInvoice(curentInvoiceNumber + 1);
-							issueInvoiceRepository.save(issueInvoiceEntity);
-						}
-					}
+//					Optional<IssueInvoiceEntity> issueInvoiceEntityOptional = issueInvoiceRepository.findById(invoice.getIssueInvoiceId());
+//					if(issueInvoiceEntityOptional.isPresent()){
+//						IssueInvoiceEntity issueInvoiceEntity = issueInvoiceEntityOptional.get();
+//						int curentInvoiceNumber = issueInvoiceEntity.getCurrentInvoiceNumber();
+//						if(curentInvoiceNumber + 1 > issueInvoiceEntity.getToNumber()){
+//							throw new Exception("Quantity of Invoice > quantity was registered with Issue-Invoice.");
+//						}
+//						else {
+//							issueInvoiceEntity.setCurrentInvoiceNumber(curentInvoiceNumber + 1);
+//							invoice.setNumberOfInvoice(curentInvoiceNumber + 1);
+//							issueInvoiceRepository.save(issueInvoiceEntity);
+//						}
+//					}
+
 					invoiceRepository.save(invoice);
 				}
 				else if(status.equals("cancel")){
@@ -255,6 +256,22 @@ public class InvoiceServiceImpl implements InvoiceService{
 					invoice.setStatus(StatusOfInvoiceEnum.CHO_DUYET.getText());
 					invoice.setStatusPresent(StatusOfInvoiceEnum.CHO_DUYET.getText());
 					invoice.setDatePresent(new Date());
+
+					Optional<IssueInvoiceEntity> issueInvoiceEntityOptional = issueInvoiceRepository.findById(invoice.getIssueInvoiceId());
+					if(issueInvoiceEntityOptional.isPresent()){
+						IssueInvoiceEntity issueInvoiceEntity = issueInvoiceEntityOptional.get();
+						int curentInvoiceNumber = issueInvoiceEntity.getCurrentInvoiceNumber();
+						if(curentInvoiceNumber + 1 > issueInvoiceEntity.getToNumber()){
+							throw new Exception("Quantity of Invoice > quantity was registered with Issue-Invoice.");
+						}
+						else {
+							issueInvoiceEntity.setCurrentInvoiceNumber(curentInvoiceNumber + 1);
+							invoice.setNumberOfInvoice(curentInvoiceNumber + 1);
+							issueInvoiceRepository.save(issueInvoiceEntity);
+						}
+					}
+
+
 					invoiceRepository.save(invoice);
 				}
 			}

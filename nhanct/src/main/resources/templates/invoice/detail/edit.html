@@ -78,15 +78,15 @@
 												th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
 										</div>
 
-										<div class="form-group">
-											<label>Kind Of Tax</label> <select th:field="*{kindOfTaxId}"
-																			   class="form-control">
-											<option th:each="item: ${listKindOfTax}" th:value="${item.id}"
-													th:text="${item.nameOfTax}"></option>
-										</select> <span class="text-danger"
-														th:if="${#fields.hasErrors('kindOfTaxId')}"
-														th:errors="*{kindOfTaxId}"></span>
-										</div>
+<!--										<div class="form-group">-->
+<!--											<label>Kind Of Tax</label> <select th:field="*{kindOfTaxId}"-->
+<!--																			   class="form-control">-->
+<!--											<option th:each="item: ${listKindOfTax}" th:value="${item.id}"-->
+<!--													th:text="${item.nameOfTax}"></option>-->
+<!--										</select> <span class="text-danger"-->
+<!--														th:if="${#fields.hasErrors('kindOfTaxId')}"-->
+<!--														th:errors="*{kindOfTaxId}"></span>-->
+<!--										</div>-->
 
 									</div>
 									<div class="col-12 mt-3">
