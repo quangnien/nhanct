@@ -40,14 +40,15 @@ public class ReportInvoiceController extends FunctionCommon {
 	SecurityUtils myMenu;
 
 	@GetMapping("invoice")
-	public String reportInvoice(ModelMap model) {
+	public String reportInvoiceVAT(ModelMap model) {
 		if(hasRoleAuthor(MenuConstant.REPORT_INVOICE) == false) {
 			return "deny/deny";
 		}
 		menuListRole(model);
 
 		List<Select2Dto> statusList = StatusOfInvoiceEnum.getSelect2ComboList();
-		List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2ComboList();
+//		List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2ComboList();
+		List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2VAT();
 		List<Select2Dto> kindOfTaxList = StatusOfKindOfTaxEnum.getSelect2ComboList();
 
 		model.addAttribute("statusList", statusList);
@@ -59,7 +60,7 @@ public class ReportInvoiceController extends FunctionCommon {
 	}
 
 	@PostMapping("invoice")
-	public String reportInvoicePost(ModelMap model, @Valid @ModelAttribute("report") ReportDto report,
+	public String reportInvoiceVATPost(ModelMap model, @Valid @ModelAttribute("report") ReportDto report,
 									 BindingResult errors) {
 		if(hasRoleAuthor(MenuConstant.REPORT_INVOICE) == false) {
 			return "deny/deny";
@@ -158,6 +159,71 @@ public class ReportInvoiceController extends FunctionCommon {
 	}
 
 	/*______________________________________________________*/
+
+	@GetMapping("invoice-warehouse")
+	public String reportInvoiceWC(ModelMap model) {
+		if(hasRoleAuthor(MenuConstant.REPORT_INVOICE) == false) {
+			return "deny/deny";
+		}
+		menuListRole(model);
+
+		List<Select2Dto> statusList = StatusOfInvoiceEnum.getSelect2ComboList();
+//		List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2ComboList();
+		List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2WC();
+		List<Select2Dto> kindOfTaxList = StatusOfKindOfTaxEnum.getSelect2ComboList();
+
+		model.addAttribute("statusList", statusList);
+		model.addAttribute("invoiceTypeList", invoiceTypeList);
+		model.addAttribute("kindOfTaxList", kindOfTaxList);
+		model.addAttribute("report", new ReportDto());
+
+		return "report/index-invoice-warehouse";
+	}
+
+	@PostMapping("invoice-warehouse")
+	public String reportInvoiceWCPost(ModelMap model, @Valid @ModelAttribute("report") ReportDto report,
+									BindingResult errors) {
+		if(hasRoleAuthor(MenuConstant.REPORT_INVOICE) == false) {
+			return "deny/deny";
+		}
+		menuListRole(model);
+
+		if(report.getFromDate() == null){
+			errors.rejectValue("fromDate", "report", "FromDate is mandatory");
+		}
+		else if(report.getToDate() == null){
+			errors.rejectValue("toDate", "report", "ToDate is mandatory");
+		}
+		else if(report.getToDate().before(report.getFromDate())){
+			errors.rejectValue("fromDate", "report", "FromDate must be before ToDate");
+		}
+
+		if(errors.hasErrors()) {
+			List<Select2Dto> statusList = StatusOfInvoiceEnum.getSelect2ComboList();
+			List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2ComboList();
+			List<Select2Dto> kindOfTaxList = StatusOfKindOfTaxEnum.getSelect2ComboList();
+
+			model.addAttribute("statusList", statusList);
+			model.addAttribute("invoiceTypeList", invoiceTypeList);
+			model.addAttribute("kindOfTaxList", kindOfTaxList);
+//			model.addAttribute("report", new ReportDto());
+			menuListRole(model);
+			return "report/index-invoice";
+		}
+
+		List<InvoiceEntity> reportResult = invoiceService.findAllReport(report);
+		List<Select2Dto> statusList = StatusOfInvoiceEnum.getSelect2ComboList();
+		List<Select2Dto> invoiceTypeList = StatusOfInvoiceTypeEnum.getSelect2ComboList();
+		List<Select2Dto> kindOfTaxList = StatusOfKindOfTaxEnum.getSelect2ComboList();
+
+		model.addAttribute("statusList", statusList);
+		model.addAttribute("invoiceTypeList", invoiceTypeList);
+		model.addAttribute("kindOfTaxList", kindOfTaxList);
+		model.addAttribute("report", report);
+		model.addAttribute("reportResult", reportResult);
+
+		return "report/index-invoice-warehouse";
+	}
 
 
 }

@@ -108,26 +108,28 @@ public class InvoiceDetailServiceImpl implements InvoiceDetailService{
 
 
 	private void updatePriceTax(InvoiceDetailEntity invoiceDetail){
-		// tiền trước thuế = đơn giá * số lượng
-		BigDecimal priceBeforeTax = BigDecimal.valueOf(invoiceDetail.getQuantity()).multiply(invoiceDetail.getPrice());
 
-		Optional<KindOfTaxEntity> kindOfTaxEntityOptional = kindOfTaxRepository.findById(invoiceDetail.getKindOfTaxId());
-		if(kindOfTaxEntityOptional.isPresent()){
-			KindOfTaxEntity kindOfTax = kindOfTaxEntityOptional.get();
+		if(invoiceDetail.getInvoice().getFlagInvoiceType().equals("VAT")){
+			// tiền trước thuế = đơn giá * số lượng
+			BigDecimal priceBeforeTax = BigDecimal.valueOf(invoiceDetail.getQuantity()).multiply(invoiceDetail.getPrice());
 
-			// tiền thuế = tiền trước thuế * tỉ lệ thuế
-			BigDecimal priceOfTax = BigDecimal.valueOf(kindOfTax.getRatio()).multiply(priceBeforeTax).divide(BigDecimal.valueOf(100));
+			Optional<KindOfTaxEntity> kindOfTaxEntityOptional = kindOfTaxRepository.findById(invoiceDetail.getKindOfTaxId());
+			if(kindOfTaxEntityOptional.isPresent()){
+				KindOfTaxEntity kindOfTax = kindOfTaxEntityOptional.get();
 
-			// tiền sau thuế = tiền trước thuế + tiền thuế
+				// tiền thuế = tiền trước thuế * tỉ lệ thuế
+				BigDecimal priceOfTax = BigDecimal.valueOf(kindOfTax.getRatio()).multiply(priceBeforeTax).divide(BigDecimal.valueOf(100));
+
+				// tiền sau thuế = tiền trước thuế + tiền thuế
 //			BigDecimal priceAfterTax = priceBeforeTax.multiply(priceOfTax);
-			BigDecimal priceAfterTax = priceBeforeTax.add(priceOfTax);
-			BigDecimal sumOfAfterTax = priceAfterTax;
+				BigDecimal priceAfterTax = priceBeforeTax.add(priceOfTax);
+				BigDecimal sumOfAfterTax = priceAfterTax;
 
-			invoiceDetail.setPriceBeforeTax(priceBeforeTax);
-			invoiceDetail.setPriceAfterTax(priceAfterTax);
-			invoiceDetail.setPriceOfTax(priceOfTax);
-			invoiceDetail.setSumMoneyAfterTax(sumOfAfterTax);
+				invoiceDetail.setPriceBeforeTax(priceBeforeTax);
+				invoiceDetail.setPriceAfterTax(priceAfterTax);
+				invoiceDetail.setPriceOfTax(priceOfTax);
+				invoiceDetail.setSumMoneyAfterTax(sumOfAfterTax);
+			}
 		}
-
 	}
 }

@@ -35,6 +35,18 @@ public enum StatusOfInvoiceTypeEnum {
         return list;
     }
 
+    public static List<Select2Dto> getSelect2VAT() {
+        List<Select2Dto> list = new ArrayList<>();
+        list.add(new Select2Dto(StatusOfInvoiceTypeEnum.VAT.getCode(), StatusOfInvoiceTypeEnum.VAT.getText(), StatusOfInvoiceTypeEnum.VAT.getText()));
+        return list;
+    }
+
+    public static List<Select2Dto> getSelect2WC() {
+        List<Select2Dto> list = new ArrayList<>();
+        list.add(new Select2Dto(StatusOfInvoiceTypeEnum.WC.getCode(), StatusOfInvoiceTypeEnum.WC.getText(), StatusOfInvoiceTypeEnum.WC.getText()));
+        return list;
+    }
+
     public String getCode() {
         return code;
     }
