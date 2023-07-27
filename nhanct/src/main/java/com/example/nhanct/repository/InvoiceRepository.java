@@ -220,7 +220,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
             "    AND i.flag_invoice_type = :invoiceType" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    ORDER BY i.date_present ASC LIMIT 1" +
             "  ) AS from_number," +
             "  (" +
@@ -232,7 +232,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
             "    AND i.flag_invoice_type = :invoiceType" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    ORDER BY i.date_present DESC LIMIT 1" +
             "  ) AS to_number," +
             "  SUM(id.price_of_tax) as price_of_tax," +
@@ -247,7 +247,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             " JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
             "    AND i.flag_invoice_type = :invoiceType" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             " GROUP BY " +
             "  i.date_present," +
             "  ii.symbol," +
@@ -303,7 +303,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
             "    AND i.flag_invoice_type = :invoiceType" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    AND i.status = :status" +
             "    ORDER BY i.date_present ASC LIMIT 1" +
             "  ) AS from_number," +
@@ -316,7 +316,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
             "    AND i.flag_invoice_type = :invoiceType" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    AND i.status = :status" +
             "    ORDER BY i.date_present DESC LIMIT 1" +
             "  ) AS to_number," +
@@ -332,7 +332,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             " JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
             "    AND i.flag_invoice_type = :invoiceType" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    AND i.status = :status" +
             " GROUP BY " +
             "  i.date_present," +
@@ -470,7 +470,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN invoice_detail id ON id.invoice_id = i.id" +
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    AND i.status = :status" +
             "    ORDER BY i.date_present ASC LIMIT 1" +
             "  ) AS from_number," +
@@ -482,7 +482,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN invoice_detail id ON id.invoice_id = i.id" +
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    AND i.status = :status" +
             "    ORDER BY i.date_present DESC LIMIT 1" +
             "  ) AS to_number," +
@@ -497,7 +497,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             " JOIN invoice_detail id ON id.invoice_id = i.id" +
             " JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    AND i.status = :status" +
             " GROUP BY " +
             "  i.date_present," +
@@ -554,7 +554,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN invoice_detail id ON id.invoice_id = i.id" +
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    ORDER BY i.date_present ASC LIMIT 1" +
             "  ) AS from_number," +
             "  (" +
@@ -565,7 +565,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             "    JOIN invoice_detail id ON id.invoice_id = i.id" +
             "    JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             "    ORDER BY i.date_present DESC LIMIT 1" +
             "  ) AS to_number," +
             "  SUM(id.price_of_tax) as price_of_tax," +
@@ -579,7 +579,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
             " JOIN invoice_detail id ON id.invoice_id = i.id" +
             " JOIN kind_of_tax kot ON kot.id = id.kind_of_tax_id" +
             "    WHERE i.date_present BETWEEN CAST(:fromDate AS DATETIME) AND CAST(:toDate AS DATETIME)" +
-            "    AND kot.kind_of_tax = :kindOfTax" +
+            "    AND kot.code_of_tax = :kindOfTax" +
             " GROUP BY " +
             "  i.date_present," +
             "  ii.symbol," +
