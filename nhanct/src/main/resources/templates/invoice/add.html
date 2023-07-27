@@ -21,10 +21,14 @@
 						</ul>
 					</div>
 				</div>
+
 				<div class="col-sm-12">
 					<div class="card">
 						<div class="card-header">
 							<h2 class="text-uppercase text-center" style="background-color: #ccc;padding: 20px;">Add New Invoice</h2>
+						</div>
+						<div th:if="${message != null && message != ''}" th:text="${message}" class="alert alert-danger"
+							 menu="alert" style="margin-left: 0%;width: 100%;">
 						</div>
 						<div class="card-block">
 							<form th:action="@{/admin/invoice/add}" th:object="${invoice}"

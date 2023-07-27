@@ -112,7 +112,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 				throw new Exception("Quantity of Invoice > quantity was registered with Issue-Invoice.");
 			}
 			else {
-				issueInvoiceEntity.setCurrentInvoiceNumber(issueInvoiceEntity.getCurrentInvoiceNumber() + 1);
+//				issueInvoiceEntity.setCurrentInvoiceNumber(issueInvoiceEntity.getCurrentInvoiceNumber() + 1);
+				//not set currentInvoiceNumber when event add new
 				issueInvoiceRepository.save(issueInvoiceEntity);
 			}
 		}
@@ -150,7 +151,6 @@ public class InvoiceServiceImpl implements InvoiceService{
 		else if(invoice.getInvoiceType().equals("WC")){
 			invoice.setFlagInvoiceType("WC");
 		}
-
 		invoiceRepository.save(invoice);
 	}
 

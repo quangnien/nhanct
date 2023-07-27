@@ -89,7 +89,7 @@
 									<div class="form-group">
 										<label>Kind Of Tax</label> <select th:field="*{kindOfTax}"
 																		   class="form-control">
-										<option th:each="item: ${kindOfTaxList}" th:value="${item.name}"
+										<option th:each="item: ${kindOfTaxList}" th:value="${item.id}"
 												th:text="${item.text}"></option>
 									</select>
 									</div>

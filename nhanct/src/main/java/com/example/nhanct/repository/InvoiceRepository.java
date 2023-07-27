@@ -31,7 +31,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
     List<InvoiceEntity> findAll();
 
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -39,15 +39,17 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+			
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
+			
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +
@@ -103,7 +105,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 												   @Param("fromDate") String fromDate,
 												   @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -111,15 +113,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +
@@ -179,7 +181,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 															@Param("fromDate") String fromDate,
 															@Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol"+
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -187,15 +189,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +
@@ -255,7 +257,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 															   @Param("fromDate") String fromDate,
 															   @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -263,15 +265,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 //			" , i.date_present " +
 //			" , i.priceOfTax " +
 //			" , i.priceBeforeTax " +
@@ -343,7 +345,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 																			  );
 	/*_____Status____*/
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -351,15 +353,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +
@@ -415,7 +417,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 											  @Param("fromDate") String fromDate,
 											  @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -423,15 +425,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +
@@ -492,7 +494,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 														  @Param("toDate") String toDate);
 	/*_____KindOfTax____*/
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -500,15 +502,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +
@@ -564,7 +566,7 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 												 @Param("fromDate") String fromDate,
 												 @Param("toDate") String toDate);
 	@Query(value = "SELECT" +
-			" ii.symbol" +
+			" ii.symbol as symbol" +
 			" , i.id " +
 			" , i.number_of_invoice " +
 			" , i.issue_date " +
@@ -572,15 +574,15 @@ public interface InvoiceRepository extends JpaRepository<InvoiceEntity, Integer>
 			" , i.status " +
 			" , i.reason_for_cancellation " +
 			" , i.sum_price " +
-			" , i.symbol " +
+//			" , i.symbol " +
 			" , i.flag_invoice_type " +
 			" , i.cancel_date " +
 			" , i.status_present " +
-			" , i.invoice_type " +
-			" , i.mst " +
-			" , i.customer_name " +
-			" , i.phone " +
-			" , i.address " +
+//			" , i.invoice_type " +
+//			" , i.mst " +
+//			" , i.customer_name " +
+//			" , i.phone " +
+//			" , i.address " +
 			" , i.business_id " +
 			" , i.issue_invoice_id " +
 			" , i.customer_id " +

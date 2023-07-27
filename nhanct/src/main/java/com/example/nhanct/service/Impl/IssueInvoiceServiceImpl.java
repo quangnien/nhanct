@@ -43,7 +43,7 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 	public void add(IssueInvoiceEntity issueInvoice) {
 		List<IssueInvoiceEntity> issueInvoiceEntityList = issueInvoiceRepository.findAllOrderByIdDesc();
 		int toNumberToLargest = 1;
-		if(issueInvoiceEntityList != null){
+		if(issueInvoiceEntityList != null && issueInvoiceEntityList.size() >0 ){
 			toNumberToLargest = issueInvoiceEntityList.get(0).getToNumber();
 
 			issueInvoice.setFromNumber(toNumberToLargest + 1);

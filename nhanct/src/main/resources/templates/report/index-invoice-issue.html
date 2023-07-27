@@ -111,8 +111,8 @@
 									<td th:text="${item.quantity}"></td>
 									<td th:text="${item.fromNumber}"></td>
 									<td th:text="${item.toNumber}"></td>
-									<td th:text="${item.currentInvoiceNumber}"></td>
-									<td th:text="${item.quantity - item.currentInvoiceNumber}"></td>
+									<td th:text="${item.quantity - (item.toNumber - item.currentInvoiceNumber)}"></td>
+									<td th:text="${item.toNumber - item.currentInvoiceNumber}"></td>
 								</tr>
 								</tbody>
 							</table>

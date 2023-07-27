@@ -73,7 +73,10 @@
 											<td>
 												<a th:href="@{/admin/invoice/edit(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"
 												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Edit</a>
+<!--												<a th:href="@{/admin/invoice/detail(invoiceId=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"-->
 												<a th:href="@{/admin/invoice/detail(invoiceId=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"
+												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Invoice Detail</a>
+												<a th:href="@{/admin/invoice/detail2(invoiceId=${item.id})}" th:if="${item.status != 'Draft'}"
 												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Invoice Detail</a>
 												<a th:href="@{/admin/invoice/request-to-approve(id=${item.id})}" th:if="${isAdd == 'True' && isChecker == 'False' && item.status == 'Draft'}"
 												   class="btn btn-sm btn-info btn-round py-1 font-weight-bold">Request to approve</a>

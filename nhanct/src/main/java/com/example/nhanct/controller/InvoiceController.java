@@ -110,16 +110,20 @@ public class InvoiceController extends FunctionCommon {
 	}
 
 	@GetMapping("add")
-	public String add(ModelMap model) {
+	public String add(ModelMap model, @RequestParam(value = "message", required = false) String message) {
+
 		if(hasRoleAuthor(MenuConstant.INVOICE) == false) {
 			return "deny/deny";
 		}
 		menuListRole(model);
+
 		List<BusinessEntity> listBusiness = businessService.findAll();
 		List<CustomerEntity> listCustomer = customerService.findAll();
 		List<WarehouseEntity> listWarehouse = warehouseService.findAll();
 		List<IssueInvoiceEntity> listIssueInvoice = issueInvoiceService.findAll();
 //		if(listInvoiceType.isEmpty()) return "redirect:"+page406 + "?id=invoiceType";
+
+		model.addAttribute("message", message);
 
 		model.addAttribute("listBusiness", listBusiness);
 		model.addAttribute("listCustomer", listCustomer);
@@ -136,6 +140,8 @@ public class InvoiceController extends FunctionCommon {
 //			errors.rejectValue("fromNumber", "invoice", "ToNumber must be larger than FromNumber");
 //		}
 
+		String message = "";
+
 		if(errors.hasErrors()) {
 			model.addAttribute("listInvoiceType", invoiceTypeService.findAll());
 			menuListRole(model);
@@ -145,7 +151,9 @@ public class InvoiceController extends FunctionCommon {
 		try {
 			invoiceService.add(invoice);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			message = "F";
+			return "redirect:/admin/invoice/add?message=" + message;
+//			throw new RuntimeException(e);
 		}
 		return "redirect:/admin/invoice";
 	}
