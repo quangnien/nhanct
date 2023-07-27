@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -111,7 +112,8 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 		}
 
 		String fromDate = dateFormat(report.getFromDate());
-		String toDate = dateFormat(report.getToDate());
+		Date toDatePlusOne = setToDatePlusOneDay(report.getToDate());
+		String toDate = dateFormat(toDatePlusOne);
 
 		if(report.getInvoiceType() != null){
 			return issueInvoiceRepository.findAllReportIssueByInvoiceType(
@@ -135,5 +137,15 @@ public class IssueInvoiceServiceImpl implements IssueInvoiceService{
 
 		String formattedDate = localDateTime.format(formatter);
 		return formattedDate;
+	}
+
+	private Date setToDatePlusOneDay(Date toDate){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(toDate);
+
+		// Add 1 day
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+		return calendar.getTime();
 	}
 }

@@ -27,10 +27,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService{
@@ -283,7 +280,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 		}
 
 		String fromDate = dateFormat(report.getFromDate());
-		String toDate = dateFormat(report.getToDate());
+		Date toDatePlusOne = setToDatePlusOneDay(report.getToDate());
+		String toDate = dateFormat(toDatePlusOne);
 
 
 		if(report.getInvoiceType() != null
@@ -365,6 +363,16 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 		String formattedDate = localDateTime.format(formatter);
 		return formattedDate;
+	}
+
+	private Date setToDatePlusOneDay(Date toDate){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(toDate);
+
+		// Add 1 day
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+		return calendar.getTime();
 	}
 
 //	@Override
