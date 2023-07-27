@@ -33,5 +33,7 @@ public class ReportDto {
 	private String status;
 	private String kindOfTax;
 
+	private String isExport;
+
 }
 

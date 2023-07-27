@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum StatusOfInvoiceTypeEnum {
-    VAT("VAT", "VAT"),
-    WC("WC", "WC"),
+    VAT("VAT", "Hoá đơn giá trị gia tăng."),
+    WC("WC", "Hóa đơn xuất kho kiêm vận chuyển nội bộ."),
     ALL("All", "All"),
     ;
 
