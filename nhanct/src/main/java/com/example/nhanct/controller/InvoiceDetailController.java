@@ -111,7 +111,13 @@ public class InvoiceDetailController extends FunctionCommon {
 			return "invoice/detail/add";
 		}
 
-		invoiceDetailService.add(invoiceDetail);
+		try {
+			invoiceDetailService.add(invoiceDetail);
+		}
+		catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+
 		return "redirect:/admin/invoice/detail?invoiceId=" + invoiceId;
 	}
 
