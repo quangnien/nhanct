@@ -28,6 +28,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -409,6 +410,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Tiền xuất GTGT</th>\n" +
 				"  </tr>\n");
 		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+		BigDecimal sumPriceAfterOfTax = BigDecimal.valueOf(0);
 		for(int i = 0; i < invoiceDetailEntityList.size(); i++){
 			stringBuffer.append("  <tr>\n");
 			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + i + "</td>\n");
@@ -420,8 +422,15 @@ public class InvoiceServiceImpl implements InvoiceService{
 			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %" + "</td>\n");
 			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()) + "</td>\n");
 			stringBuffer.append("  </tr>\n");
+
+			sumPriceAfterOfTax = sumPriceAfterOfTax.add(invoiceDetailEntityList.get(i).getPriceAfterTax());
 		}
 		stringBuffer.append("</table>");
+
+		stringBuffer.append( "<p>                                        </p>");
+		stringBuffer.append( "<h3>Tổng tiền sau thuế: " + sumPriceAfterOfTax);
+		stringBuffer.append( "</h3>");
+
 		helper.setText("invoice", String.valueOf(stringBuffer));
 
 		if(invoiceEntity != null){
@@ -471,6 +480,8 @@ public class InvoiceServiceImpl implements InvoiceService{
 			listTableHeader1.add("Tien xuat GTGT");
 
 			List<String> listTableHeader2 = new ArrayList<>();
+			listTableHeader2.add("STT");
+			listTableHeader2.add("Tong tien sau thue");
 //				listTableHeader2.add("STT");
 //				listTableHeader2.add("Tong hop");
 //				listTableHeader2.add("Thanh tien truoc thue");
@@ -492,6 +503,9 @@ public class InvoiceServiceImpl implements InvoiceService{
 			}
 
 			List<List<String>> listDataTable2 = new ArrayList<>();
+			List<String> listDataTable2Item = new ArrayList<>();
+			listDataTable2Item.add(String.valueOf(sumPriceAfterOfTax));
+			listDataTable2.add(listDataTable2Item);
 //				List<KindOfTaxEntity> listKindOfTaxEntityList = kindOfTaxRepository.findAll();
 //				for(KindOfTaxEntity kindOfTaxEntity : listKindOfTaxEntityList){
 //					BigDecimal priceBeforeTax = BigDecimal.valueOf(0);
@@ -520,7 +534,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON GIA TRI GIA TANG").listHeader(listHeader)
 					.listHeaderContent(listHeaderContent)
 					.colNum1(8).listTableHeader1(listTableHeader1).listDataTable1(listDataTable1)
-					.colNum2(0).listTableHeader2(listTableHeader2).listDataTable2(listDataTable2)
+					.colNum2(2).listTableHeader2(listTableHeader2).listDataTable2(listDataTable2)
 					.listSign(listSign).build();
 
 			byte[] pdfData = exporter.getPdfData(response);
