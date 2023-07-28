@@ -408,6 +408,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Thành tiền</th>\n" +
 				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Thuế xuất GTGT</th>\n" +
 				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Tiền xuất GTGT</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Tổng tiền sau thuế</th>\n" +
 				"  </tr>\n");
 		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
 		BigDecimal sumPriceAfterOfTax = BigDecimal.valueOf(0);
@@ -421,6 +422,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPriceBeforeTax()) + "</td>\n");
 			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %" + "</td>\n");
 			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()) + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPriceAfterTax()) + "</td>\n");
 			stringBuffer.append("  </tr>\n");
 
 			sumPriceAfterOfTax = sumPriceAfterOfTax.add(invoiceDetailEntityList.get(i).getPriceAfterTax());
@@ -478,6 +480,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 			listTableHeader1.add("Thanh tien");
 			listTableHeader1.add("Thue xuat GTGT");
 			listTableHeader1.add("Tien xuat GTGT");
+			listTableHeader1.add("Tong tien sau thue");
 
 			List<String> listTableHeader2 = new ArrayList<>();
 			listTableHeader2.add("STT");
@@ -498,6 +501,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceBeforeTax()));
 				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %");
 				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()));
+				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceAfterTax()));
 
 				listDataTable1.add(listDataTableItem);
 			}
@@ -533,7 +537,7 @@ public class InvoiceServiceImpl implements InvoiceService{
 
 			PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON GIA TRI GIA TANG").listHeader(listHeader)
 					.listHeaderContent(listHeaderContent)
-					.colNum1(8).listTableHeader1(listTableHeader1).listDataTable1(listDataTable1)
+					.colNum1(9).listTableHeader1(listTableHeader1).listDataTable1(listDataTable1)
 					.colNum2(2).listTableHeader2(listTableHeader2).listDataTable2(listDataTable2)
 					.listSign(listSign).build();
 
