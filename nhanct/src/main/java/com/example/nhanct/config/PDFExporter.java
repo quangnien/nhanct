@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -142,6 +144,39 @@ public class PDFExporter {
 
     }
 
+    public Document fileExport(HttpServletResponse response) throws DocumentException, IOException {
+        Document document = new Document(PageSize.A4);
+        PdfWriter.getInstance(document, response.getOutputStream());
+
+        document.open();
+
+        /* ___________ TITLE ___________ */
+        writeHeader(document);
+
+        /* __________ TABLE 1 __________*/
+        addDataToTable(document, colNum1, listDataTable1, listTableHeader1);
+
+        /* __________ TABLE 2 __________*/
+        addDataToTable(document, colNum2, listDataTable2, listTableHeader2);
+
+        /* __________ TABLE SIGN __________*/
+        PdfPTable tableSign = new PdfPTable(listSign.size());
+        tableSign.setWidthPercentage(100f);
+        if(listSign.size() == 4){
+            tableSign.setWidths(new float[] { 3.5f, 3.5f, 3.5f, 3.5f});
+        }
+        else if(listSign.size() == 2){
+            tableSign.setWidths(new float[] { 3.5f, 3.5f});
+        }
+        tableSign.setSpacingBefore(10);
+
+        writeTableSign(tableSign);
+        document.add(tableSign);
+
+        document.close();
+        return document;
+    }
+
     private void writeHeader(Document document) throws DocumentException {
         documentParaCommon(document, "CONG HOA XA HOI CHU NGHIA VIET NAM", "", fontBlackHeader3, Paragraph.ALIGN_CENTER);
         documentParaCommon(document, "Doc lap - Tu do - Hanh phuc", "", fontBlackSmall, Paragraph.ALIGN_CENTER);
@@ -172,5 +207,63 @@ public class PDFExporter {
             writeTableData(table, colNum, listDataTable);
             document.add(table);
         }
+    }
+
+
+    /*_________________*/
+    public byte[] getPdfData(HttpServletResponse response) throws DocumentException, IOException {
+
+        Document document = new Document();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        try {
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+
+            /* ___________ TITLE ___________ */
+            writeHeader(document);
+
+            /* __________ TABLE 1 __________*/
+            addDataToTable(document, colNum1, listDataTable1, listTableHeader1);
+
+            /* __________ TABLE 2 __________*/
+            addDataToTable(document, colNum2, listDataTable2, listTableHeader2);
+
+            /* __________ TABLE SIGN __________*/
+            PdfPTable tableSign = new PdfPTable(listSign.size());
+            tableSign.setWidthPercentage(100f);
+            if(listSign.size() == 4){
+                tableSign.setWidths(new float[] { 3.5f, 3.5f, 3.5f, 3.5f});
+            }
+            else if(listSign.size() == 2){
+                tableSign.setWidths(new float[] { 3.5f, 3.5f});
+            }
+            tableSign.setSpacingBefore(10);
+
+            writeTableSign(tableSign);
+            document.add(tableSign);
+
+            document.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return outputStream.toByteArray();
+    }
+
+    public static byte[] generatePDFData() throws DocumentException {
+        Document document = new Document();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        try {
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            document.add(new Paragraph("Hello, this is a sample PDF!"));
+            document.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+        return outputStream.toByteArray();
     }
 }

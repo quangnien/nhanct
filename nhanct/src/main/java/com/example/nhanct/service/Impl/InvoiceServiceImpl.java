@@ -1,17 +1,18 @@
 package com.example.nhanct.service.Impl;
 
+import com.example.nhanct.config.PDFDataSource;
+import com.example.nhanct.config.PDFExporter;
 import com.example.nhanct.dto.ReportDto;
-import com.example.nhanct.entity.CustomerEntity;
-import com.example.nhanct.entity.InvoiceEntity;
-import com.example.nhanct.entity.IssueInvoiceEntity;
-import com.example.nhanct.entity.WarehouseEntity;
+import com.example.nhanct.entity.*;
 import com.example.nhanct.enumdef.StatusOfInvoiceEnum;
 import com.example.nhanct.repository.CustomerRepository;
 import com.example.nhanct.repository.InvoiceRepository;
 import com.example.nhanct.repository.IssueInvoiceRepository;
 import com.example.nhanct.repository.WarehouseRepository;
+import com.example.nhanct.service.InvoiceDetailService;
 import com.example.nhanct.service.InvoiceService;
 import com.example.nhanct.utils.SecurityUtils;
+import com.lowagie.text.DocumentException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -19,10 +20,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -41,7 +48,11 @@ public class InvoiceServiceImpl implements InvoiceService{
 	@Autowired
 	private WarehouseRepository warehouseRepository ;
 	@Autowired
+	private InvoiceDetailService invoiceDetailService;
+	@Autowired
 	SecurityUtils myContext;
+	@Autowired
+	public JavaMailSender emailSender;
 	private Configuration configuration;
 
 	@Override
@@ -361,6 +372,164 @@ public class InvoiceServiceImpl implements InvoiceService{
 					fromDate, toDate);
 		}
 		return null;
+	}
+
+	@Override
+	public void sendMailToCustomer(HttpServletResponse response, InvoiceEntity invoiceEntity, int id) throws MessagingException, DocumentException, IOException {
+		javax.mail.internet.MimeMessage message = this.emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+		helper.setTo(invoiceEntity.getCustomer().getEmail());
+		helper.setSubject("Here is invoice pdf for you!");
+		StringBuffer stringBuffer = new StringBuffer();
+		int count = 0;
+		stringBuffer.append( "<h1>CÔNG TY CỔ PHẦN NỘI THẤT HÒA PHÁT</h1>");
+		stringBuffer.append( "<p>                                        </p>");
+		stringBuffer.append( "<h3>Mã số thuế:  0311942282</h3>");
+		stringBuffer.append( "<h3>Địa chỉ:  Số 76 Đường số 2, Khu phố 5, Phường Bình Hưng Hòa B, Quận Bình Tân, Thành phố Hồ Chí Minh, Việt Nam</h3>");
+		stringBuffer.append( "<h3>Điện thoại:  0938024027</h3>");
+		stringBuffer.append( "<p>____________________________________</p>");
+		stringBuffer.append( "<p>                                        </p>");
+		stringBuffer.append( "<p>Họ và tên người mua hàng: " + invoiceEntity.getCustomer().getCustomerName() + "</p>");
+		stringBuffer.append( "<p>Mã số thuế: " + invoiceEntity.getCustomer().getMst()+ "</p>");
+		stringBuffer.append( "<p>Địa chỉ: " + invoiceEntity.getCustomer().getAddress()+ "</p>");
+		stringBuffer.append( "<p>Điện thoại: " + invoiceEntity.getCustomer().getPhone()+ "</p>");
+		stringBuffer.append( "<p>Email: " + invoiceEntity.getCustomer().getEmail()+ "</p>");
+		stringBuffer.append( "<p>                                        </p>");
+
+		stringBuffer.append( "<table style=\"width:100%; border: 1px solid black; border-collapse: collapse;\">\n" +
+				"  <tr>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">STT</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Tên hàng hóa, dịch vụ</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Đơn vị tính</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Số lượng</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Đơn giá</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Thành tiền</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Thuế xuất GTGT</th>\n" +
+				"    <th style=\"text-align: left; border: 1px solid black; border-collapse: collapse;\">Tiền xuất GTGT</th>\n" +
+				"  </tr>\n");
+		List<InvoiceDetailEntity> invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+		for(int i = 0; i < invoiceDetailEntityList.size(); i++){
+			stringBuffer.append("  <tr>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + i + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + invoiceDetailEntityList.get(i).getItemName() + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + invoiceDetailEntityList.get(i).getDvt() + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getQuantity()) + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPrice()) + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPriceBeforeTax()) + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %" + "</td>\n");
+			stringBuffer.append("<td style=\"border: 1px solid black; border-collapse: collapse;\">" + String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()) + "</td>\n");
+			stringBuffer.append("  </tr>\n");
+		}
+		stringBuffer.append("</table>");
+		helper.setText("invoice", String.valueOf(stringBuffer));
+
+		if(invoiceEntity != null){
+			/*__________________*/
+			response.setContentType("application/pdf");
+			DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+			String currentDateTime = dateFormatter.format(new Date());
+
+			String headerKey = "Content-Disposition";
+			String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+			response.setHeader(headerKey, headerValue);
+
+			invoiceDetailEntityList = invoiceDetailService.findAllByInvoiceId(id);
+
+			List<String> listHeader = new ArrayList<>();
+			listHeader.add("CONG TY CO PHAN NOI THAT HOA PHAT");
+			listHeader.add("Ma so thue:  0311942282");
+			listHeader.add("Dia chi: 76 duong so 2, khu pho 5, Phuong Binh Hung Hoa B, Quan Binh Tan, TP Ho Chi Minh, Viet Nam");
+			listHeader.add("So dien thoai: 0938024027");
+			listHeader.add("_______________________");
+			listHeader.add("Ho va ten nguoi mua hang: ");
+			listHeader.add("Ma so thue: ");
+			listHeader.add("Dia chi: ");
+			listHeader.add("Dien thoai: ");
+			listHeader.add("Email: ");
+
+			List<String> listHeaderContent = new ArrayList<>();
+			listHeaderContent.add("");
+			listHeaderContent.add("");
+			listHeaderContent.add("");
+			listHeaderContent.add("");
+			listHeaderContent.add("");
+			listHeaderContent.add(invoiceEntity.getCustomer().getCustomerName());
+			listHeaderContent.add(invoiceEntity.getCustomer().getMst());
+			listHeaderContent.add(invoiceEntity.getCustomer().getAddress());
+			listHeaderContent.add(invoiceEntity.getCustomer().getPhone());
+			listHeaderContent.add(invoiceEntity.getCustomer().getEmail());
+
+			List<String> listTableHeader1 = new ArrayList<>();
+			listTableHeader1.add("STT");
+			listTableHeader1.add("Ten hang hoa, dich vu");
+			listTableHeader1.add("Don vi tinh");
+			listTableHeader1.add("So luong");
+			listTableHeader1.add("Don gia");
+			listTableHeader1.add("Thanh tien");
+			listTableHeader1.add("Thue xuat GTGT");
+			listTableHeader1.add("Tien xuat GTGT");
+
+			List<String> listTableHeader2 = new ArrayList<>();
+//				listTableHeader2.add("STT");
+//				listTableHeader2.add("Tong hop");
+//				listTableHeader2.add("Thanh tien truoc thue");
+//				listTableHeader2.add("Tien thue");
+//				listTableHeader2.add("Tong tien thanh toan");
+
+			List<List<String>> listDataTable1 = new ArrayList<>();
+			for(int i = 0; i < invoiceDetailEntityList.size(); i++){
+				List<String> listDataTableItem = new ArrayList<>();
+				listDataTableItem.add(invoiceDetailEntityList.get(i).getItemName());
+				listDataTableItem.add(invoiceDetailEntityList.get(i).getDvt());
+				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getQuantity()));
+				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPrice()));
+				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceBeforeTax()));
+				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getKindOfTax().getRatio()) + " %");
+				listDataTableItem.add(String.valueOf(invoiceDetailEntityList.get(i).getPriceOfTax()));
+
+				listDataTable1.add(listDataTableItem);
+			}
+
+			List<List<String>> listDataTable2 = new ArrayList<>();
+//				List<KindOfTaxEntity> listKindOfTaxEntityList = kindOfTaxRepository.findAll();
+//				for(KindOfTaxEntity kindOfTaxEntity : listKindOfTaxEntityList){
+//					BigDecimal priceBeforeTax = BigDecimal.valueOf(0);
+//					BigDecimal priceOfTax = BigDecimal.valueOf(0);
+//					BigDecimal priceAfterTax = BigDecimal.valueOf(0);
+//					List<InvoiceDetailEntity> invoiceDetailList = invoiceDetailService.findAllByKindOfTaxId(kindOfTaxEntity.getId());
+//					for(InvoiceDetailEntity invoiceDetail: invoiceDetailList){
+//						priceBeforeTax = priceBeforeTax. add(invoiceDetail.getPriceBeforeTax());
+//						priceOfTax = priceOfTax.add(invoiceDetail.getPriceOfTax());
+//						priceAfterTax = priceAfterTax.add(invoiceDetail.getPriceAfterTax());
+//					}
+//
+//					List<String> listDataItem = new ArrayList<>();
+//					listDataItem.add(kindOfTaxEntity.getNameOfTax());
+//					listDataItem.add(priceBeforeTax.toString());
+//					listDataItem.add(priceOfTax.toString());
+//					listDataItem.add(priceAfterTax.toString());
+//
+//					listDataTable2.add(listDataItem);
+//				}
+
+			List<String> listSign = new ArrayList<>();
+			listSign.add("Nguoi mua hang");
+			listSign.add("Nguoi ban hang");
+
+			PDFExporter exporter = PDFExporter.builder().titleHeader("HOA ĐON GIA TRI GIA TANG").listHeader(listHeader)
+					.listHeaderContent(listHeaderContent)
+					.colNum1(8).listTableHeader1(listTableHeader1).listDataTable1(listDataTable1)
+					.colNum2(0).listTableHeader2(listTableHeader2).listDataTable2(listDataTable2)
+					.listSign(listSign).build();
+
+			byte[] pdfData = exporter.getPdfData(response);
+			String contentType = "application/pdf";
+			PDFDataSource pdfDataSource = new PDFDataSource(pdfData, contentType);
+			helper.addAttachment(exporter.getTitleHeader(), pdfDataSource);
+		}
+
+		this.emailSender.send(message);
 	}
 
 	@Override

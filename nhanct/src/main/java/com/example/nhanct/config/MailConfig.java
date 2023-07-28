@@ -19,9 +19,10 @@ public class MailConfig {
 		
 		/*https://support.tenten.vn/index.php?type=page&urlcode=241751&title=H%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-t%E1%BA%A1o-th%C3%B4ng-tin-SMTP-m%E1%BA%ADt-kh%E1%BA%A9u-c%E1%BA%A5p-2--c%E1%BB%A7a-Gmail*/
 		mailSender.setUsername("quangnien1101@gmail.com");
-	    mailSender.setPassword("nbpkzdbbfodyfpat");
+	    mailSender.setPassword("jmhkbuewdbvempzu");
+		// yspqmslbsrxykrua
+		// bfxpdfqcqldgbzmv
 	
-	    // tạo đối tượng Properties và chỉ định thông tin host, port
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");
 	    props.put("mail.smtp.auth", "true");
@@ -30,5 +31,5 @@ public class MailConfig {
 	
 	    return mailSender;
 	}
-	
+
 }

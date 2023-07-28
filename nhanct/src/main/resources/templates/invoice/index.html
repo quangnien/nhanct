@@ -112,8 +112,10 @@
 
 <!--											<td th:text="${item.sumPrice}">1</td>-->
 
-											<td th:if="${item.status == 'Approved'}" th:text="${item.numberOfInvoice}">1</td>
-											<td th:if="${item.status != 'Approved'}"></td>
+<!--											<td th:if="${item.status == 'Approved'}" th:text="${item.numberOfInvoice}">1</td>-->
+<!--											<td th:if="${item.status != 'Approved'}"></td>-->
+											<td th:if="${item.status != 'Draft'}" th:text="${item.numberOfInvoice}"></td>
+											<td th:if="${item.status == 'Draft'}"></td>
 
 											<td th:text="${item.issuerUser.userName}"></td>
 											<td th:if="${item.status == 'Approved'}" th:text="${item.releaserUser.userName}"></td>

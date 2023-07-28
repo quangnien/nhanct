@@ -3,8 +3,12 @@ package com.example.nhanct.service;
 import com.example.nhanct.dto.ReportDto;
 import com.example.nhanct.entity.InvoiceEntity;
 import com.example.nhanct.entity.IssueInvoiceEntity;
+import com.lowagie.text.DocumentException;
 import org.springframework.data.domain.Page;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 public interface InvoiceService {
@@ -23,5 +27,7 @@ public interface InvoiceService {
 
 	/*____InvoiceType_____*/
 	List<InvoiceEntity> findAllReport(ReportDto report);
+
+	void sendMailToCustomer(HttpServletResponse response, InvoiceEntity invoiceEntity, int id) throws MessagingException, DocumentException, IOException;
 
 }
